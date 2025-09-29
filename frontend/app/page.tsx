@@ -7,6 +7,7 @@ import GetStartedCode from '@/app/components/GetStartedCode'
 import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
+import { Button } from '@/components/ui/button'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
@@ -66,6 +67,18 @@ export default async function Page() {
                     <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V12L17.206 8.207L11.2071 14.2071L9.79289 12.7929L15.792 6.793L12 3H21Z"></path>
                   </svg>
                 </Link>
+                <div className="bg-red-500 p-4 text-white">
+      <p>If this is red, Tailwind works</p>
+    </div>
+                <Button>Default</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="destructive">Destructive</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+                <div className="bg-red-500 p-4 text-white">
+      If this is red, Tailwind works
+    </div>
               </div>
             </div>
           </div>
