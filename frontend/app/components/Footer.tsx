@@ -1,26 +1,29 @@
+'use client'
+
+import { Button } from "@/components/ui/button"
+
 export default function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+
   return (
-    <footer className="bg-gray-50 relative">
-      <div className="absolute inset-0 bg-[url(/images/tile-grid-black.png)] bg-size-[17px] opacity-20 bg-position-[0_1]" />
-      <div className="container relative">
-        <div className="flex flex-col items-center py-28 lg:flex-row">
-          <h3 className="mb-10 text-center text-4xl font-mono leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-2xl">
-            Built with Sanity + Next.js.
-          </h3>
-          <div className="flex flex-col gap-3 items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-            <a
-              href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-              className="rounded-full flex gap-2 font-mono whitespace-nowrap items-center bg-black hover:bg-blue focus:bg-blue py-3 px-6 text-white transition-colors duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
-            </a>
-            <a href="https://nextjs.org/docs" className="mx-3 hover:underline font-mono">
-              Read Next.js Documentation
-            </a>
-          </div>
-        </div>
+    <footer className="relative flex mx-auto px-4 md:px-12 pt-2 pb-4 mt-32 border-t-1">
+      <div className="flex-1 text-gray-600 text-xs sm:text-sm font-mono">
+        © {new Date().getFullYear()} Ridwan Satria.
+      </div>
+      <div className="hidden sm:flex">
+        <Button
+          variant="link"
+          size="sm"
+          className="p-0 h-auto font-mono text-gray-600 text-xs sm:text-sm"
+          onClick={scrollToTop}
+        >
+          Back to top ↑
+        </Button>
       </div>
     </footer>
   )
