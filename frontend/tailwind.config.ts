@@ -138,7 +138,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        sans: ["var(--font-public-sans)"],
       },
       borderRadius: {
         lg: "var(--radius)",

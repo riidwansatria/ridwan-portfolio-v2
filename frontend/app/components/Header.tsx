@@ -29,19 +29,19 @@ export default function Header() {
             <img
               src="/images/logo.svg"
               alt="Logo"
-              width={48}
-              height={48}
-              className="h-12 w-12"
+              width={44}
+              height={44}
+              className="h-10 w-10"
             />
           </a>
 
           {/* Nav wrapper */}
           <div>
             {/* Desktop nav right */}
-            <div className="hidden sm:flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2">
               {navigation.map((item) => (
                 <Button asChild key={item.name} variant={item.current ? "outline" : "ghost"}>
-                  <a href={item.href} className="text-sm font-semibold tracking-wider uppercase">
+                  <a href={item.href} className="text-sm font-medium tracking-wider uppercase">
                     {item.name}
                   </a>
                 </Button>
