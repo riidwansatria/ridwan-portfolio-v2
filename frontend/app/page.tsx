@@ -8,88 +8,146 @@ import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import { Button } from '@/components/ui/button'
+import { HardHat, Bus, Building2 } from 'lucide-react'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
     query: settingsQuery,
   })
 
+  const posts = [
+    {
+      id: 1,
+      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-1.webp',
+      title: 'Enhancing Accessibility with ARIA in React',
+      excerpt: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
+      category: 'Industry Insights',
+      authorName: 'Sienna Hewitt',
+      date: 'March 15, 2024',
+      authorAvatar: 'https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=128',
+      href: '#',
+    },
+    {
+      id: 2,
+      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-2.webp',
+      title: 'Designing Scalable UI with Tailwind CSS',
+      excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
+      category: 'Web Development',
+      authorName: 'Ashwin Santiago',
+      date: 'March 12, 2024',
+      authorAvatar: 'https://images.pexels.com/photos/7562139/pexels-photo-7562139.jpeg?auto=compress&cs=tinysrgb&w=128',
+      href: '#',
+    },
+    {
+      id: 3,
+      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-3.webp',
+      title: 'TypeScript Tips: Advanced Typing Patterns',
+      excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
+      category: 'Design Systems',
+      authorName: 'Natali Craig',
+      date: 'March 10, 2024',
+      authorAvatar: 'https://images.pexels.com/photos/698532/pexels-photo-698532.jpeg?auto=compress&cs=tinysrgb&w=128',
+      href: '#',
+    },
+  ];
+
   return (
     <>
-      <div className="relative">
-        <div className="relative bg-[url(/images/tile-1-black.png)] bg-size-[5px]">
-          <div className="bg-gradient-to-b from-white w-full h-full absolute top-0"></div>
-          <div className="container">
-            <div className="relative min-h-[40vh] mx-auto max-w-2xl pt-10 xl:pt-20 pb-30 space-y-6 lg:max-w-4xl lg:px-12 flex flex-col items-center justify-center">
-              <div className="flex flex-col gap-4 items-center">
-                <div className="text-md leading-6 prose uppercase py-1 px-3 bg-white font-mono italic">
-                  A starter template for
-                </div>
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-black">
-                  <Link
-                    className="underline decoration-brand hover:text-brand underline-offset-8 hover:underline-offset-4 transition-all ease-out"
-                    href="https://sanity.io/"
-                  >
-                    Sanity
-                  </Link>
-                  +
-                  <Link
-                    className="underline decoration-black text-framework underline-offset-8 hover:underline-offset-4 transition-all ease-out"
-                    href="https://nextjs.org/"
-                  >
-                    Next.js
-                  </Link>
-                </h1>
-              </div>
+      {/* Hero section */}
+      <div className="flex flex-col justify-between h-[calc(100vh-80px)] px-4 sm:px-12 inset-0 bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+        {/* Centered content */}
+        <div className="flex flex-1 items-center">
+          <div className="max-w-5xl text-left">
+            <h1 className="md:text-6xl text-3xl text-gray-800 font-semibold mb-4">
+              <span className="text-2xl md:text-5xl">Hey there! 👋{" "}</span>
+              <br />
+              I'm Ridwan, a Civil Engineering student at the University of Tokyo.
+            </h1>
+            <p className="text-xl text-gray-600">
+              Welcome to my personal website. This site will be used as a
+              platform to share my <br /> thoughts and showcase the projects that I'm
+              currently doing/I've done in the past.
+            </p>
+            <div className="inline-flex space-x-2 py-6">
+              <Button asChild>
+                <Link href="/about">About me</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/projects">Blog</Link>
+              </Button>
             </div>
           </div>
         </div>
-        <div className=" flex flex-col items-center">
-          <SideBySideIcons />
-          <div className="container relative mx-auto max-w-2xl pb-20 pt-10 space-y-6 lg:max-w-4xl lg:px-12 flex flex-col items-center">
-            <div className="prose sm:prose-lg md:prose-xl xl:prose-2xl text-gray-700 prose-a:text-gray-700 font-light text-center">
-              {settings?.description && <PortableText value={settings.description} />}
-              <div className="flex items-center flex-col gap-4">
-                <GetStartedCode />
-                <Link
-                  href="https://www.sanity.io/docs"
-                  className="inline-flex text-brand text-xs md:text-sm underline hover:text-gray-900"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Sanity Documentation
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 ml-1 inline"
-                    fill="currentColor"
-                  >
-                    <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V12L17.206 8.207L11.2071 14.2071L9.79289 12.7929L15.792 6.793L12 3H21Z"></path>
-                  </svg>
-                </Link>
-                <div className="bg-red-500 p-4 text-white">
-      <p>If this is red, Tailwind works</p>
-    </div>
-                <Button>Default</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="destructive">Destructive</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="link">Link</Button>
-                <div className="bg-red-500 p-4 text-white">
-      If this is red, Tailwind works
-    </div>
-              </div>
-            </div>
+
+        {/* Bottom content */}
+        <div className="pb-3 justify-between items-center">
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-red-50 text-gray-800'>
+              <HardHat />
+              <span>Civil Engineering</span>
+            </Button>
+            <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-green-50 text-gray-800'>
+              <Building2 />
+              <span>Urban Planning</span>
+            </Button>
+            <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-blue-50 text-gray-800'>
+              <Bus />
+              <span>Transportation Planning</span>
+            </Button>
+          </div>
+        </div>
+        <div className="pt-2 pb-3 border-t-1 flex justify-between items-center">
+          <span className="flex text-md text-gray-500">
+            Based in Tokyo, Japan
+          </span>
+          <div className="flex">
+            <Button asChild variant="link" className="font-normal text-md text-gray-500 p-0">
+              <Link href="/projects">Selected Projects ↓</Link>
+            </Button>
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-100 bg-gray-50">
-        <div className="container">
-          <aside className="py-12 sm:py-20">
-            <Suspense>{await AllPosts()}</Suspense>
-          </aside>
+
+      <div className='px-4 sm:px-12 pt-32'>
+        <div className="mb-8 border-b-0 flex justify-between items-center">
+          <h2 className="md:text-4xl text-2xl font-medium flex">
+            Selected Projects
+          </h2>
+          
+
         </div>
+        <img src={"https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-3.webp"} alt={"placeholder"} className="aspect-[16/9] rounded-lg object-cover object-center shadow-xs" />
+        <section className="py-16 lg:py-32">
+      <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
+        <div className="mx-auto max-w-2xl text-center [&>p]:mx-auto [&>p]:max-w-xl">
+          <h2 className="text-4xl/tight font-bold tracking-tight">Latest Writings</h2>
+          <p className="text-muted-foreground mt-4 text-lg/8">Sed eu quam id quam tristique pharetra a at tortor veil dolarto. Suspendisse lorem odio sit amet libero facilisis.</p>
+        </div>
+        <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-3">
+          {posts.map((post) => {
+            return (
+              <div key={post.id} className="flex flex-col">
+                <img src={post.image} alt={post.title} className="aspect-[16/9] rounded-2xl object-cover object-center shadow-xs" />
+                <div className="mt-6 inline-flex items-center gap-4">
+                  <p className="text-muted-foreground text-xs font-medium">{post.category}</p>
+                </div>
+                <h3 className="mt-3 text-lg/snug font-semibold tracking-tight hover:opacity-85">
+                  <a href={post.href}>{post.title}</a>
+                </h3>
+                <p className="text-muted-foreground mt-3 flex-1 text-sm/6">{post.excerpt}</p>
+                <div className="[&>div>p:nth-child(2)]:text-muted-foreground mt-6 inline-flex w-auto gap-4 text-left [&>div]:text-sm/5.5 [&>div>p:first-child]:font-medium [&>img]:size-10 [&>img]:rounded-full [&>img]:object-cover">
+                  <img src={post.authorAvatar} alt={post.authorName} />
+                  <div>
+                    <p>{post.authorName}</p>
+                    <p>{post.date}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
       </div>
     </>
   )
