@@ -78,20 +78,20 @@ export default async function Page() {
       {/* Hero section */}
       <div className='h-[calc(100vh-52px)] bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]'>
         <div className="flex flex-col justify-between h-[calc(100vh-80px)] px-4 sm:px-12 inset-0">
-          {/* Centered content */}
+          {/* Hero main */}
           <div className="flex flex-1 items-center">
             <div className="max-w-5xl text-left">
-              <h1 className="md:text-6xl text-3xl text-gray-800 font-semibold tracking-tight mb-4">
-                <span className="text-2xl md:text-5xl">Hey there! 👋{" "}</span>
+              <h1 className="text-3xl md:text-4xl lg:text-6xl text-gray-800 font-semibold tracking-tight mb-4">
+                <span className="text-2xl md:text-3xl lg:text-5xl">Hey there! 👋{" "}</span>
                 <br />
                 I&apos;m Ridwan, a Civil Engineering student at the University of Tokyo.
               </h1>
-              <p className="text-xl text-gray-600">
+              <p className="hidden md:inline text-base lg:text-xl text-gray-600">
                 Welcome to my personal website. This site will be used as a
                 platform to share my <br /> thoughts and showcase the projects that I&apos;m
                 currently doing/I&apos;ve done in the past.
               </p>
-              <p className="text-md text-gray-600 pt-2">
+              <p className="text-sm md:text-base text-gray-600 pt-2">
                 🚧 This website is still heavily under construction.
               </p>
               <div className="inline-flex space-x-2 py-6">
@@ -105,8 +105,8 @@ export default async function Page() {
             </div>
           </div>
 
-          {/* Bottom content */}
-          <div className="pb-3 justify-between items-center">
+          {/* Hero tags */}
+          <div className="hidden md:inline pb-3 justify-between items-center">
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-red-50 text-gray-800'>
                 <HardHat />
@@ -122,12 +122,14 @@ export default async function Page() {
               </Button>
             </div>
           </div>
-          <div className="pt-2 pb-3 border-t-1 flex justify-between items-center">
-            <span className="flex text-md text-gray-500">
+
+          {/* Hero footer */}
+          <div className="pt-2 pb-3 border-t flex justify-between items-center font-mono">
+            <span className="flex text-xs md:text-sm text-gray-500">
               Based in Tokyo, Japan
             </span>
             <div className="flex">
-              <Button asChild variant="link" className="font-normal text-md text-gray-500 p-0">
+              <Button asChild variant="link" className="text-xs md:text-sm text-gray-500 p-0">
                 <Link href="#projects">Selected Projects ↓</Link>
               </Button>
             </div>
@@ -136,7 +138,7 @@ export default async function Page() {
       </div>
       
       {/* Projects section */}
-      <div id="projects" className='px-4 sm:px-12 py-20 border-t-1'>
+      <div id="projects" className='px-4 sm:px-12 py-20 border-t'>
         <div className="mb-8 border-b-0 flex justify-between items-center">
           <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex">
             Selected Projects
@@ -171,11 +173,18 @@ export default async function Page() {
       </div>
 
       {/* Blog section */}
-      <div id="blog" className='px-4 sm:px-12 py-20 border-t-1'>
+      <div id="blog" className='px-4 sm:px-12 py-20 border-t'>
         <section className="">
           <div className="">
-            <div className="mb-12">
-              <h2 className="text-4xl/tight font-medium tracking-tight">Latest Posts</h2>
+            <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
+              <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex">
+                Latest Posts
+              </h2>
+              <div className="flex">
+                <Link href="/blog" className=" text-xs md:text-base text-gray-600 p-4">
+                  Read all posts →
+                </Link>
+              </div>
             </div>
             <ol style={{ listStyle: `none` }}>
               {posts.map(post => {
@@ -188,8 +197,8 @@ export default async function Page() {
                       itemScope
                       itemType="http://schema.org/Article"
                     >
-                      <div className='py-6 border-t-1'>
-                        <h3 className="text-gray-800 hover:text-gray-600 font-semibold md:text-xl text-lg">
+                      <div className='py-2 sm:py-4 md:py-6 border-t'>
+                        <h3 className="text-gray-800 hover:text-gray-600 font-semibold text-base md:text-xl">
                           <Link href={`/blog/${post.slug}`} itemProp="url">
                             <span itemProp="headline">{title}</span>
                           </Link>

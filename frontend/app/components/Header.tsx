@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import Link from 'next/link'
 
 // Navigation items
@@ -25,12 +25,17 @@ export default function Header() {
           <div className="flex sm:hidden mr-2">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Toggle menu">
                   {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-96">
+              <SheetContent side="left" className="w-4/5">
+                {/* Hidden title for accessibility */}
+                <SheetTitle className="sr-only">Mobile navigation menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Contains navigation links for mobile users.
+                </SheetDescription>
                 <div className="mt-6 space-y-2">
                   {navigation.map((item) => (
                     <Link
