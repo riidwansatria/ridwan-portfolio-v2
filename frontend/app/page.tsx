@@ -1,11 +1,4 @@
-import {Suspense} from 'react'
 import Link from 'next/link'
-import Color from 'color';
-import {PortableText} from '@portabletext/react'
-
-import {AllPosts} from '@/app/components/Posts'
-import GetStartedCode from '@/app/components/GetStartedCode'
-import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import { Button } from '@/components/ui/button'
