@@ -91,12 +91,12 @@ export default async function Page() {
               <h1 className="md:text-6xl text-3xl text-gray-800 font-semibold tracking-tight mb-4">
                 <span className="text-2xl md:text-5xl">Hey there! 👋{" "}</span>
                 <br />
-                I'm Ridwan, a Civil Engineering student at the University of Tokyo.
+                I&apos;m Ridwan, a Civil Engineering student at the University of Tokyo.
               </h1>
               <p className="text-xl text-gray-600">
                 Welcome to my personal website. This site will be used as a
-                platform to share my <br /> thoughts and showcase the projects that I'm
-                currently doing/I've done in the past.
+                platform to share my <br /> thoughts and showcase the projects that I&apos;m
+                currently doing/I&apos;ve done in the past.
               </p>
               <p className="text-md text-gray-600 pt-2">
                 🚧 This website is still heavily under construction.
