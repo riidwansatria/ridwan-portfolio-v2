@@ -1,21 +1,16 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { useState } from 'react'
+import { Menu, X, HardHat, Bus, Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import Link from 'next/link'
-import Image from 'next/image'
 
-// Example navigation (replace with Sanity data later)
+// Navigation items
 const navigation = [
-  { name: 'About', href: '/about', current: false },
-  { name: 'Blog', href: '/blog', current: false },
-  { name: 'Projects', href: '/projects', current: false },
+  { name: 'About', href: '/about' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Projects', href: '/projects' },
 ]
 
 export default function Header() {
@@ -26,7 +21,7 @@ export default function Header() {
       <nav className="px-4 sm:px-12 h-full">
         <div className="flex items-center justify-between h-full">
           
-          {/* Mobile nav trigger */}
+          {/* Mobile nav */}
           <div className="flex sm:hidden mr-2">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -38,14 +33,13 @@ export default function Header() {
               <SheetContent side="left" className="w-96">
                 <div className="mt-6 space-y-2">
                   {navigation.map((item) => (
-                    <Link key={item.name} href={item.href} onClick={() => setOpen(false)}>
-                      <span
-                        className={`block rounded-md px-3 py-2 text-base font-medium ${
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-800 hover:bg-gray-200'
-                        }`}
-                      >
-                        {item.name}
-                      </span>
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-200"
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.name}
                     </Link>
                   ))}
                 </div>
@@ -55,7 +49,7 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex flex-1 items-center">
-            <Image
+            <img
               src="/images/logo.svg"
               alt="Logo"
               width={44}
@@ -71,9 +65,7 @@ export default function Header() {
                 key={item.name}
                 asChild
                 variant="link"
-                className={`rounded-none bg-transparent px-4 py-0 text-sm text-gray-600 font-mono font-medium tracking-wider ${
-                  idx !== 0 ? 'border-l border-gray-200' : ''
-                }`}
+                className={`rounded-none bg-transparent px-4 py-0 text-sm text-gray-600 font-mono font-medium tracking-wider ${idx !== 0 ? 'border-l border-gray-200' : ''}`}
               >
                 <Link href={item.href} className="flex items-center h-auto">
                   {item.name}
