@@ -55,22 +55,10 @@ export default async function Page() {
 
   const posts = [
     {
-      id: 1,
-      slug: "a",
-      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-1.webp',
-      title: 'Enhancing Accessibility with ARIA in React',
-      excerpt: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
-      category: 'Industry Insights',
-      authorName: 'Sienna Hewitt',
-      date: 'March 15, 2024',
-      authorAvatar: 'https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=128',
-      href: '#',
-    },
-    {
       id: 2,
       slug: "b",
       image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-2.webp',
-      title: 'Designing Scalable UI with Tailwind CSS',
+      title: 'International Conference of Asia-Pacific Planning Societies 2025',
       excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
       category: 'Web Development',
       authorName: 'Ashwin Santiago',
@@ -82,7 +70,7 @@ export default async function Page() {
       id: 3,
       slug: "c",
       image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-3.webp',
-      title: 'TypeScript Tips: Advanced Typing Patterns',
+      title: "Starting Master's Studies @UTokyo",
       excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
       category: 'Design Systems',
       authorName: 'Natali Craig',
@@ -109,6 +97,9 @@ export default async function Page() {
                 Welcome to my personal website. This site will be used as a
                 platform to share my <br /> thoughts and showcase the projects that I'm
                 currently doing/I've done in the past.
+              </p>
+              <p className="text-md text-gray-600 pt-2">
+                🚧 This website is still heavily under construction.
               </p>
               <div className="inline-flex space-x-2 py-6">
                 <Button asChild>
@@ -152,7 +143,7 @@ export default async function Page() {
       </div>
       
       {/* Projects section */}
-      <div id="projects" className='px-4 sm:px-12 py-20 border-t-1 border-b-1'>
+      <div id="projects" className='px-4 sm:px-12 py-20 border-t-1'>
         <div className="mb-8 border-b-0 flex justify-between items-center">
           <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex">
             Selected Projects
@@ -164,7 +155,7 @@ export default async function Page() {
               <div key={project.id} className="flex flex-col rounded-md border-1">
                 <img src={project.image} alt={project.title} className="aspect-[3/2] rounded-t-md object-cover object-center shadow-xs" />
                 <div className='p-4'>
-                  <h3 className="text-lg/snug font-semibold tracking-tight hover:opacity-70">
+                  <h3 className="text-lg/snug font-semibold hover:opacity-70">
                     <a href={project.slug}>{project.title}</a>
                   </h3>
                   <div className="mt-2 inline-flex items-center gap-4">
@@ -187,9 +178,9 @@ export default async function Page() {
       </div>
 
       {/* Blog section */}
-      <div id="blog" className='px-4 sm:px-12 pt-32'>
-        <section className="py-16 lg:py-32">
-          <div className="mx-auto w-full max-w-2xl lg:max-w-7xl">
+      <div id="blog" className='px-4 sm:px-12 py-20 border-t-1'>
+        <section className="">
+          <div className="">
             <div className="mb-12">
               <h2 className="text-4xl/tight font-medium tracking-tight">Latest Posts</h2>
             </div>
@@ -200,54 +191,23 @@ export default async function Page() {
                 return (
                   <li key={post.slug}>
                     <article
-                      className="post-list-item max-w-3xl"
+                      className="post-list-item"
                       itemScope
                       itemType="http://schema.org/Article"
                     >
-                      <header>
+                      <div className='py-6 border-t-1'>
                         <h3 className="text-gray-800 hover:text-gray-600 font-semibold md:text-xl text-lg">
                           <Link href={`/blog/${post.slug}`} itemProp="url">
                             <span itemProp="headline">{title}</span>
                           </Link>
                         </h3>
                         <small className="text-gray-400">{post.date}</small>
-                      </header>
-                      <section className="text-gray-500 text-sm pb-8">
-                        <p
-                          dangerouslySetInnerHTML={{
-                            __html: post.excerpt,
-                          }}
-                          itemProp="description"
-                        />
-                      </section>
+                      </div>
                     </article>
                   </li>
                 )
               })}
             </ol>
-            <div className="mt-8 grid gap-12 lg:mt-12 lg:grid-cols-3">
-              {posts.map((post) => {
-                return (
-                  <div key={post.id} className="flex flex-col">
-                    <img src={post.image} alt={post.title} className="aspect-[16/9] rounded-2xl object-cover object-center shadow-xs" />
-                    <div className="mt-6 inline-flex items-center gap-4">
-                      <p className="text-muted-foreground text-xs font-medium">{post.category}</p>
-                    </div>
-                    <h3 className="mt-3 text-lg/snug font-semibold tracking-tight hover:opacity-85">
-                      <a href={post.href}>{post.title}</a>
-                    </h3>
-                    <p className="text-muted-foreground mt-3 flex-1 text-sm/6">{post.excerpt}</p>
-                    <div className="[&>div>p:nth-child(2)]:text-muted-foreground mt-6 inline-flex w-auto gap-4 text-left [&>div]:text-sm/5.5 [&>div>p:first-child]:font-medium [&>img]:size-10 [&>img]:rounded-full [&>img]:object-cover">
-                      <img src={post.authorAvatar} alt={post.authorName} />
-                      <div>
-                        <p>{post.authorName}</p>
-                        <p>{post.date}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
         </section>
       </div>
