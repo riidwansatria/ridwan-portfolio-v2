@@ -8,8 +8,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import Link from 'next/link'
+import Image from 'next/image'
 
-// example navigation (replace with Sanity data later)
+// Example navigation (replace with Sanity data later)
 const navigation = [
   { name: 'About', href: '/about', current: false },
   { name: 'Blog', href: '/blog', current: false },
@@ -24,7 +26,7 @@ export default function Header() {
       <nav className="px-4 sm:px-12 h-full">
         <div className="flex items-center justify-between h-full">
           
-          {/* Mobile nav trigger on left */}
+          {/* Mobile nav trigger */}
           <div className="flex sm:hidden mr-2">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -36,18 +38,15 @@ export default function Header() {
               <SheetContent side="left" className="w-96">
                 <div className="mt-6 space-y-2">
                   {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={`block rounded-md px-3 py-2 text-base font-medium ${
-                        item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-800 hover:bg-gray-200'
-                      }`}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.name}
-                    </a>
+                    <Link key={item.name} href={item.href} onClick={() => setOpen(false)}>
+                      <span
+                        className={`block rounded-md px-3 py-2 text-base font-medium ${
+                          item.current ? 'bg-gray-900 text-white' : 'text-gray-800 hover:bg-gray-200'
+                        }`}
+                      >
+                        {item.name}
+                      </span>
+                    </Link>
                   ))}
                 </div>
               </SheetContent>
@@ -55,17 +54,17 @@ export default function Header() {
           </div>
 
           {/* Logo */}
-          <a href="/" className="flex flex-1 items-center">
-            <img
+          <Link href="/" className="flex flex-1 items-center">
+            <Image
               src="/images/logo.svg"
               alt="Logo"
               width={44}
               height={44}
               className="h-10 w-10"
             />
-          </a>
+          </Link>
 
-          {/* Desktop nav right */}
+          {/* Desktop nav */}
           <div className="hidden sm:flex items-center">
             {navigation.map((item, idx) => (
               <Button
@@ -76,9 +75,9 @@ export default function Header() {
                   idx !== 0 ? 'border-l border-gray-200' : ''
                 }`}
               >
-                <a href={item.href} className="flex items-center h-auto">
+                <Link href={item.href} className="flex items-center h-auto">
                   {item.name}
-                </a>
+                </Link>
               </Button>
             ))}
           </div>

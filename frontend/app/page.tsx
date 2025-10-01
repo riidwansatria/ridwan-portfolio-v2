@@ -1,5 +1,8 @@
+'use client'
+
 import {Suspense} from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Color from 'color';
 import {PortableText} from '@portabletext/react'
 
@@ -22,7 +25,7 @@ export default async function Page() {
       id: 1,
       slug: "a",
       image: 'https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg',
-      title: "Visualizing Jakarta's Demography",
+      title: "Visualizing Jakarta&apos;s Demography",
       excerpt: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
       category: {
         name: "Geopandas",
@@ -70,7 +73,7 @@ export default async function Page() {
       id: 3,
       slug: "c",
       image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-3.webp',
-      title: "Starting Master's Studies @UTokyo",
+      title: "Starting Master&apos;s Studies @UTokyo",
       excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
       category: 'Design Systems',
       authorName: 'Natali Craig',
@@ -91,12 +94,12 @@ export default async function Page() {
               <h1 className="md:text-6xl text-3xl text-gray-800 font-semibold tracking-tight mb-4">
                 <span className="text-2xl md:text-5xl">Hey there! 👋{" "}</span>
                 <br />
-                I'm Ridwan, a Civil Engineering student at the University of Tokyo.
+                I&apos;m Ridwan, a Civil Engineering student at the University of Tokyo.
               </h1>
               <p className="text-xl text-gray-600">
                 Welcome to my personal website. This site will be used as a
-                platform to share my <br /> thoughts and showcase the projects that I'm
-                currently doing/I've done in the past.
+                platform to share my <br /> thoughts and showcase the projects that I&apos;m
+                currently doing/ I&apos;ve done in the past.
               </p>
               <p className="text-md text-gray-600 pt-2">
                 🚧 This website is still heavily under construction.
@@ -150,16 +153,21 @@ export default async function Page() {
           </h2>
         </div>
         <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
-          {projects.map((project) => {
-            return (
-              <div key={project.id} className="flex flex-col rounded-md border-1">
-                <img src={project.image} alt={project.title} className="aspect-[3/2] rounded-t-md object-cover object-center shadow-xs" />
-                <div className='p-4'>
-                  <h3 className="text-lg/snug font-semibold hover:opacity-70">
-                    <a href={project.slug}>{project.title}</a>
-                  </h3>
-                  <div className="mt-2 inline-flex items-center gap-4">
-                    <Badge
+          {projects.map((project) => (
+            <div key={project.id} className="flex flex-col rounded-md border-1">
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                width={400} 
+                height={300} 
+                className="aspect-[3/2] rounded-t-md object-cover object-center shadow-xs" 
+              />
+              <div className='p-4'>
+                <h3 className="text-lg/snug font-semibold hover:opacity-70">
+                  <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                </h3>
+                <div className="mt-2 inline-flex items-center gap-4">
+                  <Badge
                     style={{
                       backgroundColor: `${project.category.color}20`, 
                       border: `0.5px solid ${project.category.color}`,
@@ -169,18 +177,17 @@ export default async function Page() {
                   >
                     {project.category.name}
                   </Badge>
-                  </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Blog section */}
       <div id="blog" className='px-4 sm:px-12 py-20 border-t-1'>
-        <section className="">
-          <div className="">
+        <section>
+          <div>
             <div className="mb-12">
               <h2 className="text-4xl/tight font-medium tracking-tight">Latest Posts</h2>
             </div>
