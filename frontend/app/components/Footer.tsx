@@ -11,7 +11,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative flex mx-auto px-4 md:px-12 pt-2 pb-4 mt-32 border-t-1">
+    <footer className="relative flex mx-auto px-4 md:px-12 pt-2 pb-4 border-t-1">
       <div className="flex-1 text-gray-600 text-xs sm:text-sm font-mono">
         © {new Date().getFullYear()} Ridwan Satria.
       </div>

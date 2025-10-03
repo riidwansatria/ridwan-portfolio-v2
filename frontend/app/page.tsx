@@ -173,7 +173,7 @@ export default async function Page() {
       </div>
 
       {/* Blog section */}
-      <div id="blog" className='px-4 sm:px-12 py-20 border-t'>
+      <div id="blog" className='px-4 sm:px-12 py-20 mb-40 border-t'>
         <section className="">
           <div className="">
             <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
