@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // Navigation items
 const navigation = [
@@ -54,7 +55,7 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex flex-1 items-center">
-            <img
+            <Image
               src="/images/logo.svg"
               alt="Logo"
               width={44}
