@@ -37,7 +37,7 @@ export default function Header() {
                 <SheetDescription className="sr-only">
                   Contains navigation links for mobile users.
                 </SheetDescription>
-                <div className="mt-6 space-y-2">
+                <div className="mt-6 space-y-2 font-mono">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
@@ -54,15 +54,17 @@ export default function Header() {
           </div>
 
           {/* Logo */}
-          <Link href="/" className="flex flex-1 items-center">
-            <Image
-              src="/images/logo.svg"
-              alt="Logo"
-              width={44}
-              height={44}
-              className="h-10 w-10"
-            />
-          </Link>
+          <div className="flex flex-1 items-center">
+            <Link href="/">
+              <Image
+                src="/images/logo.svg"
+                alt="Logo"
+                width={44}
+                height={44}
+                className="h-10 w-10"
+              />
+            </Link>
+          </div>
 
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center">
