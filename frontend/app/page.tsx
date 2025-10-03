@@ -149,7 +149,14 @@ export default async function Page() {
           {projects.map((project) => {
             return (
               <div key={project.id} className="flex flex-col rounded-md border-1">
-                <Image src={project.image} alt={project.title} className="aspect-[3/2] rounded-t-md object-cover object-center shadow-xs" />
+                <div className="relative aspect-[3/2]">
+                  <Image 
+                    src={project.image} 
+                    alt={project.title} 
+                    fill
+                    className="rounded-t-md object-cover object-center shadow-xs" 
+                  />
+                </div>
                 <div className='p-4'>
                   <h3 className="text-lg/snug font-semibold hover:opacity-70">
                     <a href={project.slug}>{project.title}</a>

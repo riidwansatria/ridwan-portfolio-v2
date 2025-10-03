@@ -114,19 +114,30 @@ development challenges in emerging markets.`,
 
   return (
     <main className="">
-      <div className="max-w-[100rem] mx-auto flex h-[calc(100vh-125px)]">
+      <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row min-h-[calc(100vh-125px)]">
         {/* Left section */}
-        <div className="sticky top-0 self-start h-full px-4 sm:px-12 py-20 bg-white 
-                bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] 
-                bg-[size:14px_24px]">
-          {/* Header */}
+        <div
+          className="w-full md:w-[320px] md:sticky md:top-0 self-start px-4 sm:px-12 py-12 md:py-20 bg-white 
+          bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] 
+          bg-[size:14px_24px]"
+        >
           <section className="flex flex-col">
             <h1 className="text-4xl font-semibold">{title}</h1>
             {subtitle && <p className="text-base text-gray-600">{subtitle}</p>}
-            <a className="text-sm text-gray-500 font-mono hover:underline mt-2" href="https://ridwansatria.com/">ridwansatria.com</a>
+            <a
+              className="text-sm text-gray-500 font-mono hover:underline mt-2"
+              href="https://ridwansatria.com/"
+            >
+              ridwansatria.com
+            </a>
             <div className="mt-8">
               <Button asChild variant="outline">
-                <Link href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
+                <Link
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2"
+                >
                   <Download />
                   Resume
                 </Link>
@@ -136,11 +147,11 @@ development challenges in emerging markets.`,
         </div>
 
         {/* Right section */}
-        <div className="flex flex-1 flex-col gap-12 overflow-y-auto px-4 sm:px-12 py-20 border-l px-4 sm:px-12 py-20">
-          {/* Bio */}
+        <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto">
+          {/* About */}
           <section>
             <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">About</h2>
-            <p>{bio}</p>
+            <p className="text-sm sm:text-base">{bio}</p>
           </section>
 
           {/* Education */}
@@ -149,21 +160,23 @@ development challenges in emerging markets.`,
             <div className="space-y-6">
               {highlights.education.map((edu, i) => (
                 <div key={i}>
-                  <div className="flex justify-between">
-                    <h3 className="text-xl font-medium">{edu.institution}</h3>
-                    <span className="text-sm text-gray-500">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg sm:text-xl font-medium">{edu.institution}</h3>
+                    <span className="text-xs sm:text-sm text-gray-500">
                       {edu.startDate} – {edu.endDate}
                     </span>
                   </div>
-                  <p className="font-medium">{edu.degree}</p>
-                  {edu.lab && <p className="text-gray-600">{edu.lab}</p>}
+                  <p className="text-base sm:text-lg font-medium">{edu.degree}</p>
+                  {edu.lab && <p className="text-sm sm:text-base text-gray-600">{edu.lab}</p>}
                   {edu.research && (
-                    <p className="mt-1 text-gray-700">
+                    <p className="mt-1 text-sm sm:text-base text-gray-700">
                       Research focus: {edu.research}
                     </p>
                   )}
                   {edu.thesis && (
-                    <p className="mt-1 text-gray-700">Thesis: {edu.thesis}</p>
+                    <p className="mt-1 text-sm sm:text-base text-gray-700">
+                      Thesis: {edu.thesis}
+                    </p>
                   )}
                 </div>
               ))}
@@ -176,16 +189,16 @@ development challenges in emerging markets.`,
             <div className="space-y-6">
               {highlights.experience.map((job, i) => (
                 <div key={i}>
-                  <div className="flex justify-between">
-                    <h3 className="text-xl font-medium">{job.company}</h3>
-                    <span className="text-sm text-gray-500">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg sm:text-xl font-medium">{job.company}</h3>
+                    <span className="text-xs sm:text-sm text-gray-500">
                       {job.startDate} – {job.endDate}
                     </span>
                   </div>
-                  <p className="font-medium">{job.role}</p>
+                  <p className="text-base sm:text-lg font-medium">{job.role}</p>
                   <ul className="list-disc ml-6 mt-2 space-y-1">
                     {job.details.map((point, idx) => (
-                      <li key={idx} className="text-gray-700">
+                      <li key={idx} className="text-sm sm:text-base text-gray-700">
                         {point}
                       </li>
                     ))}
@@ -201,9 +214,13 @@ development challenges in emerging markets.`,
             <ul className="space-y-4">
               {highlights.awards.map((award, i) => (
                 <li key={i}>
-                  <span className="font-medium">{award.title}</span>  
-                  <span className="text-gray-600"> ({award.year})</span>
-                  <div className="text-sm text-gray-500">{award.organization}</div>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="text-base sm:text-lg font-medium">{award.title}</span>
+                    <span className="text-xs sm:text-sm text-gray-600"> {award.year}</span>
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-500">
+                    {award.organization}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -214,16 +231,16 @@ development challenges in emerging markets.`,
             <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Skills</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-medium">Languages</h3>
-                <p>{highlights.skills.languages.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium">Languages</h3>
+                <p className="text-sm sm:text-base">{highlights.skills.languages.join(", ")}</p>
               </div>
               <div>
-                <h3 className="font-medium">Programming</h3>
-                <p>{highlights.skills.programming.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium">Programming</h3>
+                <p className="text-sm sm:text-base">{highlights.skills.programming.join(", ")}</p>
               </div>
               <div>
-                <h3 className="font-medium">Software</h3>
-                <p>{highlights.skills.software.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium">Software</h3>
+                <p className="text-sm sm:text-base">{highlights.skills.software.join(", ")}</p>
               </div>
             </div>
           </section>
@@ -231,7 +248,7 @@ development challenges in emerging markets.`,
           {/* Interests */}
           <section>
             <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Interests</h2>
-            <p>{highlights.interests.join(", ")}</p>
+            <p className="text-sm sm:text-base">{highlights.interests.join(", ")}</p>
           </section>
         </div>
       </div>
