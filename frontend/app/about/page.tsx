@@ -114,10 +114,10 @@ development challenges in emerging markets.`,
 
   return (
     <main className="">
-      <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row min-h-[calc(100vh-125px)]">
+      <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row md:h-[calc(100vh-125px)]">
         {/* Left section */}
         <div
-          className="w-full md:w-[320px] md:sticky md:top-0 self-start px-4 sm:px-12 py-12 md:py-20 bg-white 
+          className="w-full md:w-[320px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-white 
           bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] 
           bg-[size:14px_24px]"
         >
