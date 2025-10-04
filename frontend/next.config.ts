@@ -5,9 +5,17 @@ const nextConfig: NextConfig = {
     SC_DISABLE_SPEEDY: 'false',
   },
   images: {
-    domains: [
-      'images.pexels.com',
-      'k8boaqmtfy4jtiib.public.blob.vercel-storage.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'k8boaqmtfy4jtiib.public.blob.vercel-storage.com',
+        pathname: '/**',
+      },
     ],
   },
 }

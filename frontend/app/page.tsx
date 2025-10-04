@@ -77,22 +77,22 @@ export default async function Page() {
   return (
     <>
       {/* Hero section */}
-      <div className='h-[calc(100vh-52px)] bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]'>
+      <div className='h-[calc(100vh-52px)] bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]'>
         <div className="flex flex-col justify-between h-[calc(100vh-80px)] px-4 sm:px-12 inset-0">
           {/* Hero main */}
           <div className="flex flex-1 items-center">
             <div className="max-w-5xl text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-6xl text-gray-800 font-semibold tracking-tight mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4">
                 <span className="text-2xl md:text-3xl lg:text-5xl">Hey there! 👋{" "}</span>
                 <br />
                 I&apos;m Ridwan, a Civil Engineering student at the University of Tokyo.
               </h1>
-              <p className="hidden md:inline text-base lg:text-xl text-gray-600">
+              <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
                 Welcome to my personal website. This site will be used as a
                 platform to share my <br /> thoughts and showcase the projects that I&apos;m
                 currently doing/I&apos;ve done in the past.
               </p>
-              <p className="text-sm md:text-base text-gray-600 pt-2">
+              <p className="text-sm md:text-base text-muted-foreground pt-2">
                 🚧 This website is still heavily under construction.
               </p>
               <div className="inline-flex space-x-2 py-6">
@@ -109,15 +109,15 @@ export default async function Page() {
           {/* Hero tags */}
           <div className="hidden md:inline pb-3 justify-between items-center">
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-red-50 text-gray-800'>
+              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-red-50 dark:hover:bg-red-950'>
                 <HardHat />
                 <span>Civil Engineering</span>
               </Button>
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-green-50 text-gray-800'>
+              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-green-50 dark:hover:bg-green-950'>
                 <Building2 />
                 <span>Urban Planning</span>
               </Button>
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-blue-50 text-gray-800'>
+              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-blue-50 dark:hover:bg-blue-950'>
                 <Bus />
                 <span>Transportation Planning</span>
               </Button>
@@ -126,11 +126,11 @@ export default async function Page() {
 
           {/* Hero footer */}
           <div className="pt-2 pb-3 border-t flex justify-between items-center font-mono">
-            <span className="flex text-xs md:text-sm text-gray-500">
+            <span className="flex text-xs md:text-sm text-muted-foreground">
               Based in Tokyo, Japan
             </span>
             <div className="flex">
-              <Button asChild variant="link" className="text-xs md:text-sm text-gray-500 p-0">
+              <Button asChild variant="link" className="text-xs md:text-sm text-muted-foreground p-0">
                 <Link href="#projects">Selected Projects ↓</Link>
               </Button>
             </div>
@@ -141,14 +141,14 @@ export default async function Page() {
       {/* Projects section */}
       <div id="projects" className='px-4 sm:px-12 py-20 border-t'>
         <div className="mb-8 border-b-0 flex justify-between items-center">
-          <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex">
+          <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
             Selected Projects
           </h2>
         </div>
         <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
           {projects.map((project) => {
             return (
-              <div key={project.id} className="flex flex-col rounded-md border-1">
+              <div key={project.id} className="flex flex-col rounded-md border">
                 <div className="relative aspect-[3/2]">
                   <Image 
                     src={project.image} 
@@ -157,8 +157,8 @@ export default async function Page() {
                     className="rounded-t-md object-cover object-center shadow-xs" 
                   />
                 </div>
-                <div className='p-4'>
-                  <h3 className="text-lg/snug font-semibold hover:opacity-70">
+                <div className='p-4 bg-card'>
+                  <h3 className="text-lg/snug font-semibold text-card-foreground hover:opacity-70">
                     <a href={project.slug}>{project.title}</a>
                   </h3>
                   <div className="mt-2 inline-flex items-center gap-4">
@@ -185,11 +185,11 @@ export default async function Page() {
         <section className="">
           <div className="">
             <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
-              <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex">
+              <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
                 Latest Posts
               </h2>
               <div className="flex">
-                <Link href="/blog" className=" text-xs md:text-base text-gray-600 p-4">
+                <Link href="/blog" className="text-xs md:text-base text-muted-foreground p-4 hover:text-foreground">
                   Read all posts →
                 </Link>
               </div>
@@ -206,12 +206,12 @@ export default async function Page() {
                       itemType="http://schema.org/Article"
                     >
                       <div className='py-2 sm:py-4 md:py-6 border-t'>
-                        <h3 className="text-gray-800 hover:text-gray-600 font-semibold text-base md:text-xl">
+                        <h3 className="text-foreground hover:text-muted-foreground font-semibold text-base md:text-xl">
                           <Link href={`/blog/${post.slug}`} itemProp="url">
                             <span itemProp="headline">{title}</span>
                           </Link>
                         </h3>
-                        <small className="text-gray-400">{post.date}</small>
+                        <small className="text-muted-foreground">{post.date}</small>
                       </div>
                     </article>
                   </li>

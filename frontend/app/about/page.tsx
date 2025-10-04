@@ -113,19 +113,20 @@ development challenges in emerging markets.`,
   const { title, subtitle, bio, highlights } = aboutData
 
   return (
-    <main className="">
+    <main className="bg-background">
       <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row md:h-[calc(100vh-125px)]">
         {/* Left section */}
         <div
-          className="w-full md:w-[320px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-white 
-          bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] 
+          className="w-full md:w-[320px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
+          bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)]
+          dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
           bg-[size:14px_24px]"
         >
           <section className="flex flex-col">
-            <h1 className="text-4xl font-semibold">{title}</h1>
-            {subtitle && <p className="text-base text-gray-600">{subtitle}</p>}
-            <a
-              className="text-sm text-gray-500 font-mono hover:underline mt-2"
+            <h1 className="text-4xl font-semibold text-foreground">{title}</h1>
+            {subtitle && <p className="text-base text-muted-foreground">{subtitle}</p>}
+            
+            <a className="text-sm text-muted-foreground font-mono hover:underline mt-2"
               href="https://ridwansatria.com/"
             >
               ridwansatria.com
@@ -150,31 +151,31 @@ development challenges in emerging markets.`,
         <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto">
           {/* About */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">About</h2>
-            <p className="text-sm sm:text-base">{bio}</p>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">About</h2>
+            <p className="text-sm sm:text-base text-foreground">{bio}</p>
           </section>
 
           {/* Education */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Education</h2>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Education</h2>
             <div className="space-y-6">
               {highlights.education.map((edu, i) => (
                 <div key={i}>
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg sm:text-xl font-medium">{edu.institution}</h3>
-                    <span className="text-xs sm:text-sm text-gray-500">
+                    <h3 className="text-lg sm:text-xl font-medium text-foreground">{edu.institution}</h3>
+                    <span className="text-xs sm:text-sm text-muted-foreground">
                       {edu.startDate} – {edu.endDate}
                     </span>
                   </div>
-                  <p className="text-base sm:text-lg font-medium">{edu.degree}</p>
-                  {edu.lab && <p className="text-sm sm:text-base text-gray-600">{edu.lab}</p>}
+                  <p className="text-base sm:text-lg font-medium text-foreground">{edu.degree}</p>
+                  {edu.lab && <p className="text-sm sm:text-base text-muted-foreground">{edu.lab}</p>}
                   {edu.research && (
-                    <p className="mt-1 text-sm sm:text-base text-gray-700">
+                    <p className="mt-1 text-sm sm:text-base text-foreground">
                       Research focus: {edu.research}
                     </p>
                   )}
                   {edu.thesis && (
-                    <p className="mt-1 text-sm sm:text-base text-gray-700">
+                    <p className="mt-1 text-sm sm:text-base text-foreground">
                       Thesis: {edu.thesis}
                     </p>
                   )}
@@ -185,20 +186,20 @@ development challenges in emerging markets.`,
 
           {/* Experience */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Experience</h2>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Experience</h2>
             <div className="space-y-6">
               {highlights.experience.map((job, i) => (
                 <div key={i}>
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg sm:text-xl font-medium">{job.company}</h3>
-                    <span className="text-xs sm:text-sm text-gray-500">
+                    <h3 className="text-lg sm:text-xl font-medium text-foreground">{job.company}</h3>
+                    <span className="text-xs sm:text-sm text-muted-foreground">
                       {job.startDate} – {job.endDate}
                     </span>
                   </div>
-                  <p className="text-base sm:text-lg font-medium">{job.role}</p>
+                  <p className="text-base sm:text-lg font-medium text-foreground">{job.role}</p>
                   <ul className="list-disc ml-6 mt-2 space-y-1">
                     {job.details.map((point, idx) => (
-                      <li key={idx} className="text-sm sm:text-base text-gray-700">
+                      <li key={idx} className="text-sm sm:text-base text-foreground">
                         {point}
                       </li>
                     ))}
@@ -210,15 +211,15 @@ development challenges in emerging markets.`,
 
           {/* Awards & Honors */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Awards & Honors</h2>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Awards & Honors</h2>
             <ul className="space-y-4">
               {highlights.awards.map((award, i) => (
                 <li key={i}>
                   <div className="flex justify-between items-center gap-2">
-                    <span className="text-base sm:text-lg font-medium">{award.title}</span>
-                    <span className="text-xs sm:text-sm text-gray-600"> {award.year}</span>
+                    <span className="text-base sm:text-lg font-medium text-foreground">{award.title}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground"> {award.year}</span>
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-500">
+                  <div className="text-xs sm:text-sm text-muted-foreground">
                     {award.organization}
                   </div>
                 </li>
@@ -228,27 +229,27 @@ development challenges in emerging markets.`,
 
           {/* Skills */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Skills</h2>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Skills</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-base sm:text-lg font-medium">Languages</h3>
-                <p className="text-sm sm:text-base">{highlights.skills.languages.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium text-foreground">Languages</h3>
+                <p className="text-sm sm:text-base text-foreground">{highlights.skills.languages.join(", ")}</p>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-medium">Programming</h3>
-                <p className="text-sm sm:text-base">{highlights.skills.programming.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium text-foreground">Programming</h3>
+                <p className="text-sm sm:text-base text-foreground">{highlights.skills.programming.join(", ")}</p>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-medium">Software</h3>
-                <p className="text-sm sm:text-base">{highlights.skills.software.join(", ")}</p>
+                <h3 className="text-base sm:text-lg font-medium text-foreground">Software</h3>
+                <p className="text-sm sm:text-base text-foreground">{highlights.skills.software.join(", ")}</p>
               </div>
             </div>
           </section>
 
           {/* Interests */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b">Interests</h2>
-            <p className="text-sm sm:text-base">{highlights.interests.join(", ")}</p>
+            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Interests</h2>
+            <p className="text-sm sm:text-base text-foreground">{highlights.interests.join(", ")}</p>
           </section>
         </div>
       </div>
