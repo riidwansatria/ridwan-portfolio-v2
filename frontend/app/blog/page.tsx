@@ -48,7 +48,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <main className="bg-background max-w-[100rem] mx-auto px-4 sm:px-12 py-12 md:py-20">
+    <main className="bg-background max-w-[100rem] mx-auto px-4 sm:px-12 py-12 sm:py-20">
       {/* Page Title */}
         <div className="mb-16 md:mb-24">
           <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Thoughts</h1>
@@ -65,7 +65,7 @@ export default function AboutPage() {
                 href={`/blog/${post.slug}`}
                 className="group block border-t border-border px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
               >
-                <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-12">
+                <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
                   {/* Date */}
                   <time className="shrink-0 text-xs font-medium uppercase tracking-widest text-muted-foreground md:w-32 md:text-sm">
                     {post.date}
@@ -80,7 +80,7 @@ export default function AboutPage() {
                   </div>
 
                   {/* Arrow Icon */}
-                  <div className="flex shrink-0 items-center justify-end md:w-12">
+                  <div className="hidden md:flex shrink-0 items-center justify-end md:w-12">
                     <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 md:h-6 md:w-6" />
                   </div>
                 </div>
