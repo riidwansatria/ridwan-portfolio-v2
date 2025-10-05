@@ -63,7 +63,7 @@ export default function AboutPage() {
             <article key={post.id}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="group block border-b border-border px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
+                className="group block border-b border-border md:px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
               >
                 <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
                   {/* Date */}

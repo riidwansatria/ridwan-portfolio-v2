@@ -148,13 +148,13 @@ export default async function Page() {
         <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
           {projects.map((project) => {
             return (
-              <div key={project.id} className="flex flex-col rounded-md border">
+              <div key={project.id} className="flex flex-col rounded-md overflow-hidden border">
                 <div className="relative aspect-[3/2]">
                   <Image 
                     src={project.image} 
                     alt={project.title} 
                     fill
-                    className="rounded-t-md object-cover object-center shadow-xs" 
+                    className="object-cover object-center shadow-xs" 
                   />
                 </div>
                 <div className='p-4 bg-card'>
@@ -210,7 +210,7 @@ export default async function Page() {
                       itemType="http://schema.org/Article"
                     >
                       <Link href={`/notes/${post.slug}`} itemProp="url">
-                        <div className='px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
+                        <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
                           <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
                           <small className="text-muted-foreground">{post.date}</small>
                         </div>
