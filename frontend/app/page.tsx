@@ -77,7 +77,7 @@ export default async function Page() {
   return (
     <>
       {/* Hero section */}
-      <div className='h-[calc(100vh-52px)] bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]'>
+      <div className='h-[calc(100vh-64px)] bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]'>
         <div className="flex flex-col justify-between h-[calc(100vh-80px)] px-4 sm:px-12 inset-0">
           {/* Hero main */}
           <div className="flex flex-1 items-center">
@@ -194,7 +194,7 @@ export default async function Page() {
                 </Link>
               </div>
             </div>
-            <ol style={{ listStyle: `none` }}>
+            <ol style={{ listStyle: `none` }} className="border-b">
               {posts.map(post => {
                 const title = post.title || post.slug
 
@@ -205,14 +205,12 @@ export default async function Page() {
                       itemScope
                       itemType="http://schema.org/Article"
                     >
-                      <div className='py-2 sm:py-4 md:py-6 border-t'>
-                        <h3 className="text-foreground hover:text-muted-foreground font-semibold text-base md:text-xl">
-                          <Link href={`/blog/${post.slug}`} itemProp="url">
-                            <span itemProp="headline">{title}</span>
-                          </Link>
-                        </h3>
-                        <small className="text-muted-foreground">{post.date}</small>
-                      </div>
+                      <Link href={`/blog/${post.slug}`} itemProp="url">
+                        <div className='px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
+                          <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
+                          <small className="text-muted-foreground">{post.date}</small>
+                        </div>
+                      </Link>
                     </article>
                   </li>
                 )

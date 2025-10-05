@@ -148,7 +148,7 @@ development challenges in emerging markets.`,
         </div>
 
         {/* Right section */}
-        <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto">
+        <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto scrollbar-hide">
           {/* About */}
           <section>
             <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">About</h2>
