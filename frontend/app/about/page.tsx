@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download, AtSign, Linkedin, Github, Twitter } from "lucide-react"
 import Link from "next/link"
 
 export default function AboutPage() {
@@ -117,7 +117,7 @@ development challenges in emerging markets.`,
       <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row md:h-[calc(100vh-125px)]">
         {/* Left section */}
         <div
-          className="w-full md:w-[320px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
+          className="w-full md:w-[400px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
           bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)]
           dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
           bg-[size:14px_24px]"
@@ -125,6 +125,21 @@ development challenges in emerging markets.`,
           <section className="flex flex-col">
             <h1 className="text-4xl font-semibold text-foreground">{title}</h1>
             {subtitle && <p className="text-base text-muted-foreground">{subtitle}</p>}
+
+            <div className="flex gap-3 mt-6">
+              <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Email">
+                <AtSign size={16} />
+              </a>
+              <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="GitHub">
+                <Github size={16} />
+              </a>
+              <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
+                <Linkedin size={16} />
+              </a>
+              <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
+                <Twitter size={16} />
+              </a>
+            </div>
             
             <a className="text-sm text-muted-foreground font-mono hover:underline mt-2"
               href="https://ridwansatria.com/"
