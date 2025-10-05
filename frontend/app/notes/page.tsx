@@ -67,13 +67,13 @@ export default function AboutPage() {
               >
                 <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
                   {/* Date */}
-                  <time className="shrink-0 text-xs font-medium uppercase tracking-widest text-muted-foreground md:w-32 md:text-sm">
+                  <time className="shrink-0 text-xs font-medium uppercase tracking-widest text-muted-foreground md:w-32 md:text-sm md:pt-0.5">
                     {post.date}
                   </time>
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h2 className="mb-3 text-xl font-medium leading-relaxed text-foreground transition-colors group-hover:text-foreground/80 md:text-2xl md:leading-relaxed">
+                    <h2 className="mb-3 text-xl font-medium leading-tight text-foreground transition-colors group-hover:text-foreground/80 md:text-2xl">
                       {post.title}
                     </h2>
                     <p className="text-sm text-muted-foreground md:text-base">{post.category}</p>
