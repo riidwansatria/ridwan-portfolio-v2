@@ -48,22 +48,22 @@ export default function AboutPage() {
   ]
 
   return (
-    <main className="bg-background max-w-[100rem] mx-auto px-4 sm:px-12 py-12 sm:py-20">
+    <>
       {/* Page Title */}
-        <div className="mb-16 md:mb-24">
-          <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Thoughts</h1>
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 pt-12 sm:pt-20 pb-16 md:pb-24 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Notes</h1>
           <p className="mt-4 text-base text-muted-foreground md:text-lg">
-            Writing about design, development, and everything in between.
+            Updates and occasional thoughts on cities, transport, and everyday design.
           </p>
         </div>
 
         {/* Blog Posts List */}
-        <div className="mb-24">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 sm:py-12 mb-36">
           {blogPosts.map((post, index) => (
             <article key={post.id}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="group block border-t border-border px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
+                className="group block border-b border-border px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
               >
                 <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
                   {/* Date */}
@@ -85,10 +85,9 @@ export default function AboutPage() {
                   </div>
                 </div>
               </Link>
-              {index === blogPosts.length - 1 && <div className="border-t border-border" />}
             </article>
           ))}
         </div>
-    </main>
+    </>
   )
 }

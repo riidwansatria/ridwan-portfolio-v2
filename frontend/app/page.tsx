@@ -4,7 +4,7 @@ import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { HardHat, Bus, Building2 } from 'lucide-react'
+import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
 
 export default async function Page() {
   const {data: settings} = await sanityFetch({
@@ -51,7 +51,7 @@ export default async function Page() {
     {
       id: 2,
       slug: "b",
-      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-2.webp',
+      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/notess-1-2.webp',
       title: 'International Conference of Asia-Pacific Planning Societies 2025',
       excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
       category: 'Web Development',
@@ -63,7 +63,7 @@ export default async function Page() {
     {
       id: 3,
       slug: "c",
-      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/blogs-1-3.webp',
+      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/notess-1-3.webp',
       title: "Starting Master's Studies @UTokyo",
       excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
       category: 'Design Systems',
@@ -100,7 +100,7 @@ export default async function Page() {
                   <Link href="/about">About me</Link>
                 </Button>
                 <Button asChild variant="outline">
-                  <Link href="/projects">Blog</Link>
+                  <Link href="/notes">Notes</Link>
                 </Button>
               </div>
             </div>
@@ -180,17 +180,21 @@ export default async function Page() {
         </div>
       </div>
 
-      {/* Blog section */}
-      <div id="blog" className='px-4 sm:px-12 py-20 mb-40 border-t'>
+      {/* Notes section */}
+      <div id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
         <section className="">
           <div className="">
             <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
               <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-                Latest Posts
+                Latest Notes
               </h2>
               <div className="flex">
-                <Link href="/blog" className="text-xs md:text-base text-muted-foreground p-4 hover:text-foreground">
-                  Read all posts →
+                <Link
+                  href="/notes"
+                  className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
+                >
+                  <p className="mr-1 text-xs md:text-sm">Read all</p>
+                  <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -205,7 +209,7 @@ export default async function Page() {
                       itemScope
                       itemType="http://schema.org/Article"
                     >
-                      <Link href={`/blog/${post.slug}`} itemProp="url">
+                      <Link href={`/notes/${post.slug}`} itemProp="url">
                         <div className='px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
                           <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
                           <small className="text-muted-foreground">{post.date}</small>
