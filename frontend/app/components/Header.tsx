@@ -15,6 +15,12 @@ const navigation = [
   { name: 'Projects', href: '/projects' },
 ]
 
+// Mobile-only navigation
+const mobileNavigation = [
+  { name: 'Home', href: '/' },
+  ...navigation,
+]
+
 export default function Header() {
   const [open, setOpen] = useState(false)
 
@@ -40,7 +46,7 @@ export default function Header() {
                 </SheetDescription>
                 <div className="mt-6 flex flex-col h-full font-mono">
                   <div className="flex-1 space-y-2">
-                    {navigation.map((item) => (
+                    {mobileNavigation.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
