@@ -58,7 +58,7 @@ export default function AboutPage() {
         </div>
 
         {/* Blog Posts List */}
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 sm:py-12 mb-36">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 mb-36">
           {blogPosts.map((post, index) => (
             <article key={post.id}>
               <Link
