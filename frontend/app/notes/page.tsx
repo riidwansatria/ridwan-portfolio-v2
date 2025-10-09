@@ -50,11 +50,13 @@ export default function AboutPage() {
   return (
     <>
       {/* Page Title */}
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 pt-12 sm:pt-20 pb-16 md:pb-24 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Notes</h1>
-          <p className="mt-4 text-base text-muted-foreground md:text-lg">
-            Updates and occasional thoughts on cities, transport, and everyday design.
-          </p>
+        <div className="pt-12 sm:pt-20 pb-16 md:pb-24 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <div className="max-w-[100rem] mx-auto px-4 sm:px-12">
+            <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Notes</h1>
+            <p className="mt-4 text-base text-muted-foreground md:text-lg">
+              Updates and occasional thoughts on cities, transport, and everyday design.
+            </p>
+          </div>
         </div>
 
         {/* Blog Posts List */}
