@@ -23,42 +23,48 @@ export function ProjectCard({ project }: { project: Project }) {
         <article
             className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
         >
-            {/* Image */}
-            <Link href={`/projects/${project.slug}`} className="relative aspect-[16/10] overflow-hidden">
+            {/* Image Container */}
+            <div className="relative aspect-[16/10] overflow-hidden">
+                {/* Clickable image area */}
+                <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10">
+                    <span className="sr-only">View {project.title}</span>
+                </Link>
                 <Image
                     src={project.image}
                     alt={project.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex gap-2">
-                        {project.github && (
-                            <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-white/90 text-black hover:bg-white transition-colors"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <Github className="h-4 w-4" />
-                            </a>
-                        )}
-                        {project.demo && (
-                            <a
-                                href={project.demo}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-white/90 text-black hover:bg-white transition-colors"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <ExternalLink className="h-4 w-4" />
-                            </a>
-                        )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                {/* External links - positioned above the main link */}
+                {(project.github || project.demo) && (
+                    <div className="absolute bottom-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="flex gap-2">
+                            {project.github && (
+                                <a
+                                    href={project.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-full bg-white/90 text-black hover:bg-white transition-colors"
+                                >
+                                    <Github className="h-4 w-4" />
+                                </a>
+                            )}
+                            {project.demo && (
+                                <a
+                                    href={project.demo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-full bg-white/90 text-black hover:bg-white transition-colors"
+                                >
+                                    <ExternalLink className="h-4 w-4" />
+                                </a>
+                            )}
+                        </div>
                     </div>
-                </div>
-            </Link>
+                )}
+            </div>
 
             {/* Content */}
             <div className="flex flex-1 flex-col p-5">
