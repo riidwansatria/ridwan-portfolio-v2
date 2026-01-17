@@ -109,7 +109,7 @@ export default function ProjectsPage() {
 
       {/* Featured Projects */}
       <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-12 md:py-16">
-        <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-8">
+        <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
           Featured Projects
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +121,7 @@ export default function ProjectsPage() {
 
       {/* Other Projects */}
       <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-8 md:py-12 mb-24">
-        <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground mb-8">
+        <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
           More Projects
         </h2>
         <div className="grid gap-4">
@@ -148,7 +148,7 @@ export default function ProjectsPage() {
                     {project.year}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 2).map((tag) => (
+                    {project.tags.map((tag) => (
                       <Badge
                         key={tag.name}
                         variant="secondary"
@@ -167,7 +167,7 @@ export default function ProjectsPage() {
                 <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
                   {project.title}
                 </h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="hidden md:block text-sm text-muted-foreground line-clamp-2">
                   {project.description}
                 </p>
               </div>
