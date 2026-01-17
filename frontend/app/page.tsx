@@ -85,7 +85,7 @@ export default async function Page() {
               <h1 className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4">
                 <span className="text-2xl md:text-3xl lg:text-5xl">Hey there! 👋{" "}</span>
                 <br />
-                I&apos;m Ridwan, a Civil Engineering student at the University of Tokyo.
+                I&apos;m Ridwan, Transportation & Urban Policy student at the University of Tokyo.
               </h1>
               <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
                 Welcome to my personal website. This site will be used as a
