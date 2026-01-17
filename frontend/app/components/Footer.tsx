@@ -1,8 +1,16 @@
 'use client'
 
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
 export default function Footer() {
+  const pathname = usePathname()
+
+  // Don't show footer on individual project pages
+  if (pathname?.startsWith("/projects/")) {
+    return null
+  }
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
