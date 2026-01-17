@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, ExternalLink, Github, LayoutGrid } from "lucide-react"
@@ -8,8 +9,15 @@ import { Button } from "@/components/ui/button"
 import type { ProjectData } from "./layout-split"
 
 export function ConciseLayout({ project }: { project: ProjectData }) {
+    // Fix for "jump" on refresh: Force scroll to top on mount to prevent browser scroll restoration
+    // interfering with the fixed layout.
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
-        <div className="w-full min-h-[calc(100vh-5rem)] bg-background text-foreground px-4 py-8 md:px-6 lg:px-8 md:fixed md:inset-x-0 md:bottom-0 md:top-20 md:z-40 md:overflow-hidden md:flex md:flex-col md:py-6 lg:py-8">
+        // Changed from fixed to standard flow to prevent stacking context issues with framer-motion transforms
+        <div className="w-full bg-background text-foreground px-4 py-8 md:px-6 lg:px-8 md:h-[calc(100vh-5rem)] md:overflow-hidden md:flex md:flex-col md:pb-8">
 
             {/* Bento Grid Container */}
             <main className="flex flex-col gap-6 md:grid md:grid-cols-12 md:grid-rows-12 md:gap-4 md:min-h-0 md:flex-1">
