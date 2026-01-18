@@ -130,12 +130,12 @@ export default function ProjectsPage() {
 
       {/* Other Projects */}
       <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-8 md:py-12 mb-24">
-        <FadeIn>
+        <FadeIn delay={0.8}>
           <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
             More Projects
           </h2>
         </FadeIn>
-        <FadeInStagger className="grid gap-4">
+        <FadeInStagger delay={0.9} className="grid gap-4">
           {otherProjects.map((project) => (
             <FadeIn key={project.id}>
               <Link
