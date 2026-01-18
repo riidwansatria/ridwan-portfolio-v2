@@ -6,6 +6,7 @@ import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
 import { ProjectCard } from "@/components/project-card"
 import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 import { TextEffect } from "@/components/motion-primitives/text-effect"
+import { ScrollLink } from "@/components/scroll-link"
 
 export default async function Page() {
   const { data: settings } = await sanityFetch({
@@ -155,9 +156,9 @@ export default async function Page() {
               Based in Tokyo, Japan
             </span>
             <div className="flex">
-              <Button asChild variant="link" className="text-xs md:text-sm text-muted-foreground p-0">
-                <Link href="#projects">Featured Projects ↓</Link>
-              </Button>
+              <ScrollLink targetId="projects" className="text-xs md:text-sm text-muted-foreground p-0">
+                Featured Projects ↓
+              </ScrollLink>
             </div>
           </div>
         </div>
