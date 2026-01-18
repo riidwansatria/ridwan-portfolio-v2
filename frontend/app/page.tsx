@@ -1,49 +1,43 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import {settingsQuery} from '@/sanity/lib/queries'
-import {sanityFetch} from '@/sanity/lib/live'
+import { settingsQuery } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
+import { ProjectCard } from "@/components/project-card"
+import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 
 export default async function Page() {
-  const {data: settings} = await sanityFetch({
+  const { data: settings } = await sanityFetch({
     query: settingsQuery,
   })
 
   const projects = [
     {
-      id: 1,
-      slug: "a",
+      id: "1",
+      slug: "jakarta-demography",
       image: 'https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg',
       title: "Visualizing Jakarta's Demography",
-      excerpt: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
-      category: {
-        name: "Geopandas",
-        color: "#22c55e"
-      },
+      description: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
+      year: "2024",
+      tags: [{ name: "Geopandas", color: "#22c55e" }],
     },
     {
-      id: 2,
-      slug: "b",
+      id: "2",
+      slug: "transit-network-analysis",
       image: 'https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg',
       title: 'Transit Network Analysis',
-      excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
-      category: {
-        name: "R",
-        color: "#4295ee" 
-      },
+      description: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
+      year: "2023",
+      tags: [{ name: "R", color: "#4295ee" }],
     },
     {
-      id: 3,
-      slug: "c",
+      id: "3",
+      slug: "bus-operations",
       image: 'https://images.pexels.com/photos/6091193/pexels-photo-6091193.jpeg',
       title: 'Optimizing Bus Operations',
-      excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
-      category: {
-        name: "Streamlit",
-        color: "#e79e2a"
-      },
+      description: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
+      year: "2023",
+      tags: [{ name: "Streamlit", color: "#e79e2a" }],
     },
   ];
 
@@ -131,53 +125,30 @@ export default async function Page() {
             </span>
             <div className="flex">
               <Button asChild variant="link" className="text-xs md:text-sm text-muted-foreground p-0">
-                <Link href="#projects">Selected Projects ↓</Link>
+                <Link href="#projects">Featured Projects ↓</Link>
               </Button>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Projects section */}
       <div id="projects" className='px-4 sm:px-12 py-20 border-t'>
-        <div className="mb-8 border-b-0 flex justify-between items-center">
-          <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-            Selected Projects
-          </h2>
-        </div>
-        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
-          {projects.map((project) => {
-            return (
-              <div key={project.id} className="flex flex-col rounded-md overflow-hidden border">
-                <div className="relative aspect-[3/2]">
-                  <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill
-                    className="object-cover object-center shadow-xs" 
-                  />
-                </div>
-                <div className='p-4 bg-card'>
-                  <h3 className="text-lg/snug font-semibold text-card-foreground hover:opacity-70">
-                    <a href={project.slug}>{project.title}</a>
-                  </h3>
-                  <div className="mt-2 inline-flex items-center gap-4">
-                    <Badge
-                    style={{
-                      backgroundColor: `${project.category.color}20`, 
-                      border: `0.5px solid ${project.category.color}`,
-                      color: `${project.category.color}`,
-                      boxShadow: "none", 
-                    }}
-                  >
-                    {project.category.name}
-                  </Badge>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <FadeIn>
+          <div className="mb-8 border-b-0 flex justify-between items-center">
+            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
+              Featured Projects
+            </h2>
+          </div>
+        </FadeIn>
+
+        <FadeInStagger className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
+          {projects.map((project) => (
+            <FadeIn key={project.id}>
+              <ProjectCard project={project} />
+            </FadeIn>
+          ))}
+        </FadeInStagger>
       </div>
 
       {/* Notes section */}
@@ -198,12 +169,13 @@ export default async function Page() {
                 </Link>
               </div>
             </div>
-            <ol style={{ listStyle: `none` }} className="border-b">
+
+            <FadeInStagger className="border-b">
               {posts.map(post => {
                 const title = post.title || post.slug
 
                 return (
-                  <li key={post.slug}>
+                  <FadeIn key={post.slug}>
                     <article
                       className="post-list-item"
                       itemScope
@@ -216,10 +188,10 @@ export default async function Page() {
                         </div>
                       </Link>
                     </article>
-                  </li>
+                  </FadeIn>
                 )
               })}
-            </ol>
+            </FadeInStagger>
           </div>
         </section>
       </div>
