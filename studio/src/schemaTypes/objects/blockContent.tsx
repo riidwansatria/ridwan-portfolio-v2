@@ -151,16 +151,36 @@ export const blockContent = defineType({
       fields: [
         defineField({
           name: 'content',
-          title: 'Content',
+          title: 'Text Content',
           type: 'string',
-          description: 'Note displayed in the side margin',
-          validation: (Rule) => Rule.required().max(300),
+          description: 'Optional text displayed in the side margin',
         }),
         defineField({
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-          description: 'Optional title for the note',
+          name: 'image',
+          title: 'Image',
+          type: 'image',
+          description: 'Optional image for the marginalia',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            }),
+          ],
+        }),
+        defineField({
+          name: 'video',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Optional video URL (YouTube, Vimeo, etc.)',
         }),
         defineField({
           name: 'position',
@@ -175,17 +195,29 @@ export const blockContent = defineType({
           },
           initialValue: 'right',
         }),
+        defineField({
+          name: 'desktopOnly',
+          title: 'Show on Desktop Only',
+          type: 'boolean',
+          description: 'If enabled, this note will be hidden on mobile/tablet screens per user request',
+          initialValue: false,
+        }),
       ],
       preview: {
         select: {
-          title: 'title',
           content: 'content',
           position: 'position',
+          image: 'image',
+          video: 'video',
+          desktopOnly: 'desktopOnly',
         },
-        prepare({ title, content, position }) {
+        prepare({ content, position, image, video, desktopOnly }) {
+          const type = image ? '📷' : video ? '🎬' : '📝'
+          const visibility = desktopOnly ? ' 🖥️' : ''
           return {
-            title: title || 'Side Note',
-            subtitle: `[${position || 'right'}] ${content}`,
+            title: `${type} Side Note${visibility}`,
+            subtitle: `[${position || 'right'}] ${content || (image ? 'Image' : video ? 'Video' : '')}`,
+            media: image,
           }
         },
       },

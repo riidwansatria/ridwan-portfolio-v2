@@ -74,26 +74,71 @@ export default function CustomPortableText({
       // Side note renderer - Absolute positioned in margin
       sideNote: ({ value }) => {
         const isLeft = value.position === 'left'
-        // Position: 33.33% of content width (since content is 3fr in 1:3:1 grid)
-        // Left side: right edge at -33% - gap, Right side: left edge at 100% + gap
+        const imageUrl = value.image ? urlForImage(value.image)?.url() : null
+
+        // Convert video URL to embed URL
+        const getEmbedUrl = (url: string) => {
+          if (!url) return null
+          if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            const videoId = url.includes('youtu.be')
+              ? url.split('/').pop()
+              : new URL(url).searchParams.get('v')
+            return `https://www.youtube.com/embed/${videoId}`
+          }
+          if (url.includes('vimeo.com')) {
+            const videoId = url.split('/').pop()
+            return `https://player.vimeo.com/video/${videoId}`
+          }
+          return url
+        }
+        const embedUrl = value.video ? getEmbedUrl(value.video) : null
+
         return (
           <aside
             className={`
-              relative my-6 pt-4 border-t border-border
-              lg:absolute lg:my-0 lg:w-[33.33%] lg:-mt-4
+              ${value.desktopOnly ? 'hidden lg:block' : 'relative my-6 pt-2 border-t border-border'}
+              lg:absolute lg:my-0 lg:w-[33.33%] lg:mt-1
               ${isLeft
                 ? 'lg:right-[calc(100%+2rem)] lg:text-right'
                 : 'lg:left-[calc(100%+2rem)]'}
             `}
           >
-            {value.title && (
-              <h5 className="mb-2 font-semibold text-xs uppercase tracking-widest text-primary">
-                {value.title}
-              </h5>
+            {/* Image */}
+            {imageUrl && (
+              <figure className="mb-3">
+                <Image
+                  src={imageUrl}
+                  alt={value.image?.alt || ''}
+                  width={500}
+                  height={500}
+                  className="w-full h-auto"
+                />
+                {value.image?.caption && (
+                  <figcaption className="mt-1 text-sm text-muted-foreground">
+                    {value.image.caption}
+                  </figcaption>
+                )}
+              </figure>
             )}
-            <div className="text-lg text-muted-foreground leading-[1.75]">
-              {value.content}
-            </div>
+
+            {/* Video */}
+            {embedUrl && (
+              <div className="mb-3 relative aspect-video overflow-hidden rounded border border-border bg-muted">
+                <iframe
+                  src={embedUrl}
+                  className="absolute inset-0 w-full h-full"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            {/* Text content */}
+            {value.content && (
+              <div className="text-sm text-muted-foreground">
+                {value.content}
+              </div>
+            )}
           </aside>
         )
       },
