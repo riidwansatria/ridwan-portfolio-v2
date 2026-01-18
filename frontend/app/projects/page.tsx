@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/project-card"
 import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 
@@ -140,10 +140,10 @@ export default function ProjectsPage() {
             <FadeIn key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 p-4 md:p-6 rounded-lg border bg-card hover:bg-accent/50 transition-all duration-200"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl border bg-card hover:bg-accent/30 hover:border-accent transition-all duration-300 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
               >
                 {/* Thumbnail */}
-                <div className="relative w-full md:w-48 aspect-video md:aspect-[4/3] rounded-md overflow-hidden shrink-0">
+                <div className="hidden md:block relative w-full md:w-40 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -154,12 +154,18 @@ export default function ProjectsPage() {
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-1.5">
+                    {project.title}
+                  </h3>
+                  <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 mb-3">
+                    {project.description}
+                  </p>
+                  <div className="flex items-center gap-3">
                     <span className="text-xs font-medium text-muted-foreground font-mono">
                       {project.year}
                     </span>
                     <div className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
+                      {project.tags.slice(0, 2).map((tag) => (
                         <Badge
                           key={tag.name}
                           variant="secondary"
@@ -175,16 +181,10 @@ export default function ProjectsPage() {
                       ))}
                     </div>
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
-                    {project.title}
-                  </h3>
-                  <p className="hidden md:block text-sm text-muted-foreground line-clamp-2">
-                    {project.description}
-                  </p>
                 </div>
 
                 {/* Arrow */}
-                <ArrowUpRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 transition-all group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" />
               </Link>
             </FadeIn>
           ))}
