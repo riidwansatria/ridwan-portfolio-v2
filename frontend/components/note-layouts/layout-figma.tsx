@@ -49,11 +49,11 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
 
     return (
         <article className="min-h-screen bg-background text-foreground">
-            <header className="text-foreground pt-16 pb-16 px-6 md:px-12 relative overflow-hidden border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
+            <header className="text-foreground pt-12 pb-8 md:pt-16 md:pb-16 px-4 md:px-12 relative overflow-hidden border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
                 <div className="mx-auto relative z-10 flex flex-col justify-between">
                     <div>
                         {/* Date and Category */}
-                        <div className="mb-8">
+                        <div className="mb-6 md:mb-8">
                             <span className="font-mono text-xs tracking-[0.2em] uppercase text-foreground/60">
                                 {formattedDate}
                                 {post.category && ` • ${post.category}`}
@@ -67,7 +67,7 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
                     </div>
 
                     {/* Bottom Meta */}
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-4 pt-8">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 mt-4 pt-6 md:pt-8">
                         {/* Author */}
                         <div className="flex items-center gap-4">
                             {post.author && (
@@ -98,8 +98,8 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
                             )}
                         </div>
 
-                        {/* Tags + Share */}
-                        <div className="flex items-center gap-4">
+                        {/* Tags + Share - Hidden on Mobile */}
+                        <div className="hidden md:flex items-center gap-4">
                             {post.tags && (
                                 <div className="flex flex-wrap gap-2 items-center">
                                     <AnimatePresence mode="popLayout" initial={false}>
@@ -166,10 +166,10 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
             </header>
 
             {/* Excerpt Section - Same width as article */}
-            <div className="py-16 px-4 md:px-8 lg:px-12">
+            <div className="py-8 md:py-16 px-4 md:px-8 lg:px-12">
                 <div className="max-w-[100rem] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] gap-6">
                     <div className="hidden lg:block" />
-                    <p className="text-2xl md:text-3xl text-foreground font-semibold font-stretch-extra-condensed">
+                    <p className="text-xl md:text-3xl text-foreground font-semibold font-stretch-extra-condensed leading-relaxed">
                         {post.excerpt}
                     </p>
                     <div className="hidden lg:block" />
@@ -199,15 +199,17 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
             {relatedPosts && relatedPosts.length > 0 && (
                 <section className="border-t border-border bg-muted/30">
                     <div className="max-w-7xl mx-auto px-6 py-16">
-                        <h2 className="text-2xl font-bold mb-8">Related articles</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
+                            Related Posts
+                        </h2>
+                        <div className="flex overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:pb-0 md:mx-0 md:px-0 md:gap-6 hide-scrollbar">
                             {relatedPosts.slice(0, 3).map(related => {
                                 const relatedImageUrl = related.coverImage ? urlForImage(related.coverImage)?.url() : null
                                 return (
                                     <Link
                                         key={related.slug}
                                         href={`/posts/${related.slug}`}
-                                        className="group flex flex-col rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
+                                        className="group flex flex-col min-w-[280px] w-[85vw] md:w-auto snap-center rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
                                     >
                                         {relatedImageUrl && (
                                             <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
@@ -221,15 +223,15 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
                                         )}
                                         <div className="p-5 flex flex-col gap-3 flex-1">
                                             {related.category && (
-                                                <span className="text-xs font-medium text-primary uppercase tracking-wider">
+                                                <span className="hidden md:block text-xs font-medium text-primary uppercase tracking-wider">
                                                     {related.category}
                                                 </span>
                                             )}
-                                            <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                                            <h3 className="font-semibold text-foreground line-clamp-2 white-space-normal group-hover:text-primary transition-colors">
                                                 {related.title}
                                             </h3>
                                             {related.excerpt && (
-                                                <p className="text-sm text-muted-foreground line-clamp-2">
+                                                <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 white-space-normal">
                                                     {related.excerpt}
                                                 </p>
                                             )}
