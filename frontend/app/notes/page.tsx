@@ -1,3 +1,4 @@
+import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -49,20 +50,27 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* Page Title */}
-        <div className="pt-12 sm:pt-20 pb-16 md:pb-24 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <div className="max-w-[100rem] mx-auto px-4 sm:px-12">
-            <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Notes</h1>
-            <p className="mt-4 text-base text-muted-foreground md:text-lg">
+      {/* Page Header */}
+      <div className="pt-12 sm:pt-20 pb-16 md:pb-20 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear_gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
+        <FadeInStagger className="max-w-[100rem] mx-auto px-4 sm:px-12">
+          <FadeIn>
+            <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+              Notes
+            </h1>
+          </FadeIn>
+          <FadeIn>
+            <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
               Updates and occasional thoughts on cities, transport, and everyday design.
             </p>
-          </div>
-        </div>
+          </FadeIn>
+        </FadeInStagger>
+      </div>
 
-        {/* Blog Posts List */}
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-12 mb-36">
-          {blogPosts.map((post, index) => (
-            <article key={post.id}>
+      {/* Blog Posts List */}
+      <FadeInStagger className="max-w-[100rem] mx-auto px-4 sm:px-12 mb-36" delay={0.4}>
+        {blogPosts.map((post, index) => (
+          <FadeIn key={post.id}>
+            <article>
               <Link
                 href={`/blog/${post.slug}`}
                 className="group block border-b border-border md:px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
@@ -88,8 +96,9 @@ export default function AboutPage() {
                 </div>
               </Link>
             </article>
-          ))}
-        </div>
+          </FadeIn>
+        ))}
+      </FadeInStagger>
     </>
   )
 }

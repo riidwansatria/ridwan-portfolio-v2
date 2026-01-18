@@ -105,7 +105,7 @@ export default function ProjectsPage() {
             </h1>
           </FadeIn>
           <FadeIn>
-            <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
+            <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
               Selected work in geospatial analytics, transportation planning, and urban policy research.
             </p>
           </FadeIn>
@@ -130,12 +130,12 @@ export default function ProjectsPage() {
 
       {/* Other Projects */}
       <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-8 md:py-12 mb-24">
-        <FadeIn delay={0.8}>
+        <FadeIn delay={1.0}>
           <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
             More Projects
           </h2>
         </FadeIn>
-        <FadeInStagger delay={0.9} className="grid gap-4">
+        <FadeInStagger delay={1.2} className="grid gap-4">
           {otherProjects.map((project) => (
             <FadeIn key={project.id}>
               <Link
