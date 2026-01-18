@@ -22,7 +22,7 @@ export function ProjectCard({ project }: { project: Project }) {
     return (
         <Link
             href={`/projects/${project.slug}`}
-            className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
+            className="group relative flex flex-col overflow-hidden rounded-xl border bg-card hover:bg-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
         >
             {/* Image Container */}
             <div className="relative aspect-[16/10] overflow-hidden">

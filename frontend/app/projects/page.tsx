@@ -140,7 +140,7 @@ export default function ProjectsPage() {
             <FadeIn key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl border bg-card hover:bg-accent/30 hover:border-accent transition-all duration-300 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl border bg-card hover:bg-accent/30 transition-all duration-300 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
               >
                 {/* Thumbnail */}
                 <div className="hidden md:block relative w-full md:w-40 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
