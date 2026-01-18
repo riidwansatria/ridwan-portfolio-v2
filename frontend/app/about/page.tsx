@@ -1,6 +1,10 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Download, AtSign, Linkedin, Github, Twitter } from "lucide-react"
 import Link from "next/link"
+import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
+import { TextEffect } from "@/components/motion-primitives/text-effect"
 
 export default function AboutPage() {
   const aboutData = {
@@ -122,60 +126,85 @@ development challenges in emerging markets.`,
           dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
           bg-[size:14px_24px]"
         >
-          <section className="flex flex-col">
-            <h1 className="text-4xl font-semibold text-foreground">{title}</h1>
-            {subtitle && <p className="text-base text-muted-foreground">{subtitle}</p>}
+          <FadeInStagger className="flex flex-col">
+            <FadeIn>
+              <TextEffect
+                per="word"
+                preset="fade-in-blur"
+                delay={0.1}
+                speedReveal={1.5}
+                as="h1"
+                className="text-4xl font-semibold text-foreground"
+              >
+                {title}
+              </TextEffect>
+            </FadeIn>
 
-            <div className="flex gap-3 mt-6">
-              <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Email">
-                <AtSign size={16} />
+            <FadeIn>
+              {subtitle && <p className="text-base text-muted-foreground">{subtitle}</p>}
+            </FadeIn>
+
+            <FadeIn>
+              <div className="flex gap-3 mt-6">
+                <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Email">
+                  <AtSign size={16} />
+                </a>
+                <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="GitHub">
+                  <Github size={16} />
+                </a>
+                <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
+                  <Linkedin size={16} />
+                </a>
+                <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
+                  <Twitter size={16} />
+                </a>
+              </div>
+            </FadeIn>
+
+            <FadeIn>
+              <a className="text-sm text-muted-foreground font-mono hover:underline mt-2"
+                href="https://ridwansatria.com/"
+              >
+                ridwansatria.com
               </a>
-              <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="GitHub">
-                <Github size={16} />
-              </a>
-              <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
-                <Linkedin size={16} />
-              </a>
-              <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
-                <Twitter size={16} />
-              </a>
-            </div>
-            
-            <a className="text-sm text-muted-foreground font-mono hover:underline mt-2"
-              href="https://ridwansatria.com/"
-            >
-              ridwansatria.com
-            </a>
-            <div className="mt-8">
-              <Button asChild variant="outline">
-                <Link
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2"
-                >
-                  <Download />
-                  Resume
-                </Link>
-              </Button>
-            </div>
-          </section>
+            </FadeIn>
+
+            <FadeIn>
+              <div className="mt-8">
+                <Button asChild variant="outline">
+                  <Link
+                    href="/Resume_2026_01.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                  >
+                    <Download />
+                    Resume
+                  </Link>
+                </Button>
+              </div>
+            </FadeIn>
+          </FadeInStagger>
         </div>
 
         {/* Right section */}
         <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto scrollbar-hide">
           {/* About */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">About</h2>
-            <p className="text-sm sm:text-base text-foreground">{bio}</p>
-          </section>
+          <FadeIn delay={0.3}>
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">About</h2>
+              <p className="text-sm sm:text-base text-foreground">{bio}</p>
+            </section>
+          </FadeIn>
 
           {/* Education */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Education</h2>
-            <div className="space-y-6">
+            <FadeIn delay={0.4}>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Education</h2>
+            </FadeIn>
+            <FadeInStagger className="space-y-6" delay={0.5}>
               {highlights.education.map((edu, i) => (
-                <div key={i}>
+                <FadeIn key={i}>
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg sm:text-xl font-medium text-foreground">{edu.institution}</h3>
                     <span className="text-xs sm:text-sm text-muted-foreground">
@@ -194,17 +223,19 @@ development challenges in emerging markets.`,
                       Thesis: {edu.thesis}
                     </p>
                   )}
-                </div>
+                </FadeIn>
               ))}
-            </div>
+            </FadeInStagger>
           </section>
 
           {/* Experience */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Experience</h2>
-            <div className="space-y-6">
+            <FadeIn delay={0.7}>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Experience</h2>
+            </FadeIn>
+            <FadeInStagger className="space-y-6" delay={0.8}>
               {highlights.experience.map((job, i) => (
-                <div key={i}>
+                <FadeIn key={i}>
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg sm:text-xl font-medium text-foreground">{job.company}</h3>
                     <span className="text-xs sm:text-sm text-muted-foreground">
@@ -219,17 +250,19 @@ development challenges in emerging markets.`,
                       </li>
                     ))}
                   </ul>
-                </div>
+                </FadeIn>
               ))}
-            </div>
+            </FadeInStagger>
           </section>
 
           {/* Awards & Honors */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Awards & Honors</h2>
-            <ul className="space-y-4">
+            <FadeIn delay={1.1}>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Awards & Honors</h2>
+            </FadeIn>
+            <FadeInStagger className="space-y-4" delay={1.2}>
               {highlights.awards.map((award, i) => (
-                <li key={i}>
+                <FadeIn key={i}>
                   <div className="flex justify-between items-center gap-2">
                     <span className="text-base sm:text-lg font-medium text-foreground">{award.title}</span>
                     <span className="text-xs sm:text-sm text-muted-foreground"> {award.year}</span>
@@ -237,35 +270,39 @@ development challenges in emerging markets.`,
                   <div className="text-xs sm:text-sm text-muted-foreground">
                     {award.organization}
                   </div>
-                </li>
+                </FadeIn>
               ))}
-            </ul>
+            </FadeInStagger>
           </section>
 
           {/* Skills */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Skills</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-base sm:text-lg font-medium text-foreground">Languages</h3>
-                <p className="text-sm sm:text-base text-foreground">{highlights.skills.languages.join(", ")}</p>
+          <FadeIn delay={1.5}>
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Skills</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-base sm:text-lg font-medium text-foreground">Languages</h3>
+                  <p className="text-sm sm:text-base text-foreground">{highlights.skills.languages.join(", ")}</p>
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-medium text-foreground">Programming</h3>
+                  <p className="text-sm sm:text-base text-foreground">{highlights.skills.programming.join(", ")}</p>
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-medium text-foreground">Software</h3>
+                  <p className="text-sm sm:text-base text-foreground">{highlights.skills.software.join(", ")}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-medium text-foreground">Programming</h3>
-                <p className="text-sm sm:text-base text-foreground">{highlights.skills.programming.join(", ")}</p>
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-medium text-foreground">Software</h3>
-                <p className="text-sm sm:text-base text-foreground">{highlights.skills.software.join(", ")}</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          </FadeIn>
 
           {/* Interests */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Interests</h2>
-            <p className="text-sm sm:text-base text-foreground">{highlights.interests.join(", ")}</p>
-          </section>
+          <FadeIn delay={1.6}>
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 pb-2 border-b text-foreground">Interests</h2>
+              <p className="text-sm sm:text-base text-foreground">{highlights.interests.join(", ")}</p>
+            </section>
+          </FadeIn>
         </div>
       </div>
     </main>
