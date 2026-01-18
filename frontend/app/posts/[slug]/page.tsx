@@ -3,14 +3,10 @@ import { notFound } from 'next/navigation'
 import { type PortableTextBlock } from 'next-sanity'
 import { Suspense } from 'react'
 
-import Avatar from '@/app/components/Avatar'
-import CoverImage from '@/app/components/CoverImage'
-import { MorePosts } from '@/app/components/Posts'
-import PortableText from '@/app/components/PortableText'
 import { sanityFetch } from '@/sanity/lib/live'
-import { postPagesSlugs, postQuery } from '@/sanity/lib/queries'
+import { postPagesSlugs, postQuery, morePostsQuery, adjacentPostsQuery } from '@/sanity/lib/queries'
 import { resolveOpenGraphImage } from '@/sanity/lib/utils'
-import { LayoutJournal } from '@/components/note-layouts/layout-journal'
+import { LayoutFigma } from '@/components/note-layouts/layout-figma'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -60,22 +56,43 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 
 export default async function PostPage(props: Props) {
   const params = await props.params
-  const [{ data: post }] = await Promise.all([sanityFetch({ query: postQuery, params })])
+
+  const [{ data: post }, { data: relatedPosts }] = await Promise.all([
+    sanityFetch({ query: postQuery, params }),
+    sanityFetch({ query: morePostsQuery, params: { skip: '', limit: 4 } }),
+  ])
 
   if (!post?._id) {
     return notFound()
   }
 
+  // Filter out current post from related and limit to 3 for the grid
+  const filteredRelated = relatedPosts
+    ?.filter((p: any) => p._id !== post._id)
+    .slice(0, 3)
+    .map((p: any) => ({
+      title: p.title,
+      slug: p.slug,
+      date: p.date,
+      excerpt: p.excerpt,
+      coverImage: p.coverImage,
+      category: p.category,
+    }))
+
   return (
-    <>
-      <LayoutJournal post={post} />
-      <div className="border-t border-border bg-muted/30">
-        <div className="container py-12 lg:py-24 grid gap-12">
-          <aside>
-            <Suspense>{await MorePosts({ skip: post._id, limit: 2 })}</Suspense>
-          </aside>
-        </div>
-      </div>
-    </>
+    <LayoutFigma
+      post={{
+        title: post.title,
+        slug: post.slug,
+        date: post.date,
+        excerpt: post.excerpt || undefined,
+        coverImage: post.coverImage,
+        author: post.author,
+        content: (post.content || []) as PortableTextBlock[],
+        tags: (post as any).tags,
+        category: (post as any).category,
+      }}
+      relatedPosts={filteredRelated}
+    />
   )
 }

@@ -1,4 +1,4 @@
-import {defineQuery} from 'next-sanity'
+import { defineQuery } from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
@@ -11,6 +11,9 @@ const postFields = /* groq */ `
   coverImage,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
+  tags,
+  category,
+
 `
 
 const linkReference = /* groq */ `
@@ -89,6 +92,19 @@ export const postQuery = defineQuery(`
 export const postPagesSlugs = defineQuery(`
   *[_type == "post" && defined(slug.current)]
   {"slug": slug.current}
+`)
+
+export const adjacentPostsQuery = defineQuery(`
+  {
+    "prev": *[_type == "post" && defined(slug.current) && date < $currentDate] | order(date desc) [0] {
+      "title": coalesce(title, "Untitled"),
+      "slug": slug.current
+    },
+    "next": *[_type == "post" && defined(slug.current) && date > $currentDate] | order(date asc) [0] {
+      "title": coalesce(title, "Untitled"),
+      "slug": slug.current
+    }
+  }
 `)
 
 export const pagesSlugs = defineQuery(`

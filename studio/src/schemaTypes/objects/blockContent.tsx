@@ -1,4 +1,4 @@
-import {defineArrayMember, defineType, defineField} from 'sanity'
+import { defineArrayMember, defineType, defineField } from 'sanity'
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -19,7 +19,23 @@ export const blockContent = defineType({
   of: [
     defineArrayMember({
       type: 'block',
+      styles: [
+        { title: 'Normal', value: 'normal' },
+        { title: 'H2', value: 'h2' },
+        { title: 'H3', value: 'h3' },
+        { title: 'H4', value: 'h4' },
+        { title: 'Quote', value: 'blockquote' },
+      ],
+      lists: [
+        { title: 'Bullet', value: 'bullet' },
+        { title: 'Number', value: 'number' },
+      ],
       marks: {
+        decorators: [
+          { title: 'Strong', value: 'strong' },
+          { title: 'Emphasis', value: 'em' },
+          { title: 'Code', value: 'code' },
+        ],
         annotations: [
           {
             name: 'link',
@@ -33,9 +49,9 @@ export const blockContent = defineType({
                 initialValue: 'href',
                 options: {
                   list: [
-                    {title: 'URL', value: 'href'},
-                    {title: 'Page', value: 'page'},
-                    {title: 'Post', value: 'post'},
+                    { title: 'URL', value: 'href' },
+                    { title: 'Page', value: 'page' },
+                    { title: 'Post', value: 'post' },
                   ],
                   layout: 'radio',
                 },
@@ -44,7 +60,7 @@ export const blockContent = defineType({
                 name: 'href',
                 title: 'URL',
                 type: 'url',
-                hidden: ({parent}) => parent?.linkType !== 'href' && parent?.linkType != null,
+                hidden: ({ parent }) => parent?.linkType !== 'href' && parent?.linkType != null,
                 validation: (Rule) =>
                   Rule.custom((value, context: any) => {
                     if (context.parent?.linkType === 'href' && !value) {
@@ -57,8 +73,8 @@ export const blockContent = defineType({
                 name: 'page',
                 title: 'Page',
                 type: 'reference',
-                to: [{type: 'page'}],
-                hidden: ({parent}) => parent?.linkType !== 'page',
+                to: [{ type: 'page' }],
+                hidden: ({ parent }) => parent?.linkType !== 'page',
                 validation: (Rule) =>
                   Rule.custom((value, context: any) => {
                     if (context.parent?.linkType === 'page' && !value) {
@@ -71,8 +87,8 @@ export const blockContent = defineType({
                 name: 'post',
                 title: 'Post',
                 type: 'reference',
-                to: [{type: 'post'}],
-                hidden: ({parent}) => parent?.linkType !== 'post',
+                to: [{ type: 'post' }],
+                hidden: ({ parent }) => parent?.linkType !== 'post',
                 validation: (Rule) =>
                   Rule.custom((value, context: any) => {
                     if (context.parent?.linkType === 'post' && !value) {
@@ -90,6 +106,230 @@ export const blockContent = defineType({
             ],
           },
         ],
+      },
+    }),
+    // Image with caption
+    defineArrayMember({
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO',
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+          description: 'Optional caption displayed below the image',
+        }),
+        defineField({
+          name: 'layout',
+          type: 'string',
+          title: 'Layout',
+          description: 'How the image should be displayed',
+          options: {
+            list: [
+              { title: 'Inline (same width as text)', value: 'inline' },
+              { title: 'Wide (breaks out of text)', value: 'wide' },
+              { title: 'Full Width (edge to edge)', value: 'fullWidth' },
+            ],
+          },
+          initialValue: 'inline',
+        }),
+      ],
+    }),
+    // Side Note (Marginalia)
+    defineArrayMember({
+      type: 'object',
+      name: 'sideNote',
+      title: 'Side Note',
+      fields: [
+        defineField({
+          name: 'content',
+          title: 'Content',
+          type: 'string',
+          description: 'Short note displayed in the side margin',
+          validation: (Rule) => Rule.required().max(200),
+        }),
+        defineField({
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          description: 'Optional title for the note',
+        }),
+      ],
+      preview: {
+        select: {
+          title: 'title',
+          content: 'content',
+        },
+        prepare({ title, content }) {
+          return {
+            title: title || 'Side Note',
+            subtitle: content,
+          }
+        },
+      },
+    }),
+    // Code block
+    defineArrayMember({
+      type: 'object',
+      name: 'codeBlock',
+      title: 'Code Block',
+      fields: [
+        defineField({
+          name: 'language',
+          title: 'Language',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'JavaScript', value: 'javascript' },
+              { title: 'TypeScript', value: 'typescript' },
+              { title: 'Python', value: 'python' },
+              { title: 'HTML', value: 'html' },
+              { title: 'CSS', value: 'css' },
+              { title: 'JSON', value: 'json' },
+              { title: 'Bash', value: 'bash' },
+              { title: 'SQL', value: 'sql' },
+              { title: 'Plain Text', value: 'text' },
+            ],
+          },
+        }),
+        defineField({
+          name: 'code',
+          title: 'Code',
+          type: 'text',
+        }),
+        defineField({
+          name: 'filename',
+          title: 'Filename',
+          type: 'string',
+          description: 'Optional filename to display',
+        }),
+      ],
+      preview: {
+        select: {
+          language: 'language',
+          code: 'code',
+        },
+        prepare({ language, code }) {
+          return {
+            title: language || 'Code Block',
+            subtitle: code?.substring(0, 50) + '...',
+          }
+        },
+      },
+    }),
+    // Map embed (Google Maps, Mapbox, etc.)
+    defineArrayMember({
+      type: 'object',
+      name: 'mapEmbed',
+      title: 'Map Embed',
+      fields: [
+        defineField({
+          name: 'url',
+          title: 'Embed URL',
+          type: 'url',
+          description: 'The embed URL from Google Maps, Mapbox, or other map provider',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'caption',
+          title: 'Caption',
+          type: 'string',
+          description: 'Optional caption displayed below the map',
+        }),
+        defineField({
+          name: 'aspectRatio',
+          title: 'Aspect Ratio',
+          type: 'string',
+          options: {
+            list: [
+              { title: '16:9 (Widescreen)', value: '16/9' },
+              { title: '4:3 (Standard)', value: '4/3' },
+              { title: '1:1 (Square)', value: '1/1' },
+              { title: '21:9 (Ultrawide)', value: '21/9' },
+            ],
+          },
+          initialValue: '16/9',
+        }),
+      ],
+      preview: {
+        select: {
+          url: 'url',
+          caption: 'caption',
+        },
+        prepare({ url, caption }) {
+          return {
+            title: 'Map Embed',
+            subtitle: caption || url?.substring(0, 50),
+          }
+        },
+      },
+    }),
+    // Image Gallery (side-by-side images)
+    defineArrayMember({
+      type: 'object',
+      name: 'imageGallery',
+      title: 'Image Gallery',
+      fields: [
+        defineField({
+          name: 'images',
+          title: 'Images',
+          type: 'array',
+          of: [
+            {
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                defineField({
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alt Text',
+                }),
+              ],
+            },
+          ],
+          validation: (Rule) => Rule.min(2).max(4),
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+          description: 'Optional caption for the gallery',
+        }),
+        defineField({
+          name: 'layout',
+          type: 'string',
+          title: 'Layout',
+          description: 'Layout style for the gallery',
+          options: {
+            list: [
+              { title: 'Standard (Grid)', value: 'standard' },
+              { title: 'Staggered (Abstract)', value: 'staggered' },
+            ],
+          },
+          initialValue: 'standard',
+        }),
+      ],
+      preview: {
+        select: {
+          images: 'images',
+          caption: 'caption',
+        },
+        prepare({ images, caption }) {
+          return {
+            title: `Gallery (${images?.length || 0} images)`,
+            subtitle: caption || 'No caption',
+          }
+        },
       },
     }),
   ],

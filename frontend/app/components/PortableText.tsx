@@ -1,15 +1,11 @@
 /**
  * This component uses Portable Text to render a post body.
- *
- * You can learn more about Portable Text on:
- * https://www.sanity.io/docs/block-content
- * https://github.com/portabletext/react-portabletext
- * https://portabletext.org/
- *
+ * Uses custom article-content CSS class for typography styling.
  */
 
-import {PortableText, type PortableTextComponents, type PortableTextBlock} from 'next-sanity'
-
+import { PortableText, type PortableTextComponents, type PortableTextBlock } from 'next-sanity'
+import Image from 'next/image'
+import { urlForImage } from '@/sanity/lib/utils'
 import ResolvedLink from '@/app/components/ResolvedLink'
 
 export default function CustomPortableText({
@@ -21,68 +17,173 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
-      h1: ({children, value}) => (
-        // Add an anchor to the h1
-        <h1 className="group relative">
-          {children}
-          <a
-            href={`#${value?._key}`}
-            className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-              />
-            </svg>
-          </a>
-        </h1>
-      ),
-      h2: ({children, value}) => {
-        // Add an anchor to the h2
-        return (
-          <h2 className="group relative">
-            {children}
-            <a
-              href={`#${value?._key}`}
-              className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                />
-              </svg>
-            </a>
-          </h2>
-        )
-      },
+      h1: ({ children }) => <h1>{children}</h1>,
+      h2: ({ children }) => <h2>{children}</h2>,
+      h3: ({ children }) => <h3>{children}</h3>,
+      h4: ({ children }) => <h4>{children}</h4>,
+      normal: ({ children }) => <p>{children}</p>,
+      blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+    },
+    list: {
+      bullet: ({ children }) => <ul>{children}</ul>,
+      number: ({ children }) => <ol>{children}</ol>,
+    },
+    listItem: {
+      bullet: ({ children }) => <li>{children}</li>,
+      number: ({ children }) => <li>{children}</li>,
     },
     marks: {
-      link: ({children, value: link}) => {
+      link: ({ children, value: link }) => {
         return <ResolvedLink link={link}>{children}</ResolvedLink>
+      },
+      strong: ({ children }) => <strong>{children}</strong>,
+      em: ({ children }) => <em>{children}</em>,
+      code: ({ children }) => <code>{children}</code>,
+    },
+    types: {
+      // Image with layout options
+      image: ({ value }) => {
+        const imageUrl = urlForImage(value)?.url()
+        if (!imageUrl) return null
+
+        const layout = value.layout || 'inline'
+        const layoutClass = ({
+          inline: 'img-inline',
+          wide: 'img-wide',
+          fullWidth: 'img-full',
+        } as const)[layout as 'inline' | 'wide' | 'fullWidth'] || 'img-inline'
+
+        return (
+          <figure className={layoutClass}>
+            <div className="relative aspect-video w-full overflow-hidden rounded border border-border bg-muted">
+              <Image
+                src={imageUrl}
+                alt={value.alt || ''}
+                fill
+                className="object-cover"
+              />
+            </div>
+            {value.caption && (
+              <figcaption className="mt-3 text-center text-sm text-muted-foreground">
+                {value.caption}
+              </figcaption>
+            )}
+          </figure>
+        )
+      },
+      // Side note renderer
+      sideNote: ({ value }) => {
+        return (
+          <aside className="my-8 rounded-lg border-l-4 border-primary/30 bg-muted/30 p-4 lg:float-right lg:ml-8 lg:w-48 lg:clear-both">
+            {value.title && <h5 className="mb-2 font-semibold text-sm uppercase tracking-wide text-primary">{value.title}</h5>}
+            <div className="text-sm text-muted-foreground leading-relaxed">
+              {value.content}
+            </div>
+          </aside>
+        )
+      },
+      // Updated Image Gallery with Staggered Support
+      imageGallery: ({ value }) => {
+        const isStaggered = value.layout === 'staggered'
+
+        if (isStaggered) {
+          return (
+            <div className="my-12 grid grid-cols-2 gap-4 lg:gap-8">
+              {value.images.map((image: any, i: number) => {
+                const imageUrl = urlForImage(image)?.url()
+                return (
+                  <div key={image._key || i} className={`relative aspect-[3/4] overflow-hidden rounded-lg bg-muted ${i % 2 === 1 ? 'mt-12' : ''}`}>
+                    {imageUrl && (
+                      <Image
+                        src={imageUrl}
+                        alt={image.alt || ''}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        }
+
+        return (
+          <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {value.images.map((image: any) => {
+              const imageUrl = urlForImage(image)?.url()
+              return (
+                <figure key={image._key} className="relative aspect-[4/3] overflow-hidden rounded-lg bg-muted">
+                  {imageUrl && (
+                    <Image
+                      src={imageUrl}
+                      alt={image.alt || ''}
+                      fill
+                      className="object-cover transition-transform hover:scale-105"
+                    />
+                  )}
+                </figure>
+              )
+            })}
+            {value.caption && (
+              <figcaption className="col-span-full mt-2 text-center text-sm text-muted-foreground">
+                {value.caption}
+              </figcaption>
+            )}
+          </div>
+        )
+      },
+      // Code block
+      codeBlock: ({ value }) => {
+        return (
+          <figure className="my-6">
+            {value.filename && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-muted border border-border border-b-0 rounded-t">
+                <span className="font-mono text-xs text-muted-foreground">{value.filename}</span>
+              </div>
+            )}
+            <pre className={`bg-muted border border-border p-4 overflow-x-auto ${value.filename ? 'rounded-b' : 'rounded'}`}>
+              <code className="font-mono text-sm">
+                {value.code}
+              </code>
+            </pre>
+          </figure>
+        )
+      },
+      // Map embed
+      mapEmbed: ({ value }) => {
+        const aspectRatioMap: Record<string, string> = {
+          '16/9': 'aspect-video',
+          '4/3': 'aspect-[4/3]',
+          '1/1': 'aspect-square',
+          '21/9': 'aspect-[21/9]',
+        }
+        const aspectRatioClass = aspectRatioMap[value.aspectRatio] || 'aspect-video'
+
+        return (
+          <figure className="img-wide">
+            <div className={`relative w-full ${aspectRatioClass} overflow-hidden rounded border border-border bg-muted`}>
+              <iframe
+                src={value.url}
+                className="absolute inset-0 w-full h-full"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+            {value.caption && (
+              <figcaption className="mt-3 text-center text-sm text-muted-foreground">
+                {value.caption}
+              </figcaption>
+            )}
+          </figure>
+        )
       },
     },
   }
 
   return (
-    <div className={['prose prose-a:text-brand', className].filter(Boolean).join(' ')}>
+    <div className={className}>
       <PortableText components={components} value={value} />
     </div>
   )
