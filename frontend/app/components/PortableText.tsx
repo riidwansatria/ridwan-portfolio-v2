@@ -80,10 +80,10 @@ export default function CustomPortableText({
           <aside
             className={`
               relative my-6 pt-4 border-t border-border
-              lg:absolute lg:my-0 lg:w-[33.33%]
+              lg:absolute lg:my-0 lg:w-[33.33%] lg:-mt-4
               ${isLeft
-                ? 'lg:right-[calc(100%+2rem)] lg:text-right lg:pt-4 lg:border-t'
-                : 'lg:left-[calc(100%+2rem)] lg:pt-4 lg:border-t'}
+                ? 'lg:right-[calc(100%+2rem)] lg:text-right'
+                : 'lg:left-[calc(100%+2rem)]'}
             `}
           >
             {value.title && (
@@ -91,7 +91,7 @@ export default function CustomPortableText({
                 {value.title}
               </h5>
             )}
-            <div className="text-base text-muted-foreground leading-relaxed">
+            <div className="text-lg text-muted-foreground leading-[1.75]">
               {value.content}
             </div>
           </aside>
