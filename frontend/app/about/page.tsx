@@ -188,7 +188,7 @@ development challenges in emerging markets.`,
         </div>
 
         {/* Right section */}
-        <div className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto scrollbar-hide">
+        <div id="about-scroll-container" className="flex-1 flex flex-col gap-12 px-4 sm:px-12 py-12 md:py-20 border-t md:border-t-0 md:border-l overflow-y-auto scrollbar-hide">
           {/* About */}
           <FadeIn delay={0.3}>
             <section>

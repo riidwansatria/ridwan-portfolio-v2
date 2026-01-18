@@ -12,6 +12,17 @@ export default function Footer() {
   }
 
   const scrollToTop = () => {
+    // Check for About page's custom scroll container
+    const aboutScrollContainer = document.getElementById('about-scroll-container')
+    if (aboutScrollContainer) {
+      aboutScrollContainer.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+      return
+    }
+
+    // Default: scroll the window
     window.scrollTo({
       top: 0,
       behavior: "smooth",
