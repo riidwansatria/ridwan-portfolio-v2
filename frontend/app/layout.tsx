@@ -70,7 +70,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled: isDraftMode } = await draftMode()
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${publicSans.variable} ${plusJakarta.variable} bg-white text-black`}>
+    <html lang="en" suppressHydrationWarning className={`${publicSans.variable} ${plusJakarta.variable} bg-white text-black scroll-smooth`}>
       <body>
         <ThemeProvider
           attribute="class"

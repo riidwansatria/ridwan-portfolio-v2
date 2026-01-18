@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
 import { ProjectCard } from "@/components/project-card"
 import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
+import { TextEffect } from "@/components/motion-primitives/text-effect"
 
 export default async function Page() {
   const { data: settings } = await sanityFetch({
@@ -76,27 +77,57 @@ export default async function Page() {
           {/* Hero main */}
           <div className="flex flex-1 items-center">
             <div className="max-w-5xl text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4">
-                <span className="text-2xl md:text-3xl lg:text-5xl">Hey there! 👋{" "}</span>
-                <br />
-                I&apos;m Ridwan, Transportation & Urban Policy student at the University of Tokyo.
-              </h1>
-              <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
-                Welcome to my personal website. This site will be used as a
-                platform to share my <br /> thoughts and showcase the projects that I&apos;m
-                currently doing/I&apos;ve done in the past.
-              </p>
-              <p className="text-sm md:text-base text-muted-foreground pt-2">
-                🚧 This website is still heavily under construction.
-              </p>
-              <div className="inline-flex space-x-2 py-6">
-                <Button asChild>
-                  <Link href="/about">About me</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link href="/notes">Notes</Link>
-                </Button>
-              </div>
+              {/* Greeting */}
+              <TextEffect
+                per="word"
+                preset="fade-in-blur"
+                delay={0.1}
+                speedReveal={1.5}
+                as="span"
+                className="text-2xl md:text-3xl lg:text-5xl text-foreground font-semibold tracking-tight block mb-2"
+              >
+                Hey there! 👋
+              </TextEffect>
+
+              {/* Main headline */}
+              <TextEffect
+                per="word"
+                preset="fade-in-blur"
+                delay={0.5}
+                speedReveal={1.2}
+                as="h1"
+                className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4"
+              >
+                I'm Ridwan, Transportation & Urban Policy student at the University of Tokyo.
+              </TextEffect>
+
+              {/* Bio */}
+              <FadeIn delay={1.2}>
+                <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
+                  Welcome to my personal website. This site will be used as a
+                  platform to share my <br /> thoughts and showcase the projects that I&apos;m
+                  currently doing/I&apos;ve done in the past.
+                </p>
+              </FadeIn>
+
+              {/* Under construction notice */}
+              <FadeIn delay={1.4}>
+                <p className="text-sm md:text-base text-muted-foreground pt-2">
+                  🚧 This website is still heavily under construction.
+                </p>
+              </FadeIn>
+
+              {/* Buttons */}
+              <FadeIn delay={1.6}>
+                <div className="inline-flex space-x-2 py-6">
+                  <Button asChild>
+                    <Link href="/about">About me</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/notes">Notes</Link>
+                  </Button>
+                </div>
+              </FadeIn>
             </div>
           </div>
 
@@ -133,12 +164,21 @@ export default async function Page() {
       </div>
 
       {/* Projects section */}
-      <div id="projects" className='px-4 sm:px-12 py-20 border-t'>
+      <section id="projects" className='px-4 sm:px-12 py-24 border-t'>
         <FadeIn>
-          <div className="mb-8 border-b-0 flex justify-between items-center">
+          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
             <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
               Featured Projects
             </h2>
+            <div className="flex">
+              <Link
+                href="/projects"
+                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
+              >
+                <p className="mr-1 text-xs md:text-sm font-mono">View all</p>
+                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </FadeIn>
 
@@ -149,52 +189,50 @@ export default async function Page() {
             </FadeIn>
           ))}
         </FadeInStagger>
-      </div>
+      </section>
 
       {/* Notes section */}
-      <div id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
-        <section className="">
-          <div className="">
-            <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
-              <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-                Latest Notes
-              </h2>
-              <div className="flex">
-                <Link
-                  href="/notes"
-                  className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
-                >
-                  <p className="mr-1 text-xs md:text-sm">Read all</p>
-                  <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
+      <section id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
+        <FadeIn>
+          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
+            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
+              Latest Notes
+            </h2>
+            <div className="flex">
+              <Link
+                href="/notes"
+                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
+              >
+                <p className="mr-1 text-xs md:text-sm font-mono">Read all</p>
+                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
-
-            <FadeInStagger className="border-b">
-              {posts.map(post => {
-                const title = post.title || post.slug
-
-                return (
-                  <FadeIn key={post.slug}>
-                    <article
-                      className="post-list-item"
-                      itemScope
-                      itemType="http://schema.org/Article"
-                    >
-                      <Link href={`/notes/${post.slug}`} itemProp="url">
-                        <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
-                          <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
-                          <small className="text-muted-foreground">{post.date}</small>
-                        </div>
-                      </Link>
-                    </article>
-                  </FadeIn>
-                )
-              })}
-            </FadeInStagger>
           </div>
-        </section>
-      </div>
+        </FadeIn>
+
+        <FadeInStagger className="border-b">
+          {posts.map(post => {
+            const title = post.title || post.slug
+
+            return (
+              <FadeIn key={post.slug}>
+                <article
+                  className="post-list-item"
+                  itemScope
+                  itemType="http://schema.org/Article"
+                >
+                  <Link href={`/notes/${post.slug}`} itemProp="url">
+                    <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
+                      <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
+                      <small className="text-muted-foreground">{post.date}</small>
+                    </div>
+                  </Link>
+                </article>
+              </FadeIn>
+            )
+          })}
+        </FadeInStagger>
+      </section>
     </>
   )
 }
