@@ -26,7 +26,7 @@ interface Post {
     category?: string
 }
 
-interface FigmaLayoutProps {
+interface ArticleLayoutProps {
     post: Post
     relatedPosts?: {
         title: string
@@ -44,7 +44,7 @@ import { FadeInStagger, FadeIn, ScaleIn } from "@/components/visual/motion-primi
 
 // ... interfaces remain the same
 
-export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
+export function LayoutArticle({ post, relatedPosts }: ArticleLayoutProps) {
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
