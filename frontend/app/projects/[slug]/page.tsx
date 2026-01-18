@@ -1,18 +1,16 @@
 import { notFound } from "next/navigation"
-import { SplitLayout, type ProjectData } from "@/components/project-layouts/layout-split"
-import { EditorialLayout } from "@/components/project-layouts/layout-editorial"
-import { ConciseLayout } from "@/components/project-layouts/layout-concise"
-import { MapLayout } from "@/components/project-layouts/layout-map"
+import { ShowcaseLayout } from "@/components/project-layouts/layout-showcase"
+import type { ProjectData } from "@/components/project-layouts/_archive/layout-split"
 
 interface Project extends ProjectData {
-    template: 'split' | 'editorial' | 'map' | 'concise'
+  template: 'showcase'
 }
 
 const projects: Project[] = [
   {
     id: "1",
     slug: "jakarta-demography",
-    template: "concise",
+    template: "showcase",
     title: "Visualizing Jakarta's Demography",
     subtitle: "Uncovering socio-economic patterns in Indonesia's capital.",
     description: "Using GeoPandas and census data to map demographic shifts across Jakarta's 44 districts. Interactive choropleths reveal 'hollowing out' trends in central areas versus peripheral growth, helping planners identify priority zones for infrastructure investment.",
@@ -41,7 +39,7 @@ const projects: Project[] = [
   {
     id: "2",
     slug: "transit-network-analysis",
-    template: "concise",
+    template: "showcase",
     title: "Transit Network Analysis",
     subtitle: "Evaluating urban accessibility in public transportation.",
     description: "Analyzing bus network accessibility using GTFS data to compute travel-time isochrones and network centrality. Despite high stop density, poor transfer integration creates significant time penalties for peripheral communities, indicating need for route restructuring.",
@@ -70,7 +68,7 @@ const projects: Project[] = [
   {
     id: "3",
     slug: "bus-operations-optimization",
-    template: "concise",
+    template: "showcase",
     title: "Optimizing Bus Operations",
     subtitle: "Route adherence analytics for Maputo's transit fleet.",
     description: "A reporting tool processing millions of GPS probe points from Maputo's municipal fleet to monitor schedule adherence. Detects bunching, identifies bottlenecks, and generates automated reports enabling dynamic vehicle reassignment for consistent headways.",
@@ -99,7 +97,7 @@ const projects: Project[] = [
   {
     id: "4",
     slug: "jakarta-flood-warning",
-    template: "concise",
+    template: "showcase",
     title: "TOD-Induced Gentrification Analysis",
     subtitle: "Identifying displacement risks in new transit corridors.",
     description: "Creating a Gentrification Vulnerability Index for Jakarta's MRT corridor using housing prices and socio-economic variables. Maps high-risk neighborhoods and proposes value capture and inclusionary zoning policies to ensure equitable distribution of mobility benefits.",
@@ -128,7 +126,7 @@ const projects: Project[] = [
   {
     id: "5",
     slug: "land-use-visualization",
-    template: "map",
+    template: "showcase",
     title: "Aerial Imagery & Land Use Tool",
     subtitle: "Interactive zoning and master planning visualization.",
     description: "A web-based tool combining historical aerial imagery with vector land-use overlays for master planning. Enables toggling temporal datasets, measuring parcel consolidation, and sketching zoning proposals directly on the map.",
@@ -156,7 +154,7 @@ const projects: Project[] = [
   {
     id: "6",
     slug: "nmt-mobility-strategies",
-    template: "concise",
+    template: "showcase",
     title: "Non-Motorized Transport Strategies",
     subtitle: "Reclaiming streets for walking and cycling.",
     description: "Formulating a Non-Motorized Transport strategy for Jakarta's '15-minute city' vision. Proposes connected protected bike lanes, widened sidewalks, and micro-mobility hubs based on international best practices to shift modal share from private vehicles.",
@@ -183,7 +181,7 @@ const projects: Project[] = [
   {
     id: "7",
     slug: "satellite-pollution-monitor",
-    template: "map",
+    template: "showcase",
     title: "Satellite Pollution Monitor",
     subtitle: "Near real-time air quality monitoring.",
     description: "A WebGIS dashboard monitoring NO2 levels across Southeast Asia using Sentinel-5P satellite data. Features time-series analysis and comparative tools to visualize policy impacts on air quality.",
@@ -213,25 +211,16 @@ const projects: Project[] = [
 ]
 
 const getProject = (slug: string): Project | undefined => {
-    return projects.find((p) => p.slug === slug)
+  return projects.find((p) => p.slug === slug)
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params
-    const project = getProject(slug)
+  const { slug } = await params
+  const project = getProject(slug)
 
-    if (!project) {
-        notFound()
-    }
+  if (!project) {
+    notFound()
+  }
 
-    switch (project.template) {
-        case 'editorial':
-            return <EditorialLayout project={project} />
-        case 'concise':
-            return <ConciseLayout project={project} />
-        case 'map':
-            return <MapLayout project={project} />
-        default:
-            return <SplitLayout project={project} />
-    }
+  return <ShowcaseLayout project={project} />
 }

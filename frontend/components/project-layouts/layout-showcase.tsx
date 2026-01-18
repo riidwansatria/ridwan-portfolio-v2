@@ -8,9 +8,9 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight, ExternalLink, Github, LayoutGrid } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { ProjectData } from "./layout-split"
+import type { ProjectData } from "./_archive/layout-split"
 
-export function ConciseLayout({ project }: { project: ProjectData }) {
+export function ShowcaseLayout({ project }: { project: ProjectData }) {
     // Fix for "jump" on refresh: Force scroll to top on mount to prevent browser scroll restoration
     // interfering with the fixed layout.
     useEffect(() => {
