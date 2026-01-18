@@ -165,24 +165,32 @@ export function LayoutFigma({ post, relatedPosts }: FigmaLayoutProps) {
                 </div>
             </header>
 
-            {/* Excerpt Section */}
-            <div className="py-16 px-6 md:px-12 lg:px-24">
-                <div className="max-w-3xl mx-auto">
+            {/* Excerpt Section - Same width as article */}
+            <div className="py-16 px-4 md:px-8 lg:px-12">
+                <div className="max-w-[100rem] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] gap-6">
+                    <div className="hidden lg:block" />
                     <p className="text-2xl md:text-3xl text-foreground font-semibold font-stretch-extra-condensed">
                         {post.excerpt}
                     </p>
+                    <div className="hidden lg:block" />
                 </div>
             </div>
 
-            {/* Main Content Area */}
-            <div className="px-6 md:px-12 pb-40">
-                {/* Article Text */}
-                <div className="max-w-3xl mx-auto">
-                    <main className="article-content">
+            {/* Main Content Area - 1:3:1 Grid for Marginalia */}
+            <div className="px-4 md:px-8 lg:px-12 pb-40">
+                <div className="max-w-[100rem] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] gap-x-8">
+                    {/* Left Margin */}
+                    <div className="hidden lg:block" />
+
+                    {/* Center Column - Article Content */}
+                    <main className="article-content relative">
                         {post.content && (
                             <PortableText value={post.content} />
                         )}
                     </main>
+
+                    {/* Right Margin */}
+                    <div className="hidden lg:block" />
                 </div>
             </div>
 

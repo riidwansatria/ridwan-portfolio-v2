@@ -147,38 +147,40 @@
 }
 
 .article-content h1 {
-  font-size: 2.25rem;
+  font-size: 3rem;
   font-weight: 700;
-  line-height: 1.2;
+  font-stretch: extra-condensed;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   margin-top: 0;
   margin-bottom: 1rem;
 }
 
 .article-content h2 {
-  font-size: 1.75rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1.3;
+  font-stretch: extra-condensed;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .article-content h3 {
-  font-size: 1.375rem;
+  font-size: 2rem;
   font-weight: 600;
-  line-height: 1.4;
+  font-stretch: extra-condensed;
+  line-height: 1.3;
   letter-spacing: -0.01em;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
 }
 
 .article-content h4 {
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.5;
+  font-stretch: extra-condensed;
+  line-height: 1.4;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }

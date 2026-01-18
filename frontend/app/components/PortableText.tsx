@@ -71,12 +71,27 @@ export default function CustomPortableText({
           </figure>
         )
       },
-      // Side note renderer
+      // Side note renderer - Absolute positioned in margin
       sideNote: ({ value }) => {
+        const isLeft = value.position === 'left'
+        // Position: 33.33% of content width (since content is 3fr in 1:3:1 grid)
+        // Left side: right edge at -33% - gap, Right side: left edge at 100% + gap
         return (
-          <aside className="my-8 rounded-lg border-l-4 border-primary/30 bg-muted/30 p-4 lg:float-right lg:ml-8 lg:w-48 lg:clear-both">
-            {value.title && <h5 className="mb-2 font-semibold text-sm uppercase tracking-wide text-primary">{value.title}</h5>}
-            <div className="text-sm text-muted-foreground leading-relaxed">
+          <aside
+            className={`
+              relative my-6 pt-4 border-t border-border
+              lg:absolute lg:my-0 lg:w-[33.33%]
+              ${isLeft
+                ? 'lg:right-[calc(100%+2rem)] lg:text-right lg:pt-4 lg:border-t'
+                : 'lg:left-[calc(100%+2rem)] lg:pt-4 lg:border-t'}
+            `}
+          >
+            {value.title && (
+              <h5 className="mb-2 font-semibold text-xs uppercase tracking-widest text-primary">
+                {value.title}
+              </h5>
+            )}
+            <div className="text-base text-muted-foreground leading-relaxed">
               {value.content}
             </div>
           </aside>

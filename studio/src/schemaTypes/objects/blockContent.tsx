@@ -153,8 +153,8 @@ export const blockContent = defineType({
           name: 'content',
           title: 'Content',
           type: 'string',
-          description: 'Short note displayed in the side margin',
-          validation: (Rule) => Rule.required().max(200),
+          description: 'Note displayed in the side margin',
+          validation: (Rule) => Rule.required().max(300),
         }),
         defineField({
           name: 'title',
@@ -162,16 +162,30 @@ export const blockContent = defineType({
           type: 'string',
           description: 'Optional title for the note',
         }),
+        defineField({
+          name: 'position',
+          title: 'Position',
+          type: 'string',
+          description: 'Which side to display the note',
+          options: {
+            list: [
+              { title: 'Right', value: 'right' },
+              { title: 'Left', value: 'left' },
+            ],
+          },
+          initialValue: 'right',
+        }),
       ],
       preview: {
         select: {
           title: 'title',
           content: 'content',
+          position: 'position',
         },
-        prepare({ title, content }) {
+        prepare({ title, content, position }) {
           return {
             title: title || 'Side Note',
-            subtitle: content,
+            subtitle: `[${position || 'right'}] ${content}`,
           }
         },
       },
