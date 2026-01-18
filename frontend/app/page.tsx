@@ -1,49 +1,45 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import {settingsQuery} from '@/sanity/lib/queries'
-import {sanityFetch} from '@/sanity/lib/live'
+import { settingsQuery } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
+import { ProjectCard } from "@/components/project-card"
+import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
+import { TextEffect } from "@/components/motion-primitives/text-effect"
+import { ScrollLink } from "@/components/scroll-link"
 
 export default async function Page() {
-  const {data: settings} = await sanityFetch({
+  const { data: settings } = await sanityFetch({
     query: settingsQuery,
   })
 
   const projects = [
     {
-      id: 1,
-      slug: "a",
+      id: "1",
+      slug: "jakarta-demography",
       image: 'https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg',
       title: "Visualizing Jakarta's Demography",
-      excerpt: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
-      category: {
-        name: "Geopandas",
-        color: "#22c55e"
-      },
+      description: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
+      year: "2024",
+      tags: [{ name: "Geopandas", color: "#22c55e" }],
     },
     {
-      id: 2,
-      slug: "b",
+      id: "2",
+      slug: "transit-network-analysis",
       image: 'https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg',
       title: 'Transit Network Analysis',
-      excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
-      category: {
-        name: "R",
-        color: "#4295ee" 
-      },
+      description: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
+      year: "2023",
+      tags: [{ name: "R", color: "#4295ee" }],
     },
     {
-      id: 3,
-      slug: "c",
+      id: "3",
+      slug: "bus-operations",
       image: 'https://images.pexels.com/photos/6091193/pexels-photo-6091193.jpeg',
       title: 'Optimizing Bus Operations',
-      excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
-      category: {
-        name: "Streamlit",
-        color: "#e79e2a"
-      },
+      description: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
+      year: "2023",
+      tags: [{ name: "Streamlit", color: "#e79e2a" }],
     },
   ];
 
@@ -82,27 +78,57 @@ export default async function Page() {
           {/* Hero main */}
           <div className="flex flex-1 items-center">
             <div className="max-w-5xl text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4">
-                <span className="text-2xl md:text-3xl lg:text-5xl">Hey there! 👋{" "}</span>
-                <br />
-                I&apos;m Ridwan, Transportation & Urban Policy student at the University of Tokyo.
-              </h1>
-              <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
-                Welcome to my personal website. This site will be used as a
-                platform to share my <br /> thoughts and showcase the projects that I&apos;m
-                currently doing/I&apos;ve done in the past.
-              </p>
-              <p className="text-sm md:text-base text-muted-foreground pt-2">
-                🚧 This website is still heavily under construction.
-              </p>
-              <div className="inline-flex space-x-2 py-6">
-                <Button asChild>
-                  <Link href="/about">About me</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link href="/notes">Notes</Link>
-                </Button>
-              </div>
+              {/* Greeting */}
+              <TextEffect
+                per="word"
+                preset="fade-in-blur"
+                delay={0.1}
+                speedReveal={1.5}
+                as="span"
+                className="text-2xl md:text-3xl lg:text-5xl text-foreground font-semibold tracking-tight block mb-2"
+              >
+                Hey there! 👋
+              </TextEffect>
+
+              {/* Main headline */}
+              <TextEffect
+                per="word"
+                preset="fade-in-blur"
+                delay={0.5}
+                speedReveal={1.2}
+                as="h1"
+                className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4"
+              >
+                I'm Ridwan, Transportation & Urban Policy student at the University of Tokyo.
+              </TextEffect>
+
+              {/* Bio */}
+              <FadeIn delay={1.2}>
+                <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
+                  Welcome to my personal website. This site will be used as a
+                  platform to share my <br /> thoughts and showcase the projects that I&apos;m
+                  currently doing/I&apos;ve done in the past.
+                </p>
+              </FadeIn>
+
+              {/* Under construction notice */}
+              <FadeIn delay={1.4}>
+                <p className="text-sm md:text-base text-muted-foreground pt-2">
+                  🚧 This website is still heavily under construction.
+                </p>
+              </FadeIn>
+
+              {/* Buttons */}
+              <FadeIn delay={1.6}>
+                <div className="inline-flex space-x-2 py-6">
+                  <Button asChild>
+                    <Link href="/about">About me</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/notes">Notes</Link>
+                  </Button>
+                </div>
+              </FadeIn>
             </div>
           </div>
 
@@ -130,99 +156,84 @@ export default async function Page() {
               Based in Tokyo, Japan
             </span>
             <div className="flex">
-              <Button asChild variant="link" className="text-xs md:text-sm text-muted-foreground p-0">
-                <Link href="#projects">Selected Projects ↓</Link>
-              </Button>
+              <ScrollLink targetId="projects" className="text-xs md:text-sm text-muted-foreground p-0">
+                Featured Projects ↓
+              </ScrollLink>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Projects section */}
-      <div id="projects" className='px-4 sm:px-12 py-20 border-t'>
-        <div className="mb-8 border-b-0 flex justify-between items-center">
-          <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-            Selected Projects
-          </h2>
-        </div>
-        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
-          {projects.map((project) => {
-            return (
-              <div key={project.id} className="flex flex-col rounded-md overflow-hidden border">
-                <div className="relative aspect-[3/2]">
-                  <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill
-                    className="object-cover object-center shadow-xs" 
-                  />
-                </div>
-                <div className='p-4 bg-card'>
-                  <h3 className="text-lg/snug font-semibold text-card-foreground hover:opacity-70">
-                    <a href={project.slug}>{project.title}</a>
-                  </h3>
-                  <div className="mt-2 inline-flex items-center gap-4">
-                    <Badge
-                    style={{
-                      backgroundColor: `${project.category.color}20`, 
-                      border: `0.5px solid ${project.category.color}`,
-                      color: `${project.category.color}`,
-                      boxShadow: "none", 
-                    }}
-                  >
-                    {project.category.name}
-                  </Badge>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <section id="projects" className='px-4 sm:px-12 py-24 border-t'>
+        <FadeIn>
+          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
+            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
+              Featured Projects
+            </h2>
+            <div className="flex">
+              <Link
+                href="/projects"
+                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
+              >
+                <p className="mr-1 text-xs md:text-sm font-mono">View all</p>
+                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeInStagger className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
+          {projects.map((project) => (
+            <FadeIn key={project.id}>
+              <ProjectCard project={project} />
+            </FadeIn>
+          ))}
+        </FadeInStagger>
+      </section>
 
       {/* Notes section */}
-      <div id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
-        <section className="">
-          <div className="">
-            <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
-              <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-                Latest Notes
-              </h2>
-              <div className="flex">
-                <Link
-                  href="/notes"
-                  className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
-                >
-                  <p className="mr-1 text-xs md:text-sm">Read all</p>
-                  <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
+      <section id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
+        <FadeIn>
+          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
+            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
+              Latest Notes
+            </h2>
+            <div className="flex">
+              <Link
+                href="/notes"
+                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
+              >
+                <p className="mr-1 text-xs md:text-sm font-mono">Read all</p>
+                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
-            <ol style={{ listStyle: `none` }} className="border-b">
-              {posts.map(post => {
-                const title = post.title || post.slug
-
-                return (
-                  <li key={post.slug}>
-                    <article
-                      className="post-list-item"
-                      itemScope
-                      itemType="http://schema.org/Article"
-                    >
-                      <Link href={`/notes/${post.slug}`} itemProp="url">
-                        <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
-                          <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
-                          <small className="text-muted-foreground">{post.date}</small>
-                        </div>
-                      </Link>
-                    </article>
-                  </li>
-                )
-              })}
-            </ol>
           </div>
-        </section>
-      </div>
+        </FadeIn>
+
+        <FadeInStagger className="border-b">
+          {posts.map(post => {
+            const title = post.title || post.slug
+
+            return (
+              <FadeIn key={post.slug}>
+                <article
+                  className="post-list-item"
+                  itemScope
+                  itemType="http://schema.org/Article"
+                >
+                  <Link href={`/notes/${post.slug}`} itemProp="url">
+                    <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
+                      <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
+                      <small className="text-muted-foreground">{post.date}</small>
+                    </div>
+                  </Link>
+                </article>
+              </FadeIn>
+            )
+          })}
+        </FadeInStagger>
+      </section>
     </>
   )
 }

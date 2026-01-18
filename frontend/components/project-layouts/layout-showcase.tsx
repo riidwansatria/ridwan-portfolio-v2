@@ -1,21 +1,31 @@
 "use client"
 
+import { TransitionLink } from "@/components/ui/transition-link"
+import { FadeIn, FadeInStagger, ScaleIn } from "@/components/visual/motion-primitives"
+import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, ExternalLink, Github, LayoutGrid } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { ProjectData } from "./layout-split"
+import type { ProjectData } from "./_archive/layout-split"
 
-export function ConciseLayout({ project }: { project: ProjectData }) {
+export function ShowcaseLayout({ project }: { project: ProjectData }) {
+    // Fix for "jump" on refresh: Force scroll to top on mount to prevent browser scroll restoration
+    // interfering with the fixed layout.
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
-        <div className="w-full min-h-[calc(100vh-5rem)] bg-background text-foreground px-4 py-8 md:px-6 lg:px-8 md:fixed md:inset-x-0 md:bottom-0 md:top-20 md:z-40 md:overflow-hidden md:flex md:flex-col md:py-6 lg:py-8">
+        // Changed from fixed to standard flow to prevent stacking context issues with framer-motion transforms
+        <div className="w-full bg-background text-foreground px-4 py-8 md:px-6 lg:px-8 md:h-[calc(100vh-5rem)] md:overflow-hidden md:flex md:flex-col md:pb-8">
 
-            {/* Bento Grid Container */}
-            <main className="flex flex-col gap-6 md:grid md:grid-cols-12 md:grid-rows-12 md:gap-4 md:min-h-0 md:flex-1">
+            {/* Bento Grid Container - Wrapped in Stagger */}
+            <FadeInStagger className="flex flex-col gap-6 md:grid md:grid-cols-12 md:grid-rows-12 md:gap-4 md:min-h-0 md:flex-1">
 
                 {/* 1. Main Visual (Large) */}
-                <div className="relative rounded-2xl overflow-hidden border border-border bg-muted group aspect-video md:aspect-auto md:h-full md:col-span-8 md:row-span-12 flex flex-col">
+                <ScaleIn className="relative rounded-2xl overflow-hidden border border-border bg-muted group aspect-video md:aspect-auto md:h-full md:col-span-8 md:row-span-12 flex flex-col">
                     {/* Window Frame Header */}
                     <div className="absolute top-0 inset-x-0 h-8 bg-black/20 backdrop-blur-md z-10 flex items-center px-4 border-b border-white/10">
                         <div className="flex gap-1.5">
@@ -35,24 +45,25 @@ export function ConciseLayout({ project }: { project: ProjectData }) {
                         className="object-cover"
                         priority
                     />
-                </div>
+                </ScaleIn>
 
                 {/* 2. Right Column: Control Panel (Flex Container) */}
                 <div className="flex flex-col gap-4 md:h-full md:min-h-0 md:col-span-4 md:row-span-12">
 
                     {/* 2a. Navigation & Metadata */}
-                    <div className="shrink-0 flex items-center justify-between px-1">
-                        <Link
+                    <FadeIn className="shrink-0 flex items-center justify-between px-1">
+                        <TransitionLink
                             href="/projects"
+                            transition="back"
                             className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors group"
                         >
                             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
                             <span>Back to Projects</span>
-                        </Link>
-                    </div>
+                        </TransitionLink>
+                    </FadeIn>
 
                     {/* 2b. Title & Metadata Card */}
-                    <div className="shrink-0 bg-card border border-border rounded-2xl p-4 flex flex-col justify-between">
+                    <FadeIn className="shrink-0 bg-card border border-border rounded-2xl p-4 flex flex-col justify-between">
                         <div>
                             <h1 className="text-xl md:text-2xl lg:text-3xl font-medium tracking-tighter text-foreground leading-[1.1]">
                                 {project.title}
@@ -84,10 +95,10 @@ export function ConciseLayout({ project }: { project: ProjectData }) {
                                 <div className="font-mono text-sm">{project.year}</div>
                             </div>
                         </div>
-                    </div>
+                    </FadeIn>
 
                     {/* 2c. Links (Fixed Height) */}
-                    <div className="shrink-0 bg-muted/30 border border-border rounded-2xl p-4">
+                    <FadeIn className="shrink-0 bg-muted/30 border border-border rounded-2xl p-4">
                         <div className="space-y-2">
                             <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono block">Project Links</span>
                             <div className="flex flex-wrap gap-2">
@@ -113,37 +124,40 @@ export function ConciseLayout({ project }: { project: ProjectData }) {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </FadeIn>
 
                     {/* 2d. Description / Brief */}
-                    <div className="bg-muted/20 border border-border rounded-2xl p-5 md:flex-1 md:overflow-y-auto md:min-h-[120px] flex flex-col gap-3">
+                    <FadeIn className="bg-muted/20 border border-border rounded-2xl p-5 md:flex-1 md:overflow-y-auto md:min-h-[120px] flex flex-col gap-3">
                         <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono">About</span>
                         <div className="prose prose-sm prose-neutral dark:prose-invert leading-relaxed text-muted-foreground max-w-none text-pretty">
                             <p>{project.description}</p>
                         </div>
-                    </div>
+                    </FadeIn>
 
                     {/* 2e. Navigation (Next Project) */}
                     {project.nextProject && (
-                        <Link
-                            href={`/projects/${project.nextProject.slug}`}
-                            className="shrink-0 border border-border rounded-xl flex items-center justify-between p-1 pl-4 gap-2 bg-card hover:bg-secondary/50 transition-all group"
-                        >
-                            <div className="flex flex-col gap-0.5 overflow-hidden">
-                                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Next Project</span>
-                                <span className="text-xs font-medium truncate group-hover:text-foreground transition-colors">
-                                    {project.nextProject.title}
-                                </span>
-                            </div>
-                            <div className="shrink-0 h-10 w-10 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-background transition-colors border border-border/50">
-                                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                            </div>
-                        </Link>
+                        <FadeIn>
+                            <TransitionLink
+                                href={`/projects/${project.nextProject.slug}`}
+                                transition="next"
+                                className="w-full shrink-0 border border-border rounded-xl flex items-center justify-between p-1 pl-4 gap-2 bg-card hover:bg-secondary/50 transition-all group"
+                            >
+                                <div className="flex flex-col gap-0.5 overflow-hidden">
+                                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Next Project</span>
+                                    <span className="text-xs font-medium truncate group-hover:text-foreground transition-colors">
+                                        {project.nextProject.title}
+                                    </span>
+                                </div>
+                                <div className="shrink-0 h-10 w-10 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-background transition-colors border border-border/50">
+                                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                </div>
+                            </TransitionLink>
+                        </FadeIn>
                     )}
 
                 </div>
 
-            </main>
+            </FadeInStagger>
         </div>
     )
 }
