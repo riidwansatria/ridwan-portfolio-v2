@@ -53,16 +53,41 @@ export default function CustomPortableText({
           fullWidth: 'img-full',
         } as const)[layout as 'inline' | 'wide' | 'fullWidth'] || 'img-inline'
 
+        const aspectRatio = value.aspectRatio || '16:9'
+        const isOriginalRatio = aspectRatio === 'original'
+
+        // Map aspect ratios to Tailwind classes
+        const aspectClasses: Record<string, string> = {
+          '16:9': 'aspect-video',
+          '4:3': 'aspect-[4/3]',
+          '1:1': 'aspect-square',
+          '3:2': 'aspect-[3/2]',
+          '21:9': 'aspect-[21/9]',
+        }
+        const aspectClass = aspectClasses[aspectRatio] || 'aspect-video'
+
         return (
           <figure className={layoutClass}>
-            <div className="relative aspect-video w-full overflow-hidden rounded border border-border bg-muted">
-              <Image
-                src={imageUrl}
-                alt={value.alt || ''}
-                fill
-                className="object-cover"
-              />
-            </div>
+            {isOriginalRatio ? (
+              <div className="relative w-full overflow-hidden rounded bg-muted">
+                <Image
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            ) : (
+              <div className={`relative ${aspectClass} w-full overflow-hidden rounded bg-muted`}>
+                <Image
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
             {value.caption && (
               <figcaption className="mt-3 text-center text-sm text-muted-foreground">
                 {value.caption}

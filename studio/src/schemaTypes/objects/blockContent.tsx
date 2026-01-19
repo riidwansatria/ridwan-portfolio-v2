@@ -141,6 +141,24 @@ export const blockContent = defineType({
           },
           initialValue: 'inline',
         }),
+        defineField({
+          name: 'aspectRatio',
+          type: 'string',
+          title: 'Aspect Ratio',
+          description: 'Choose the image cropping ratio',
+          options: {
+            list: [
+              { title: '16:9 (Widescreen)', value: '16:9' },
+              { title: '4:3 (Classic)', value: '4:3' },
+              { title: '1:1 (Square)', value: '1:1' },
+              { title: '3:2 (Photography)', value: '3:2' },
+              { title: '21:9 (Ultrawide)', value: '21:9' },
+              { title: 'Original', value: 'original' },
+            ],
+          },
+          initialValue: '16:9',
+          validation: (Rule) => Rule.required(),
+        }),
       ],
     }),
     // Side Note (Marginalia)
