@@ -229,17 +229,21 @@ export default function CustomPortableText({
           )
         }
 
+        // Responsive column classes for different screen sizes
+        const responsiveColumnClass = ({
+          2: 'grid-cols-2',
+          3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+          4: 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4',
+        } as const)[columns as 2 | 3 | 4] || 'grid-cols-2'
+
         return (
-          <div className={`${widthClass} my-10 flex flex-wrap justify-center gap-4`}>
+          <div className={`${widthClass} my-10 grid ${responsiveColumnClass} gap-4`}>
             {value.images.map((image: any) => {
               const imageUrl = urlForImage(image)?.url()
-              // Calculate width based on columns (accounting for gap)
-              const widthPercent = columns === 2 ? 'calc(50% - 0.5rem)' : columns === 3 ? 'calc(33.333% - 0.667rem)' : 'calc(25% - 0.75rem)'
               return (
                 <figure
                   key={image._key}
                   className={`relative ${isOriginalRatio ? '' : aspectClass} overflow-hidden rounded bg-muted`}
-                  style={{ width: widthPercent, minWidth: columns === 4 ? '200px' : columns === 3 ? '250px' : '300px' }}
                 >
                   {imageUrl && (
                     isOriginalRatio ? (
@@ -263,7 +267,7 @@ export default function CustomPortableText({
               )
             })}
             {value.caption && (
-              <figcaption className="w-full mt-2 text-center text-sm text-muted-foreground">
+              <figcaption className="col-span-full mt-2 text-center text-sm text-muted-foreground">
                 {value.caption}
               </figcaption>
             )}

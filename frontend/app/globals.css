@@ -311,39 +311,19 @@
   max-width: calc(100vw - 6rem);
 }
 
-@media (max-width: 1024px) {
+/* 
+ * Below lg (1024px): No grid layout, so all width classes fill container width
+ * Above lg: Grid layout (1:3:1), width classes can break out
+ */
+@media (max-width: 1023px) {
 
-  /* On mobile/tablet (no grid), container fills available width */
-  .article-content .img-container {
+  /* Below lg, all "breaking out" width classes just fill container width */
+  .article-content .img-wide,
+  .article-content .img-container,
+  .article-content .img-full {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
-  }
-
-  /* img-full respects px-4 padding on mobile */
-  .article-content .img-full {
-    margin-left: -1rem;
-    margin-right: -1rem;
-    width: calc(100% + 2rem);
-    max-width: none;
-  }
-}
-
-.article-content .img-gallery {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .article-content .img-wide {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-  }
-
-  .article-content .img-gallery {
-    grid-template-columns: 1fr;
+    max-width: 100%;
   }
 }
