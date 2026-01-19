@@ -287,12 +287,46 @@
   margin-right: -4rem;
 }
 
+.article-content .img-container {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  /* 
+   * Grid is 1fr:3fr:1fr with gap-x-8 (2rem gaps).
+   * Center column is 3/5 of (100% - 4rem) = 60% - 2.4rem
+   * To fill 100%, we need to break out by 1/5 of (100% - 4rem) + 1 gap on each side
+   * Using calc: each side needs (100% / 3) + 1rem gap offset
+   */
+  margin-left: calc(-33.33% - 2rem);
+  margin-right: calc(-33.33% - 2rem);
+  width: calc(166.66% + 4rem);
+}
+
 .article-content .img-full {
   margin-top: 3rem;
   margin-bottom: 3rem;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  width: 100vw;
+  /* Break out to viewport width, respecting page padding (px-12 = 3rem each side) */
+  margin-left: calc(-50vw + 50% + 3rem);
+  margin-right: calc(-50vw + 50% + 3rem);
+  width: calc(100vw - 6rem);
+  max-width: calc(100vw - 6rem);
+}
+
+@media (max-width: 1024px) {
+
+  /* On mobile/tablet (no grid), container fills available width */
+  .article-content .img-container {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  /* img-full respects px-4 padding on mobile */
+  .article-content .img-full {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+    max-width: none;
+  }
 }
 
 .article-content .img-gallery {

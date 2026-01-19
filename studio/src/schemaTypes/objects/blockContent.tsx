@@ -130,16 +130,18 @@ export const blockContent = defineType({
         defineField({
           name: 'layout',
           type: 'string',
-          title: 'Layout',
-          description: 'How the image should be displayed',
+          title: 'Width',
+          description: 'How wide the image should be displayed',
           options: {
             list: [
-              { title: 'Inline (same width as text)', value: 'inline' },
-              { title: 'Wide (breaks out of text)', value: 'wide' },
+              { title: 'Inline (same as text)', value: 'inline' },
+              { title: 'Wide (breaks out)', value: 'wide' },
+              { title: 'Container (full grid)', value: 'container' },
               { title: 'Full Width (edge to edge)', value: 'fullWidth' },
             ],
           },
           initialValue: 'inline',
+          validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: 'aspectRatio',
@@ -150,9 +152,12 @@ export const blockContent = defineType({
             list: [
               { title: '16:9 (Widescreen)', value: '16:9' },
               { title: '4:3 (Classic)', value: '4:3' },
-              { title: '1:1 (Square)', value: '1:1' },
               { title: '3:2 (Photography)', value: '3:2' },
               { title: '21:9 (Ultrawide)', value: '21:9' },
+              { title: '1:1 (Square)', value: '1:1' },
+              { title: '3:4 (Portrait)', value: '3:4' },
+              { title: '2:3 (Tall Portrait)', value: '2:3' },
+              { title: '9:16 (Vertical)', value: '9:16' },
               { title: 'Original', value: 'original' },
             ],
           },
@@ -361,7 +366,58 @@ export const blockContent = defineType({
               ],
             },
           ],
-          validation: (Rule) => Rule.min(2).max(4),
+          validation: (Rule) => Rule.min(2),
+        }),
+        defineField({
+          name: 'columns',
+          type: 'number',
+          title: 'Columns',
+          description: 'Number of columns in the gallery grid',
+          options: {
+            list: [
+              { title: '2 Columns', value: 2 },
+              { title: '3 Columns', value: 3 },
+              { title: '4 Columns', value: 4 },
+            ],
+          },
+          initialValue: 2,
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'width',
+          type: 'string',
+          title: 'Width',
+          description: 'How wide the gallery should be',
+          options: {
+            list: [
+              { title: 'Inline (same as text)', value: 'inline' },
+              { title: 'Wide (breaks out)', value: 'wide' },
+              { title: 'Container (full grid)', value: 'container' },
+              { title: 'Full Width (edge to edge)', value: 'fullWidth' },
+            ],
+          },
+          initialValue: 'inline',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'aspectRatio',
+          type: 'string',
+          title: 'Aspect Ratio',
+          description: 'Aspect ratio for gallery images',
+          options: {
+            list: [
+              { title: '16:9 (Widescreen)', value: '16:9' },
+              { title: '4:3 (Classic)', value: '4:3' },
+              { title: '3:2 (Photography)', value: '3:2' },
+              { title: '1:1 (Square)', value: '1:1' },
+              { title: '3:4 (Portrait)', value: '3:4' },
+              { title: '2:3 (Tall Portrait)', value: '2:3' },
+              { title: '9:16 (Vertical)', value: '9:16' },
+              { title: 'Original', value: 'original' },
+            ],
+          },
+          initialValue: '4:3',
+          validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: 'caption',
@@ -372,7 +428,7 @@ export const blockContent = defineType({
         defineField({
           name: 'layout',
           type: 'string',
-          title: 'Layout',
+          title: 'Style',
           description: 'Layout style for the gallery',
           options: {
             list: [
@@ -387,10 +443,11 @@ export const blockContent = defineType({
         select: {
           images: 'images',
           caption: 'caption',
+          columns: 'columns',
         },
-        prepare({ images, caption }) {
+        prepare({ images, caption, columns }) {
           return {
-            title: `Gallery (${images?.length || 0} images)`,
+            title: `Gallery (${images?.length || 0} images, ${columns || 2} cols)`,
             subtitle: caption || 'No caption',
           }
         },

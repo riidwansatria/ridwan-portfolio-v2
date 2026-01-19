@@ -50,8 +50,9 @@ export default function CustomPortableText({
         const layoutClass = ({
           inline: 'img-inline',
           wide: 'img-wide',
+          container: 'img-container',
           fullWidth: 'img-full',
-        } as const)[layout as 'inline' | 'wide' | 'fullWidth'] || 'img-inline'
+        } as const)[layout as 'inline' | 'wide' | 'container' | 'fullWidth'] || 'img-inline'
 
         const aspectRatio = value.aspectRatio || '16:9'
         const isOriginalRatio = aspectRatio === 'original'
@@ -60,9 +61,12 @@ export default function CustomPortableText({
         const aspectClasses: Record<string, string> = {
           '16:9': 'aspect-video',
           '4:3': 'aspect-[4/3]',
-          '1:1': 'aspect-square',
           '3:2': 'aspect-[3/2]',
           '21:9': 'aspect-[21/9]',
+          '1:1': 'aspect-square',
+          '3:4': 'aspect-[3/4]',
+          '2:3': 'aspect-[2/3]',
+          '9:16': 'aspect-[9/16]',
         }
         const aspectClass = aspectClasses[aspectRatio] || 'aspect-video'
 
@@ -170,14 +174,46 @@ export default function CustomPortableText({
       // Updated Image Gallery with Staggered Support
       imageGallery: ({ value }) => {
         const isStaggered = value.layout === 'staggered'
+        const columns = value.columns || 2
+        const width = value.width || 'inline'
+        const aspectRatio = value.aspectRatio || '4:3'
+
+        // Map width to layout classes
+        const widthClass = ({
+          inline: 'img-inline',
+          wide: 'img-wide',
+          container: 'img-container',
+          fullWidth: 'img-full',
+        } as const)[width as 'inline' | 'wide' | 'container' | 'fullWidth'] || 'img-inline'
+
+        // Map columns to Tailwind grid classes
+        const columnClasses: Record<number, string> = {
+          2: 'grid-cols-2',
+          3: 'grid-cols-2 md:grid-cols-3',
+          4: 'grid-cols-2 md:grid-cols-4',
+        }
+        const columnClass = columnClasses[columns] || 'grid-cols-2'
+
+        // Map aspect ratio to Tailwind classes
+        const aspectClasses: Record<string, string> = {
+          '16:9': 'aspect-video',
+          '4:3': 'aspect-[4/3]',
+          '3:2': 'aspect-[3/2]',
+          '1:1': 'aspect-square',
+          '3:4': 'aspect-[3/4]',
+          '2:3': 'aspect-[2/3]',
+          '9:16': 'aspect-[9/16]',
+        }
+        const aspectClass = aspectClasses[aspectRatio] || 'aspect-[4/3]'
+        const isOriginalRatio = aspectRatio === 'original'
 
         if (isStaggered) {
           return (
-            <div className="my-12 grid grid-cols-2 gap-4 lg:gap-8">
+            <div className={`${widthClass} my-12 grid ${columnClass} gap-4 lg:gap-8`}>
               {value.images.map((image: any, i: number) => {
                 const imageUrl = urlForImage(image)?.url()
                 return (
-                  <div key={image._key || i} className={`relative aspect-[3/4] overflow-hidden rounded-lg bg-muted ${i % 2 === 1 ? 'mt-12' : ''}`}>
+                  <div key={image._key || i} className={`relative ${aspectClass} overflow-hidden rounded bg-muted ${i % 2 === 1 ? 'mt-12' : ''}`}>
                     {imageUrl && (
                       <Image
                         src={imageUrl}
@@ -194,24 +230,40 @@ export default function CustomPortableText({
         }
 
         return (
-          <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`${widthClass} my-10 flex flex-wrap justify-center gap-4`}>
             {value.images.map((image: any) => {
               const imageUrl = urlForImage(image)?.url()
+              // Calculate width based on columns (accounting for gap)
+              const widthPercent = columns === 2 ? 'calc(50% - 0.5rem)' : columns === 3 ? 'calc(33.333% - 0.667rem)' : 'calc(25% - 0.75rem)'
               return (
-                <figure key={image._key} className="relative aspect-[4/3] overflow-hidden rounded-lg bg-muted">
+                <figure
+                  key={image._key}
+                  className={`relative ${isOriginalRatio ? '' : aspectClass} overflow-hidden rounded bg-muted`}
+                  style={{ width: widthPercent, minWidth: columns === 4 ? '200px' : columns === 3 ? '250px' : '300px' }}
+                >
                   {imageUrl && (
-                    <Image
-                      src={imageUrl}
-                      alt={image.alt || ''}
-                      fill
-                      className="object-cover transition-transform hover:scale-105"
-                    />
+                    isOriginalRatio ? (
+                      <Image
+                        src={imageUrl}
+                        alt={image.alt || ''}
+                        width={800}
+                        height={600}
+                        className="w-full h-auto object-contain"
+                      />
+                    ) : (
+                      <Image
+                        src={imageUrl}
+                        alt={image.alt || ''}
+                        fill
+                        className="object-cover transition-transform"
+                      />
+                    )
                   )}
                 </figure>
               )
             })}
             {value.caption && (
-              <figcaption className="col-span-full mt-2 text-center text-sm text-muted-foreground">
+              <figcaption className="w-full mt-2 text-center text-sm text-muted-foreground">
                 {value.caption}
               </figcaption>
             )}
