@@ -137,7 +137,7 @@ export const blockContent = defineType({
               { title: 'Inline (same as text)', value: 'inline' },
               { title: 'Wide (breaks out)', value: 'wide' },
               { title: 'Container (full grid)', value: 'container' },
-              { title: 'Full Width (edge to edge)', value: 'fullWidth' },
+
             ],
           },
           initialValue: 'inline',
@@ -393,7 +393,7 @@ export const blockContent = defineType({
               { title: 'Inline (same as text)', value: 'inline' },
               { title: 'Wide (breaks out)', value: 'wide' },
               { title: 'Container (full grid)', value: 'container' },
-              { title: 'Full Width (edge to edge)', value: 'fullWidth' },
+
             ],
           },
           initialValue: 'inline',

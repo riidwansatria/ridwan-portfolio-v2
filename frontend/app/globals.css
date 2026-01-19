@@ -15,6 +15,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Prevent Safari 100vw scrollbar bug */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -287,7 +294,9 @@
   margin-right: -4rem;
 }
 
-.article-content .img-container {
+/* Both container and full now share the same layout */
+.article-content .img-container,
+.article-content .img-full {
   margin-top: 3rem;
   margin-bottom: 3rem;
   /* 
@@ -301,16 +310,6 @@
   width: calc(166.66% + 4rem);
 }
 
-.article-content .img-full {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  /* Break out to viewport width, respecting page padding (px-12 = 3rem each side) */
-  margin-left: calc(-50vw + 50% + 3rem);
-  margin-right: calc(-50vw + 50% + 3rem);
-  width: calc(100vw - 6rem);
-  max-width: calc(100vw - 6rem);
-}
-
 /* 
  * Below lg (1024px): No grid layout, so all width classes fill container width
  * Above lg: Grid layout (1:3:1), width classes can break out
@@ -321,9 +320,13 @@
   .article-content .img-wide,
   .article-content .img-container,
   .article-content .img-full {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-    max-width: 100%;
+    /* 
+     * Exact grid alignment (1fr 3fr 1fr)
+     * Avoids sub-pixel gaps by using high precision
+     */
+    margin-left: calc(-33.3333% - 2rem);
+    margin-right: calc(-33.3333% - 2rem);
+    width: calc(166.6667% + 4rem);
+    max-width: none;
   }
 }
