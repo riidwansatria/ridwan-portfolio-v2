@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
-import { ProjectCard, type Project } from "@/components/project-card"
+import { ProjectCard, type Project } from "@/components/custom/project-card"
 import { getAllProjects } from "@/lib/content"
 
 export default function ProjectsPage() {

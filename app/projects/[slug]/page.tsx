@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { ShowcaseLayout } from "@/components/project-layouts/layout-showcase"
+import { ShowcaseLayout } from "@/components/custom/project-layouts/layout-showcase"
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content"
 import { renderMdx } from "@/lib/mdx"
 import type { Metadata } from "next"

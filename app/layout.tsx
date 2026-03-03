@@ -6,10 +6,10 @@ import type { Metadata } from 'next'
 import { Public_Sans, Plus_Jakarta_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 
-import { DevTools } from "@/components/dev-tools"
-import { ThemeProvider } from "@/components/theme-provider"
-import Footer from '@/app/components/Footer'
-import Header from '@/app/components/Header'
+import { DevTools } from "@/components/custom/dev-tools"
+import { ThemeProvider } from "@/components/custom/theme-provider"
+import Footer from '@/components/custom/Footer'
+import Header from '@/components/custom/Header'
 import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {

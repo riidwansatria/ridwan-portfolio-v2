@@ -34,7 +34,7 @@ interface ArticleLayoutProps {
     }[]
 }
 
-import { FadeInStagger, FadeIn, ScaleIn } from "@/components/visual/motion-primitives"
+import { FadeInStagger, FadeIn, ScaleIn } from "@/components/custom/visual/motion-primitives"
 
 // ... imports remain the same
 

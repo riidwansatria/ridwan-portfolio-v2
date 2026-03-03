@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from "next/navigation"
-import { ThemeToggle } from "@/app/components/ThemeToggle"
+import { ThemeToggle } from "@/components/custom/ThemeToggle"
 
 export default function Footer() {
   const pathname = usePathname()

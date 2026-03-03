@@ -2,30 +2,20 @@
 
 ## Overview
 
-Single-package Next.js 16 portfolio site using **file-based MDX** for content management.
-- **`frontend/`** — Next.js 16 (App Router, TypeScript, Turbopack)
-- **`content/`** — MDX content files (projects & notes) inside `frontend/`
-
-All content lives as `.mdx` files with YAML frontmatter. No external CMS.
+Next.js 16 portfolio site using **file-based MDX** for content management.
+All code lives at the repo root (no monorepo). Content lives as `.mdx` files with YAML frontmatter. No external CMS.
 
 ---
 
 ## Commands
 
-Run from the **repo root** unless noted.
-
 ```bash
 npm run dev              # Start Next.js dev server (Turbopack)
-npm run format           # Prettier
-npm run lint             # ESLint (frontend)
-npm run type-check       # TypeScript check
-```
-
-Run from **`frontend/`**:
-
-```bash
 npm run build            # Production build
-npm run dev              # Dev server
+npm run start            # Start production server
+npm run format           # Prettier
+npm run lint             # ESLint
+npm run type-check       # TypeScript check
 ```
 
 ---
@@ -35,14 +25,12 @@ npm run dev              # Dev server
 ### Directory Structure
 
 ```
-frontend/
 ├── app/                        # Next.js App Router pages (server components by default)
 │   ├── about/
 │   ├── notes/
 │   │   └── [slug]/             # Note detail (MDX rendered)
 │   ├── projects/
 │   │   └── [slug]/             # Project detail (MDX rendered)
-│   ├── components/             # Page-level components (Header, Footer, etc.)
 │   ├── layout.tsx              # Root layout (ThemeProvider, TransitionProvider)
 │   ├── page.tsx                # Home/hero page
 │   ├── globals.css             # CSS vars, OKLch theme tokens
@@ -53,10 +41,12 @@ frontend/
 │   └── notes/                  # Note MDX files (*.mdx)
 ├── components/
 │   ├── ui/                     # Shadcn/Radix UI primitives
-│   ├── visual/                 # FadeIn, FadeInStagger, ScaleIn motion primitives
-│   ├── motion-primitives/      # Text animation effects
-│   ├── project-layouts/        # Project detail page layouts
-│   └── note-layouts/           # Note/article page layouts
+│   ├── motion-primitives/      # motion-primitives library components
+│   └── custom/                 # Custom components
+│       ├── Header.tsx, Footer.tsx, ThemeToggle.tsx ...
+│       ├── visual/             # FadeIn, FadeInStagger, ScaleIn motion wrappers
+│       ├── project-layouts/    # Project detail page layouts
+│       └── note-layouts/       # Note/article page layouts
 ├── lib/
 │   ├── content.ts              # File-system content reader (getAllProjects, getAllNotes, etc.)
 │   ├── mdx.tsx                 # MDX compilation & custom components
@@ -74,7 +64,7 @@ frontend/
 
 ### Adding a New Project
 
-Create `frontend/content/projects/<slug>.mdx`:
+Create `content/projects/<slug>.mdx`:
 
 ```mdx
 ---
@@ -98,7 +88,7 @@ Your project content in MDX here...
 
 ### Adding a New Note
 
-Create `frontend/content/notes/<slug>.mdx`:
+Create `content/notes/<slug>.mdx`:
 
 ```mdx
 ---
@@ -150,7 +140,7 @@ Custom components available in MDX files:
 
 ### Animations
 - **No scroll-triggered animations on public pages** (homepage, projects, notes, about) — all FadeIn/FadeInStagger have been stripped
-- Motion primitives (`components/visual/`) are kept and still used in project detail layouts only
+- Motion primitives (`components/custom/visual/`) are kept and still used in project detail layouts only
 - Framer Motion: `once: true, margin: "0px 0px -50px 0px"`, easing `[0.25, 0.1, 0.25, 1.0]`
 - Always respect `prefers-reduced-motion`
 
@@ -189,17 +179,17 @@ Custom components available in MDX files:
 
 | File | Purpose |
 |------|---------|
-| `frontend/app/page.tsx` | Homepage — vertical sections, content from MDX utils |
-| `frontend/app/components/Header.tsx` | Sticky nav, h-12, max-w-4xl |
-| `frontend/app/components/Footer.tsx` | Footer, max-w-4xl |
-| `frontend/components/project-card.tsx` | Shared project card component |
-| `frontend/app/projects/page.tsx` | Projects listing — reads from `content/projects/` |
-| `frontend/app/projects/[slug]/page.tsx` | Project detail — renders MDX via ShowcaseLayout |
-| `frontend/app/notes/page.tsx` | Notes listing — reads from `content/notes/` |
-| `frontend/app/notes/[slug]/page.tsx` | Note detail — renders MDX via ArticleLayout |
-| `frontend/lib/content.ts` | File-system content reader (replaces all CMS queries) |
-| `frontend/lib/mdx.tsx` | MDX compilation with custom components |
-| `frontend/lib/site-config.ts` | Site metadata and author info |
-| `frontend/next.config.ts` | Remote image patterns (pexels.com, vercel-storage.com) |
-| `frontend/app/globals.css` | CSS vars, OKLch theme tokens (`--radius: 0.625rem`) |
-| `frontend/lib/utils.ts` | Shared utilities (`cn`, etc.) |
+| `app/page.tsx` | Homepage — vertical sections, content from MDX utils |
+| `components/custom/Header.tsx` | Sticky nav, h-12, max-w-4xl |
+| `components/custom/Footer.tsx` | Footer, max-w-4xl |
+| `components/custom/project-card.tsx` | Shared project card component |
+| `app/projects/page.tsx` | Projects listing — reads from `content/projects/` |
+| `app/projects/[slug]/page.tsx` | Project detail — renders MDX via ShowcaseLayout |
+| `app/notes/page.tsx` | Notes listing — reads from `content/notes/` |
+| `app/notes/[slug]/page.tsx` | Note detail — renders MDX via ArticleLayout |
+| `lib/content.ts` | File-system content reader |
+| `lib/mdx.tsx` | MDX compilation with custom components |
+| `lib/site-config.ts` | Site metadata and author info |
+| `next.config.ts` | Remote image patterns (pexels.com, vercel-storage.com) |
+| `app/globals.css` | CSS vars, OKLch theme tokens (`--radius: 0.625rem`) |
+| `lib/utils.ts` | Shared utilities (`cn`, etc.) |

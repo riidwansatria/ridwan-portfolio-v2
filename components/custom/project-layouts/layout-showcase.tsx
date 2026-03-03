@@ -1,7 +1,7 @@
 "use client"
 
 import { TransitionLink } from "@/components/ui/transition-link"
-import { FadeIn, FadeInStagger, ScaleIn } from "@/components/visual/motion-primitives"
+import { FadeIn, FadeInStagger, ScaleIn } from "@/components/custom/visual/motion-primitives"
 import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
