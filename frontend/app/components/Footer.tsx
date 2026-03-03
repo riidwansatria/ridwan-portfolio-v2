@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/app/components/ThemeToggle"
 
 export default function Footer() {
   const pathname = usePathname()
@@ -11,38 +11,13 @@ export default function Footer() {
     return null
   }
 
-  const scrollToTop = () => {
-    // Check for About page's custom scroll container
-    const aboutScrollContainer = document.getElementById('about-scroll-container')
-    if (aboutScrollContainer) {
-      aboutScrollContainer.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      })
-      return
-    }
-
-    // Default: scroll the window
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
-  }
-
   return (
-    <footer className="relative flex mx-auto px-4 md:px-12 pt-2 pb-4 border-t-1">
-      <div className="flex-1 text-muted-foreground text-xs sm:text-sm font-mono">
-        © {new Date().getFullYear()} Ridwan Satria.
-      </div>
-      <div className="hidden sm:flex">
-        <Button
-          variant="link"
-          size="sm"
-          className="p-0 h-auto font-mono text-muted-foreground text-xs sm:text-sm"
-          onClick={scrollToTop}
-        >
-          Back to top ↑
-        </Button>
+    <footer className="relative border-t pt-2 pb-4">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center">
+        <div className="flex-1 text-muted-foreground text-xs sm:text-sm">
+          © {new Date().getFullYear()} Ridwan Satria.
+        </div>
+        <ThemeToggle className="text-muted-foreground shadow-none" />
       </div>
     </footer>
   )

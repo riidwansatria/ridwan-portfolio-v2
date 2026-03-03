@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/project-card"
-import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 
 export default function ProjectsPage() {
   const projects: Project[] = [
@@ -97,50 +96,38 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Page Header */}
-      <div className="pt-12 sm:pt-20 pb-16 md:pb-20 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear_gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
-        <FadeInStagger className="max-w-[100rem] mx-auto px-4 sm:px-12">
-          <FadeIn>
-            <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
-              Projects
-            </h1>
-          </FadeIn>
-          <FadeIn>
-            <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
-              Selected work in geospatial analytics, transportation planning, and urban policy research.
-            </p>
-          </FadeIn>
-        </FadeInStagger>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-8">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Projects</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Selected work in geospatial analytics, transportation planning, and urban policy research.
+        </p>
       </div>
 
       {/* Featured Projects */}
-      <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-12 md:py-16">
-        <FadeIn delay={0.2}>
-          <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
-            Featured Projects
-          </h2>
-        </FadeIn>
-        <FadeInStagger delay={0.4} staggerDuration={0.25} className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        <h2 className="text-xs uppercase tracking-widest text-muted-foreground mb-6">
+          Featured
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-2">
           {featuredProjects.map((project) => (
-            <FadeIn key={project.id}>
+            <div key={project.id}>
               <ProjectCard project={project} />
-            </FadeIn>
+            </div>
           ))}
-        </FadeInStagger>
+        </div>
       </section>
 
       {/* Other Projects */}
-      <section className="max-w-[100rem] mx-auto px-4 sm:px-12 py-8 md:py-12 mb-24">
-        <FadeIn delay={1.0}>
-          <h2 className="text-sm font-medium font-mono uppercase tracking-widest text-muted-foreground mb-8">
-            More Projects
-          </h2>
-        </FadeIn>
-        <FadeInStagger delay={1.2} className="grid gap-4">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8 mb-16">
+        <h2 className="text-xs uppercase tracking-widest text-muted-foreground mb-6">
+          More
+        </h2>
+        <div className="grid gap-4">
           {otherProjects.map((project) => (
-            <FadeIn key={project.id}>
+            <div key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl border bg-card hover:bg-accent/30 transition-all duration-300 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-2xl border bg-card hover:bg-accent/30 transition-colors duration-200"
               >
                 {/* Thumbnail */}
                 <div className="hidden md:block relative w-full md:w-40 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
@@ -161,7 +148,7 @@ export default function ProjectsPage() {
                     {project.description}
                   </p>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-medium text-muted-foreground font-mono">
+                    <span className="text-xs font-medium text-muted-foreground">
                       {project.year}
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -186,9 +173,9 @@ export default function ProjectsPage() {
                 {/* Arrow */}
                 <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" />
               </Link>
-            </FadeIn>
+            </div>
           ))}
-        </FadeInStagger>
+        </div>
       </section>
     </>
   )

@@ -1,12 +1,9 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { settingsQuery } from '@/sanity/lib/queries'
 import { sanityFetch } from '@/sanity/lib/live'
+import { AtSign, Github, Linkedin, Twitter, ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { HardHat, Bus, Building2, ArrowRight } from 'lucide-react'
-import { ProjectCard } from "@/components/project-card"
-import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
-import { TextEffect } from "@/components/motion-primitives/text-effect"
-import { ScrollLink } from "@/components/scroll-link"
 
 export default async function Page() {
   const { data: settings } = await sanityFetch({
@@ -19,221 +16,211 @@ export default async function Page() {
       slug: "jakarta-demography",
       image: 'https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg',
       title: "Visualizing Jakarta's Demography",
-      description: 'Discover the latest trends in SaaS that are shaping the future of digital solutions and can benefit your business.',
+      description: 'Interactive geospatial analysis exploring demographic patterns and urban development trends across Jakarta\'s districts using GeoPandas and choropleth mapping.',
       year: "2024",
-      tags: [{ name: "Geopandas", color: "#22c55e" }],
+      tags: [{ name: "GeoPandas", color: "#22c55e" }, { name: "Python", color: "#3b82f6" }],
     },
     {
       id: "2",
       slug: "transit-network-analysis",
       image: 'https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg',
       title: 'Transit Network Analysis',
-      description: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
-      year: "2023",
-      tags: [{ name: "R", color: "#4295ee" }],
+      description: 'Comprehensive analysis of public transit accessibility using GTFS data, spatial joins, and catchment area calculations for urban mobility planning.',
+      year: "2024",
+      tags: [{ name: "R", color: "#4295ee" }, { name: "GTFS", color: "#f97316" }],
     },
     {
       id: "3",
-      slug: "bus-operations",
+      slug: "bus-operations-optimization",
       image: 'https://images.pexels.com/photos/6091193/pexels-photo-6091193.jpeg',
       title: 'Optimizing Bus Operations',
-      description: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
-      year: "2023",
-      tags: [{ name: "Streamlit", color: "#e79e2a" }],
+      description: 'Python-based tool for GPS probe data processing, generating route adherence and schedule deviation reports for transit operations in Maputo.',
+      year: "2024",
+      tags: [{ name: "Streamlit", color: "#e79e2a" }, { name: "Python", color: "#3b82f6" }],
     },
-  ];
+  ]
 
   const posts = [
     {
-      id: 2,
       slug: "b",
-      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/notess-1-2.webp',
       title: 'International Conference of Asia-Pacific Planning Societies 2025',
-      excerpt: 'Learn the best practices for creating web applications that can handle millions of users without breaking.',
-      category: 'Web Development',
-      authorName: 'Ashwin Santiago',
-      date: 'March 12, 2024',
-      authorAvatar: 'https://images.pexels.com/photos/7562139/pexels-photo-7562139.jpeg?auto=compress&cs=tinysrgb&w=128',
-      href: '#',
+      date: 'Mar 2025',
     },
     {
-      id: 3,
       slug: "c",
-      image: 'https://k8boaqmtfy4jtiib.public.blob.vercel-storage.com/stock/notess-1-3.webp',
       title: "Starting Master's Studies @UTokyo",
-      excerpt: 'How to create and maintain design systems that grow with your product and team while ensuring consistency.',
-      category: 'Design Systems',
-      authorName: 'Natali Craig',
-      date: 'March 10, 2024',
-      authorAvatar: 'https://images.pexels.com/photos/698532/pexels-photo-698532.jpeg?auto=compress&cs=tinysrgb&w=128',
-      href: '#',
+      date: 'Apr 2025',
     },
-  ];
+    {
+      slug: "d",
+      title: "Mapping Bus Operations in Maputo",
+      date: 'Jun 2025',
+    },
+  ]
+
+  const photos = [
+    { city: "Tokyo", src: "https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { city: "Jakarta", src: "https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { city: "Kyoto", src: "https://images.pexels.com/photos/590478/pexels-photo-590478.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { city: "Bangkok", src: "https://images.pexels.com/photos/1031593/pexels-photo-1031593.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { city: "Manila", src: "https://images.pexels.com/photos/3519568/pexels-photo-3519568.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { city: "Maputo", src: "https://images.pexels.com/photos/3836368/pexels-photo-3836368.jpeg?auto=compress&cs=tinysrgb&w=600" },
+  ]
+
+  const reading = {
+    title: "Seeing Like a State",
+    author: "James C. Scott",
+    year: "1998",
+  }
 
   return (
-    <>
-      {/* Hero section */}
-      <div className='h-[calc(100vh-64px)] bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]'>
-        <div className="flex flex-col justify-between h-[calc(100vh-80px)] px-4 sm:px-12 inset-0">
-          {/* Hero main */}
-          <div className="flex flex-1 items-center">
-            <div className="max-w-5xl text-left">
-              {/* Greeting */}
-              <TextEffect
-                per="word"
-                preset="fade-in-blur"
-                delay={0.1}
-                speedReveal={1.5}
-                as="span"
-                className="text-2xl md:text-3xl lg:text-5xl text-foreground font-semibold tracking-tight block mb-2"
-              >
-                Hey there! 👋
-              </TextEffect>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-8">
+      <div className="space-y-16">
 
-              {/* Main headline */}
-              <TextEffect
-                per="word"
-                preset="fade-in-blur"
-                delay={0.5}
-                speedReveal={1.2}
-                as="h1"
-                className="text-3xl md:text-4xl lg:text-6xl text-foreground font-semibold tracking-tight mb-4"
-              >
-                I'm Ridwan, Transportation & Urban Policy student at the University of Tokyo.
-              </TextEffect>
-
-              {/* Bio */}
-              <FadeIn delay={1.2}>
-                <p className="hidden md:inline text-base lg:text-xl text-muted-foreground">
-                  Welcome to my personal website. This site will be used as a
-                  platform to share my <br /> thoughts and showcase the projects that I&apos;m
-                  currently doing/I&apos;ve done in the past.
-                </p>
-              </FadeIn>
-
-              {/* Under construction notice */}
-              <FadeIn delay={1.4}>
-                <p className="text-sm md:text-base text-muted-foreground pt-2">
-                  🚧 This website is still heavily under construction.
-                </p>
-              </FadeIn>
-
-              {/* Buttons */}
-              <FadeIn delay={1.6}>
-                <div className="inline-flex space-x-2 py-6">
-                  <Button asChild>
-                    <Link href="/about">About me</Link>
-                  </Button>
-                  <Button asChild variant="outline">
-                    <Link href="/notes">Notes</Link>
-                  </Button>
+        {/* Intro */}
+        <section>
+          <div className="flex items-start justify-between gap-8">
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-full bg-muted shrink-0 overflow-hidden">
+                  <Image
+                    src="/images/avatar.jpg"
+                    alt="Ridwan Satria"
+                    width={64}
+                    height={64}
+                    className="object-cover"
+                  />
                 </div>
-              </FadeIn>
-            </div>
-          </div>
+                <div>
+                  <h1 className="text-3xl font-semibold text-foreground">Ridwan Satria</h1>
+                  <p className="text-sm text-muted-foreground">MEng Student · The University of Tokyo</p>
+                </div>
+              </div>
 
-          {/* Hero tags */}
-          <div className="hidden md:inline pb-3 justify-between items-center">
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-red-50 dark:hover:bg-red-950'>
-                <HardHat />
-                <span>Civil Engineering</span>
-              </Button>
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-green-50 dark:hover:bg-green-950'>
-                <Building2 />
-                <span>Urban Planning</span>
-              </Button>
-              <Button variant="outline" size="default" className='rounded-full shadow-none hover:bg-blue-50 dark:hover:bg-blue-950'>
-                <Bus />
-                <span>Transportation Planning</span>
-              </Button>
-            </div>
-          </div>
+              <p className="text-base text-foreground leading-relaxed max-w-4xl">
+                Aspiring development consultant with a focus on transport planning and spatial analytics. Building a portfolio at the intersection of data and policy. Graduate student at UTokyo's
+                International Projects Lab.
+              </p>
 
-          {/* Hero footer */}
-          <div className="pt-2 pb-3 border-t flex justify-between items-center font-mono">
-            <span className="flex text-xs md:text-sm text-muted-foreground">
-              Based in Tokyo, Japan
-            </span>
-            <div className="flex">
-              <ScrollLink targetId="projects" className="text-xs md:text-sm text-muted-foreground p-0">
-                Featured Projects ↓
-              </ScrollLink>
+              <div className="flex items-center gap-2 mt-5">
+                <Button asChild variant="default" size="sm">
+                  <Link href="/about">About<ArrowRight size={10} /></Link>
+                </Button>
+                <Button asChild variant="outline" size="sm">
+                  <a href="/Resume_2026_01.pdf" target="_blank" rel="noopener noreferrer">
+                    Resume<Download size={10} />
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* Projects */}
+        <section className='mt-24'>
+          <div className="flex justify-between items-center mb-5">
+            <p className="text-xs text-muted-foreground uppercase tracking-widest">Projects</p>
+            <Link href="/projects" className="group flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors">
+              View all
+              <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {projects.map((project) => (
+              <Link
+                key={project.id}
+                href={`/projects/${project.slug}`}
+                className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:border-foreground/25 transition-colors duration-200"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 640px) 33vw, 100vw"
+                  />
+                  <span className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-[11px] font-medium px-2 py-0.5 rounded-full">
+                    {project.year}
+                  </span>
+                </div>
+                <div className="flex flex-col flex-1 p-4">
+                  <h3 className="text-sm font-semibold text-foreground leading-snug mb-1.5">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                    {project.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Notes */}
+        <section>
+          <div className="flex justify-between items-center mb-5">
+            <p className="text-xs text-muted-foreground uppercase tracking-widest">Notes</p>
+            <Link href="/notes" className="group flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Read all
+              <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="-mx-1">
+            {posts.map((post) => (
+              <article key={post.slug} className="border-t first:border-t-0 border-border/60">
+                <Link href={`/notes/${post.slug}`}>
+                  <div className="mx-1 py-3 rounded-lg transition-colors hover:bg-accent/50">
+                    <p className="text-sm font-medium text-foreground leading-snug">{post.title}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Reading */}
+        <section>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-5">Reading</p>
+          <div className="flex gap-3 items-start">
+            <div className="w-10 h-14 bg-muted rounded shrink-0 border border-border/40" />
+            <div>
+              <p className="text-sm font-medium text-foreground leading-snug">{reading.title}</p>
+              <p className="text-xs text-muted-foreground mt-1">{reading.author}, {reading.year}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Connect */}
+        <section>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-5">Connect</p>
+          <p className="text-sm text-muted-foreground">
+            Feel free to contact me at{' '}
+            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="underline underline-offset-2 hover:text-foreground transition-colors">
+              ridwansatria@g.ecc.u-tokyo.ac.jp
+            </a>
+          </p>
+          <div className="flex flex-wrap gap-2 mt-5">
+            <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+              GitHub <ArrowUpRight size={12} />
+            </a>
+            <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+              LinkedIn <ArrowUpRight size={12} />
+            </a>
+            <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+              X <ArrowUpRight size={12} />
+            </a>
+            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+              Email <ArrowUpRight size={12} />
+            </a>
+            <Link href="/about" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+              CV <ArrowUpRight size={12} />
+            </Link>
+          </div>
+        </section>
+
       </div>
-
-      {/* Projects section */}
-      <section id="projects" className='px-4 sm:px-12 py-24 border-t'>
-        <FadeIn>
-          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
-            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-              Featured Projects
-            </h2>
-            <div className="flex">
-              <Link
-                href="/projects"
-                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
-              >
-                <p className="mr-1 text-xs md:text-sm font-mono">View all</p>
-                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeInStagger className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3">
-          {projects.map((project) => (
-            <FadeIn key={project.id}>
-              <ProjectCard project={project} />
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-      </section>
-
-      {/* Notes section */}
-      <section id="notes" className='px-4 sm:px-12 py-20 mb-40 border-t'>
-        <FadeIn>
-          <div className="mb-2 sm:mb-4 md:mb-12 flex justify-between items-center">
-            <h2 className="md:text-4xl text-2xl font-medium tracking-tight flex text-foreground">
-              Latest Notes
-            </h2>
-            <div className="flex">
-              <Link
-                href="/notes"
-                className="group hidden md:flex shrink-0 items-center justify-end md:w-auto text-muted-foreground p-4 hover:text-foreground transition-colors"
-              >
-                <p className="mr-1 text-xs md:text-sm font-mono">Read all</p>
-                <ArrowRight className="h-4 w-4 md:h-4 md:w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeInStagger className="border-b">
-          {posts.map(post => {
-            const title = post.title || post.slug
-
-            return (
-              <FadeIn key={post.slug}>
-                <article
-                  className="post-list-item"
-                  itemScope
-                  itemType="http://schema.org/Article"
-                >
-                  <Link href={`/notes/${post.slug}`} itemProp="url">
-                    <div className='md:px-2 py-2 sm:py-4 md:py-6 border-t transition-colors hover:bg-accent/30'>
-                      <h3 itemProp="headline" className="text-foreground font-semibold text-base md:text-xl">{title}</h3>
-                      <small className="text-muted-foreground">{post.date}</small>
-                    </div>
-                  </Link>
-                </article>
-              </FadeIn>
-            )
-          })}
-        </FadeInStagger>
-      </section>
-    </>
+    </div>
   )
 }

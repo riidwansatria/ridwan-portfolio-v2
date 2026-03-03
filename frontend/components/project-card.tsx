@@ -3,7 +3,6 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight } from "lucide-react"
 
 export type Project = {
     id: string
@@ -22,46 +21,43 @@ export function ProjectCard({ project }: { project: Project }) {
     return (
         <Link
             href={`/projects/${project.slug}`}
-            className="group relative flex flex-col overflow-hidden rounded-xl border bg-card hover:bg-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
+            className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:border-foreground/25 transition-colors duration-200"
         >
-            {/* Image Container */}
-            <div className="relative aspect-[16/10] overflow-hidden">
+            {/* Image */}
+            <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                 <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             </div>
 
             {/* Content */}
-            <div className="flex flex-1 flex-col p-5">
-                <div className="mb-3">
-                    <span className="text-xs font-medium text-muted-foreground font-mono">
-                        {project.year}
-                    </span>
-                </div>
-
-                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+            <div className="flex flex-1 flex-col p-4">
+                <h3 className="text-sm font-semibold text-foreground mb-1.5 leading-snug">
                     {project.title}
                 </h3>
 
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
+                <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1 leading-relaxed">
                     {project.description}
                 </p>
 
-                {/* Footer: Tags & Arrow */}
-                <div className="flex items-end justify-between gap-4 mt-auto">
+                {/* Year + Tags */}
+                <div className="flex items-center gap-2 mt-auto">
+                    <span className="text-xs text-muted-foreground shrink-0">
+                        {project.year}
+                    </span>
+                    <span className="text-muted-foreground/40 text-xs">·</span>
                     <div className="flex flex-wrap gap-1.5">
-                        {project.tags.map((tag) => (
+                        {project.tags.slice(0, 2).map((tag) => (
                             <Badge
                                 key={tag.name}
                                 variant="secondary"
-                                className="text-xs font-medium px-2 py-0.5"
+                                className="text-[11px] font-medium px-1.5 py-0"
                                 style={{
-                                    backgroundColor: `${tag.color}15`,
-                                    border: `1px solid ${tag.color}40`,
+                                    backgroundColor: `${tag.color}12`,
+                                    border: `1px solid ${tag.color}35`,
                                     color: tag.color,
                                 }}
                             >
@@ -69,8 +65,6 @@ export function ProjectCard({ project }: { project: Project }) {
                             </Badge>
                         ))}
                     </div>
-
-                    <ArrowRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
                 </div>
             </div>
         </Link>

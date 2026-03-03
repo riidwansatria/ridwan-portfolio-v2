@@ -6,7 +6,7 @@ Monorepo (npm workspaces) with two packages:
 - **`frontend/`** — Next.js 16 portfolio site (App Router, TypeScript)
 - **`studio/`** — Sanity 5 headless CMS for content management
 
-Features live visual editing, Framer Motion animations, and Sanity-powered content.
+Content is currently hardcoded in page files. Sanity CMS is wired up but not yet actively driving homepage/projects/notes content.
 
 ---
 
@@ -87,10 +87,10 @@ studio/                         # Sanity Studio (schema definitions, desk config
 - **Fonts** — `--font-public-sans` (Public Sans), `--font-plus-jakarta` (Plus Jakarta Sans)
 
 ### Animations
-- **Framer Motion** — viewport-triggered with `once: true, margin: "0px 0px -50px 0px"`
-- **Motion primitives** (`components/visual/motion-primitives.tsx`) — use `FadeIn`, `FadeInStagger`, `ScaleIn`
+- **No scroll-triggered animations on public pages** (homepage, projects, notes, about) — all FadeIn/FadeInStagger have been stripped
+- Motion primitives (`components/visual/`) are kept and still used in project detail layouts only
+- Framer Motion: `once: true, margin: "0px 0px -50px 0px"`, easing `[0.25, 0.1, 0.25, 1.0]`
 - Always respect `prefers-reduced-motion`
-- Easing: `[0.25, 0.1, 0.25, 1.0]`
 
 ### Images
 - Use Next.js `<Image>` component
@@ -102,14 +102,42 @@ studio/                         # Sanity Studio (schema definitions, desk config
 
 ---
 
+## Design System
+
+### Layout
+- Content width: `max-w-5xl mx-auto px-4 sm:px-6` on all pages (homepage, projects, notes, header, footer)
+- Homepage uses **vertical sections** with `space-y-16` — no bento grid, no card wrappers around sections
+- Whitespace creates section separation; borders/backgrounds are only on interactive elements (ProjectCard, photo strip)
+- Border radius: `rounded-2xl` on ProjectCard and photo strip
+
+### Homepage section order
+1. Intro — avatar + name + bio + roles/location inline + social links
+2. Projects — label + 3-col ProjectCard grid
+3. Photo strip — horizontal scroll, city photos
+4. Notes — label + text list with hover
+5. Reading — label + book cover placeholder + title/author
+
+### No font-mono
+- All UI labels, navigation, year displays, and section headers use default sans (not font-mono)
+
+### Navigation
+- Header: `h-12`, sticky, `max-w-4xl` inner nav
+- Nav links: [Ridwan Satria] [Projects] [Research] [CV → /about]
+- `/research` does not exist yet (returns 404 until scaffolded)
+
+---
+
 ## Critical Files
 
 | File | Purpose |
 |------|---------|
-| `frontend/next.config.ts` | Remote image patterns, styled-components config |
-| `frontend/tailwind.config.ts` | Custom palette, fonts, dark mode class |
-| `frontend/app/globals.css` | CSS vars, OKLch theme tokens |
-| `frontend/components/visual/motion-primitives.tsx` | FadeIn, FadeInStagger, ScaleIn |
+| `frontend/app/page.tsx` | Homepage — bento grid layout, hardcoded content |
+| `frontend/app/components/Header.tsx` | Sticky nav, h-12, max-w-4xl |
+| `frontend/app/components/Footer.tsx` | Footer, max-w-4xl |
+| `frontend/components/project-card.tsx` | Shared project card component |
+| `frontend/app/projects/page.tsx` | Projects listing — hardcoded |
+| `frontend/app/notes/page.tsx` | Notes listing — hardcoded |
+| `frontend/next.config.ts` | Remote image patterns (cdn.sanity.io, pexels.com, vercel-storage.com) |
+| `frontend/app/globals.css` | CSS vars, OKLch theme tokens (`--radius: 0.625rem`) |
 | `frontend/sanity/lib/queries.ts` | All GROQ queries for content fetching |
 | `frontend/lib/utils.ts` | Shared utilities (`cn`, etc.) |
-| `frontend/lib/transition-context.tsx` | Page transition state management |

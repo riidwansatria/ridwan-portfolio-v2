@@ -1,4 +1,3 @@
-import { FadeIn, FadeInStagger } from "@/components/visual/motion-primitives"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -51,52 +50,44 @@ export default function NotesPage() {
   return (
     <>
       {/* Page Header */}
-      <div className="pt-12 sm:pt-20 pb-16 md:pb-24 border-b bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:14px_24px]">
-        <FadeInStagger className="max-w-[100rem] mx-auto px-4 sm:px-12">
-          <FadeIn>
-            <h1 className="text-4xl font-medium tracking-tight text-foreground md:text-5xl">Notes</h1>
-          </FadeIn>
-          <FadeIn>
-            <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
-              Updates and occasional thoughts on cities, transport, and everyday design.
-            </p>
-          </FadeIn>
-        </FadeInStagger>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-8">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Notes</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Updates and occasional thoughts on cities, transport, and everyday design.
+        </p>
       </div>
 
-      {/* Blog Posts List */}
-      <FadeInStagger className="max-w-[100rem] mx-auto px-4 sm:px-12 mb-36" delay={0.4}>
-        {blogPosts.map((post, index) => (
-          <FadeIn key={post.id}>
-            <article>
-              <Link
-                href={`/posts/${post.slug}`}
-                className="group block border-b border-border md:px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
-              >
-                <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
-                  {/* Date */}
-                  <time className="shrink-0 text-xs font-medium uppercase tracking-widest text-muted-foreground md:w-32 md:text-sm md:pt-0.5">
-                    {post.date}
-                  </time>
+      {/* Posts List */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 mb-16">
+        {blogPosts.map((post) => (
+          <article key={post.id}>
+            <Link
+              href={`/posts/${post.slug}`}
+              className="group block border-b border-border md:px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
+            >
+              <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">
+                {/* Date */}
+                <time className="shrink-0 text-xs font-medium uppercase tracking-widest text-muted-foreground md:w-32 md:text-sm md:pt-0.5">
+                  {post.date}
+                </time>
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <h2 className="mb-3 text-xl font-medium leading-tight text-foreground transition-colors group-hover:text-foreground/80 md:text-2xl">
-                      {post.title}
-                    </h2>
-                    <p className="text-sm text-muted-foreground md:text-base">{post.category}</p>
-                  </div>
-
-                  {/* Arrow Icon */}
-                  <div className="hidden md:flex shrink-0 items-center justify-end md:w-12">
-                    <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 md:h-6 md:w-6" />
-                  </div>
+                {/* Content */}
+                <div className="flex-1">
+                  <h2 className="mb-3 text-xl font-medium leading-tight text-foreground transition-colors group-hover:text-foreground/80 md:text-2xl">
+                    {post.title}
+                  </h2>
+                  <p className="text-sm text-muted-foreground md:text-base">{post.category}</p>
                 </div>
-              </Link>
-            </article>
-          </FadeIn>
+
+                {/* Arrow Icon */}
+                <div className="hidden md:flex shrink-0 items-center justify-end md:w-12">
+                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 md:h-6 md:w-6" />
+                </div>
+              </div>
+            </Link>
+          </article>
         ))}
-      </FadeInStagger>
+      </div>
     </>
   )
 }
