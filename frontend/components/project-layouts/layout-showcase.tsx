@@ -8,7 +8,28 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight, ExternalLink, Github, LayoutGrid } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { ProjectData } from "./_archive/layout-split"
+import type { ReactNode } from "react"
+
+export interface ProjectData {
+    id: string
+    slug: string
+    title: string
+    subtitle: string
+    description: string
+    image: string
+    year: string
+    role: string
+    techStack: Array<{ name: string; color: string }>
+    links?: {
+        github?: string
+        demo?: string
+    }
+    nextProject?: {
+        slug: string
+        title: string
+    }
+    content: ReactNode
+}
 
 export function ShowcaseLayout({ project }: { project: ProjectData }) {
     // Fix for "jump" on refresh: Force scroll to top on mount to prevent browser scroll restoration
@@ -74,7 +95,7 @@ export function ShowcaseLayout({ project }: { project: ProjectData }) {
                             <div className="space-y-1.5">
                                 <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono">Toolkit</span>
                                 <div className="flex flex-wrap gap-1.5">
-                                    {project.techStack.map(t => (
+                                    {project.techStack.map((t: { name: string; color: string }) => (
                                         <Badge
                                             key={t.name}
                                             variant="outline"

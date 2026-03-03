@@ -4,54 +4,23 @@ import './globals.css'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { Public_Sans, Plus_Jakarta_Sans } from 'next/font/google'
-import { draftMode } from 'next/headers'
-import { toPlainText } from 'next-sanity'
-import { VisualEditing } from 'next-sanity/visual-editing'
 import { Toaster } from 'sonner'
 
 import { ThemeProvider } from "@/components/theme-provider"
-import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
-import * as demo from '@/sanity/lib/demo'
-import { sanityFetch, SanityLive } from '@/sanity/lib/live'
-import { settingsQuery } from '@/sanity/lib/queries'
-import { resolveOpenGraphImage } from '@/sanity/lib/utils'
-import { handleError } from './client-utils'
+import { siteConfig } from '@/lib/site-config'
 
-/**
- * Generate metadata for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
- */
-export async function generateMetadata(): Promise<Metadata> {
-  const { data: settings } = await sanityFetch({
-    query: settingsQuery,
-    // Metadata should never contain stega
-    stega: false,
-  })
-  const title = settings?.title || demo.title
-  const description = settings?.description || demo.description
-
-  const ogImage = resolveOpenGraphImage(settings?.ogImage)
-  let metadataBase: URL | undefined = undefined
-  try {
-    metadataBase = settings?.ogImage?.metadataBase
-      ? new URL(settings.ogImage.metadataBase)
-      : undefined
-  } catch {
-    // ignore
-  }
-  return {
-    metadataBase,
-    title: {
-      template: `%s | ${title}`,
-      default: title,
-    },
-    description: toPlainText(description),
-    openGraph: {
-      images: ogImage ? [ogImage] : [],
-    },
-  }
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    template: `%s | ${siteConfig.title}`,
+    default: siteConfig.title,
+  },
+  description: siteConfig.description,
+  openGraph: {
+    images: [siteConfig.ogImage],
+  },
 }
 
 const publicSans = Public_Sans({
@@ -66,9 +35,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: 'swap',
 })
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled: isDraftMode } = await draftMode()
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${publicSans.variable} ${plusJakarta.variable} bg-white text-black scroll-smooth`}>
       <body>
@@ -80,17 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         >
           <TransitionProvider>
             <section className="min-h-screen">
-              {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
               <Toaster />
-              {isDraftMode && (
-                <>
-                  <DraftModeToast />
-                  {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-                  <VisualEditing />
-                </>
-              )}
-              {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-              <SanityLive onError={handleError} />
               <Header />
               <main className="">{children}</main>
               <Footer />
@@ -99,6 +56,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </ThemeProvider>
         <SpeedInsights />
       </body>
-    </html >
+    </html>
   )
 }

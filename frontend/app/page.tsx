@@ -1,62 +1,28 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { settingsQuery } from '@/sanity/lib/queries'
-import { sanityFetch } from '@/sanity/lib/live'
-import { AtSign, Github, Linkedin, Twitter, ArrowRight, ArrowUpRight, Download } from 'lucide-react'
+import { getAllProjects, getAllNotes } from '@/lib/content'
+import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export default async function Page() {
-  const { data: settings } = await sanityFetch({
-    query: settingsQuery,
-  })
+  const allProjects = getAllProjects()
+  const allNotes = getAllNotes()
 
-  const projects = [
-    {
-      id: "1",
-      slug: "jakarta-demography",
-      image: 'https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg',
-      title: "Visualizing Jakarta's Demography",
-      description: 'Interactive geospatial analysis exploring demographic patterns and urban development trends across Jakarta\'s districts using GeoPandas and choropleth mapping.',
-      year: "2024",
-      tags: [{ name: "GeoPandas", color: "#22c55e" }, { name: "Python", color: "#3b82f6" }],
-    },
-    {
-      id: "2",
-      slug: "transit-network-analysis",
-      image: 'https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg',
-      title: 'Transit Network Analysis',
-      description: 'Comprehensive analysis of public transit accessibility using GTFS data, spatial joins, and catchment area calculations for urban mobility planning.',
-      year: "2024",
-      tags: [{ name: "R", color: "#4295ee" }, { name: "GTFS", color: "#f97316" }],
-    },
-    {
-      id: "3",
-      slug: "bus-operations-optimization",
-      image: 'https://images.pexels.com/photos/6091193/pexels-photo-6091193.jpeg',
-      title: 'Optimizing Bus Operations',
-      description: 'Python-based tool for GPS probe data processing, generating route adherence and schedule deviation reports for transit operations in Maputo.',
-      year: "2024",
-      tags: [{ name: "Streamlit", color: "#e79e2a" }, { name: "Python", color: "#3b82f6" }],
-    },
-  ]
+  const projects = allProjects.slice(0, 3).map((p, i) => ({
+    id: String(i + 1),
+    slug: p.slug,
+    image: p.image,
+    title: p.title,
+    description: p.description,
+    year: p.year,
+    tags: p.tags.slice(0, 2),
+  }))
 
-  const posts = [
-    {
-      slug: "b",
-      title: 'International Conference of Asia-Pacific Planning Societies 2025',
-      date: 'Mar 2025',
-    },
-    {
-      slug: "c",
-      title: "Starting Master's Studies @UTokyo",
-      date: 'Apr 2025',
-    },
-    {
-      slug: "d",
-      title: "Mapping Bus Operations in Maputo",
-      date: 'Jun 2025',
-    },
-  ]
+  const posts = allNotes.slice(0, 3).map((n) => ({
+    slug: n.slug,
+    title: n.title,
+    date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }))
 
   const photos = [
     { city: "Tokyo", src: "https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=600" },

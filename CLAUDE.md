@@ -2,11 +2,11 @@
 
 ## Overview
 
-Monorepo (npm workspaces) with two packages:
-- **`frontend/`** — Next.js 16 portfolio site (App Router, TypeScript)
-- **`studio/`** — Sanity 5 headless CMS for content management
+Single-package Next.js 16 portfolio site using **file-based MDX** for content management.
+- **`frontend/`** — Next.js 16 (App Router, TypeScript, Turbopack)
+- **`content/`** — MDX content files (projects & notes) inside `frontend/`
 
-Content is currently hardcoded in page files. Sanity CMS is wired up but not yet actively driving homepage/projects/notes content.
+All content lives as `.mdx` files with YAML frontmatter. No external CMS.
 
 ---
 
@@ -15,22 +15,18 @@ Content is currently hardcoded in page files. Sanity CMS is wired up but not yet
 Run from the **repo root** unless noted.
 
 ```bash
-npm run dev              # Start both frontend + studio dev servers in parallel
-npm run dev:next         # Frontend only (Next.js + Turbopack)
-npm run dev:studio       # Studio only (Sanity)
-npm run format           # Prettier (uses @sanity/prettier-config)
+npm run dev              # Start Next.js dev server (Turbopack)
+npm run format           # Prettier
 npm run lint             # ESLint (frontend)
-npm run type-check       # TypeScript check across both workspaces
+npm run type-check       # TypeScript check
 ```
 
 Run from **`frontend/`**:
 
 ```bash
-npm run typegen          # Regenerate Sanity schema TypeScript types (run after schema changes)
 npm run build            # Production build
+npm run dev              # Dev server
 ```
-
-> `predev` and `prebuild` hooks auto-run `typegen` before dev/build.
 
 ---
 
@@ -43,14 +39,18 @@ frontend/
 ├── app/                        # Next.js App Router pages (server components by default)
 │   ├── about/
 │   ├── notes/
-│   ├── posts/
+│   │   └── [slug]/             # Note detail (MDX rendered)
 │   ├── projects/
-│   ├── [slug]/                 # Dynamic routes
-│   ├── api/
-│   ├── layout.tsx              # Root layout (ThemeProvider, TransitionProvider, SanityLive)
+│   │   └── [slug]/             # Project detail (MDX rendered)
+│   ├── components/             # Page-level components (Header, Footer, etc.)
+│   ├── layout.tsx              # Root layout (ThemeProvider, TransitionProvider)
 │   ├── page.tsx                # Home/hero page
 │   ├── globals.css             # CSS vars, OKLch theme tokens
+│   ├── sitemap.ts              # Auto-generates sitemap from MDX files
 │   └── template.tsx            # Page transitions
+├── content/
+│   ├── projects/               # Project MDX files (*.mdx)
+│   └── notes/                  # Note MDX files (*.mdx)
 ├── components/
 │   ├── ui/                     # Shadcn/Radix UI primitives
 │   ├── visual/                 # FadeIn, FadeInStagger, ScaleIn motion primitives
@@ -58,19 +58,81 @@ frontend/
 │   ├── project-layouts/        # Project detail page layouts
 │   └── note-layouts/           # Note/article page layouts
 ├── lib/
+│   ├── content.ts              # File-system content reader (getAllProjects, getAllNotes, etc.)
+│   ├── mdx.tsx                 # MDX compilation & custom components
+│   ├── site-config.ts          # Site metadata (title, description, author, social links)
 │   ├── utils.ts                # Shared utilities (cn, etc.)
 │   └── transition-context.tsx  # Page transition state
-├── sanity/lib/
-│   ├── client.ts               # Sanity client setup
-│   ├── queries.ts              # All GROQ queries
-│   ├── live.ts                 # Sanity Live Content API
-│   └── utils.ts                # Sanity helpers
-├── next.config.ts              # Image remote patterns, styled-components
+├── next.config.ts              # Image remote patterns
 ├── tailwind.config.ts          # Custom palette, fonts, dark mode
 └── tsconfig.json               # Strict mode, path alias @/* → root
-
-studio/                         # Sanity Studio (schema definitions, desk config)
 ```
+
+---
+
+## Content Management (MDX)
+
+### Adding a New Project
+
+Create `frontend/content/projects/<slug>.mdx`:
+
+```mdx
+---
+title: "Project Title"
+slug: "project-slug"
+description: "Short description for cards and meta"
+subtitle: "Longer subtitle for detail page"
+image: "/images/project-hero.jpg"
+year: "2024"
+role: "Lead Developer"
+tags: ["React", "TypeScript"]
+featured: true
+order: 1
+github: "https://github.com/..."
+demo: "https://..."
+nextProject: "other-project-slug"
+---
+
+Your project content in MDX here...
+```
+
+### Adding a New Note
+
+Create `frontend/content/notes/<slug>.mdx`:
+
+```mdx
+---
+title: "Note Title"
+slug: "note-slug"
+date: "2024-01-15"
+excerpt: "Brief summary for listings"
+category: "Development"
+tags: ["React", "Performance"]
+published: true
+---
+
+Your note content in MDX here...
+```
+
+### Content Utilities (`lib/content.ts`)
+
+| Function | Purpose |
+|----------|---------|
+| `getAllProjects()` | Returns all projects sorted by `order` field |
+| `getProjectBySlug(slug)` | Returns single project frontmatter + raw MDX |
+| `getProjectSlugs()` | Returns all project slugs (for `generateStaticParams`) |
+| `getAllNotes()` | Returns all published notes sorted by date (newest first) |
+| `getNoteBySlug(slug)` | Returns single note frontmatter + raw MDX |
+| `getNoteSlugs()` | Returns all note slugs (for `generateStaticParams`) |
+| `getAllContentSlugs()` | Returns all slugs with type prefix (for sitemap) |
+
+### MDX Components (`lib/mdx.tsx`)
+
+Custom components available in MDX files:
+- `<Callout type="info|warning|tip">` — styled callout boxes
+- `<ImageGallery images={[{src, alt, caption}]}>` — responsive image grid
+- Images auto-wrapped in `<figure>` with optional `<figcaption>`
+- Internal links auto-use Next.js `<Link>`
 
 ---
 
@@ -94,11 +156,7 @@ studio/                         # Sanity Studio (schema definitions, desk config
 
 ### Images
 - Use Next.js `<Image>` component
-- Allowed remote patterns: `cdn.sanity.io`, `pexels.com`, `vercel-storage.com`
-
-### Types
-- Sanity schema types are **auto-generated** — run `typegen` after any schema changes
-- Generated types live in `frontend/sanity/types.ts` (do not edit manually)
+- Allowed remote patterns: `pexels.com`, `vercel-storage.com`
 
 ---
 
@@ -131,13 +189,17 @@ studio/                         # Sanity Studio (schema definitions, desk config
 
 | File | Purpose |
 |------|---------|
-| `frontend/app/page.tsx` | Homepage — bento grid layout, hardcoded content |
+| `frontend/app/page.tsx` | Homepage — vertical sections, content from MDX utils |
 | `frontend/app/components/Header.tsx` | Sticky nav, h-12, max-w-4xl |
 | `frontend/app/components/Footer.tsx` | Footer, max-w-4xl |
 | `frontend/components/project-card.tsx` | Shared project card component |
-| `frontend/app/projects/page.tsx` | Projects listing — hardcoded |
-| `frontend/app/notes/page.tsx` | Notes listing — hardcoded |
-| `frontend/next.config.ts` | Remote image patterns (cdn.sanity.io, pexels.com, vercel-storage.com) |
+| `frontend/app/projects/page.tsx` | Projects listing — reads from `content/projects/` |
+| `frontend/app/projects/[slug]/page.tsx` | Project detail — renders MDX via ShowcaseLayout |
+| `frontend/app/notes/page.tsx` | Notes listing — reads from `content/notes/` |
+| `frontend/app/notes/[slug]/page.tsx` | Note detail — renders MDX via ArticleLayout |
+| `frontend/lib/content.ts` | File-system content reader (replaces all CMS queries) |
+| `frontend/lib/mdx.tsx` | MDX compilation with custom components |
+| `frontend/lib/site-config.ts` | Site metadata and author info |
+| `frontend/next.config.ts` | Remote image patterns (pexels.com, vercel-storage.com) |
 | `frontend/app/globals.css` | CSS vars, OKLch theme tokens (`--radius: 0.625rem`) |
-| `frontend/sanity/lib/queries.ts` | All GROQ queries for content fetching |
 | `frontend/lib/utils.ts` | Shared utilities (`cn`, etc.) |

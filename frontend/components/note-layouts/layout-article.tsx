@@ -4,24 +4,20 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { type PortableTextBlock } from "next-sanity"
-import PortableText from "@/app/components/PortableText"
-import { urlForImage } from "@/sanity/lib/utils"
 
 interface Post {
     title: string
     slug: string
     date: string
     excerpt?: string
-    coverImage?: any
+    coverImage?: string
     author?: {
-        firstName: string
-        lastName: string
-        picture?: any
+        name: string
+        avatar?: string
     } | null
-    content: PortableTextBlock[]
+    content: ReactNode
     tags?: string[]
     category?: string
 }
@@ -33,7 +29,7 @@ interface ArticleLayoutProps {
         slug: string
         date: string
         excerpt?: string
-        coverImage?: any
+        coverImage?: string
         category?: string
     }[]
 }
@@ -83,22 +79,22 @@ export function LayoutArticle({ post, relatedPosts }: ArticleLayoutProps) {
                             {post.author && (
                                 <>
                                     <div className="h-10 w-10 relative overflow-hidden rounded-full ring-2 ring-white/10">
-                                        {post.author.picture ? (
+                                        {post.author.avatar ? (
                                             <Image
-                                                src={urlForImage(post.author.picture)?.url() || ''}
-                                                alt={post.author.firstName}
+                                                src={post.author.avatar}
+                                                alt={post.author.name}
                                                 fill
                                                 className="object-cover"
                                             />
                                         ) : (
                                             <div className="h-full w-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
-                                                {post.author.firstName[0]}
+                                                {post.author.name[0]}
                                             </div>
                                         )}
                                     </div>
                                     <div className="flex flex-col">
                                         <span className="font-bold text-sm tracking-wide">
-                                            {post.author.firstName} {post.author.lastName}
+                                            {post.author.name}
                                         </span>
                                         <span className="text-xs text-foreground/50 uppercase tracking-wider">
                                             Author
@@ -193,10 +189,8 @@ export function LayoutArticle({ post, relatedPosts }: ArticleLayoutProps) {
                     <div className="hidden lg:block" />
 
                     {/* Center Column - Article Content */}
-                    <main className="article-content relative">
-                        {post.content && (
-                            <PortableText value={post.content} />
-                        )}
+                    <main className="article-content prose prose-neutral dark:prose-invert max-w-none relative">
+                        {post.content}
                     </main>
 
                     {/* Right Margin */}
@@ -216,14 +210,13 @@ export function LayoutArticle({ post, relatedPosts }: ArticleLayoutProps) {
                         </FadeIn>
                         <FadeInStagger className="flex overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:pb-0 md:mx-0 md:px-0 md:gap-6 hide-scrollbar">
                             {relatedPosts.slice(0, 3).map((related, i) => {
-                                const relatedImageUrl = related.coverImage ? urlForImage(related.coverImage)?.url() : null
                                 return (
                                     <FadeIn
                                         key={related.slug}
                                         className="snap-center min-w-[280px] w-[85vw] md:w-auto flex flex-col h-full"
                                     >
                                         <Link
-                                            href={`/posts/${related.slug}`}
+                                            href={`/notes/${related.slug}`}
                                             className="group relative flex flex-col h-full rounded-xl overflow-hidden border bg-card hover:bg-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:-translate-y-1"
                                         >
                                             <div className="p-5 flex flex-col gap-3 flex-1">

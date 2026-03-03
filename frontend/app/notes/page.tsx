@@ -1,51 +1,21 @@
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { getAllNotes } from "@/lib/content"
 
 export default function NotesPage() {
-  const blogPosts = [
-    {
-      id: "1",
-      date: "MAR 15 2024",
-      title: "Building accessible interfaces with semantic HTML",
-      category: "Development",
-      slug: "supercharge-your-web-development-with-sanity-and-nextjs",
-    },
-    {
-      id: "2",
-      date: "FEB 28 2024",
-      title: "The art of minimalist design in modern web applications",
-      category: "Design",
-      slug: "minimalist-design-modern-web",
-    },
-    {
-      id: "3",
-      date: "FEB 12 2024",
-      title: "Performance optimization techniques for Next.js applications",
-      category: "Development",
-      slug: "performance-optimization-nextjs",
-    },
-    {
-      id: "4",
-      date: "JAN 30 2024",
-      title: "Typography matters: choosing the right fonts for your project",
-      category: "Design",
-      slug: "typography-matters",
-    },
-    {
-      id: "5",
-      date: "JAN 18 2024",
-      title: "State management patterns in React applications",
-      category: "Development",
-      slug: "state-management-react",
-    },
-    {
-      id: "6",
-      date: "DEC 22 2023",
-      title: "Creating delightful micro-interactions",
-      category: "Design",
-      slug: "delightful-micro-interactions",
-    },
-  ]
+  const allNotes = getAllNotes()
+
+  const blogPosts = allNotes.map((note, i) => ({
+    id: String(i + 1),
+    date: new Date(note.date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    }).toUpperCase(),
+    title: note.title,
+    category: note.category || '',
+    slug: note.slug,
+  }))
 
   return (
     <>
@@ -62,7 +32,7 @@ export default function NotesPage() {
         {blogPosts.map((post) => (
           <article key={post.id}>
             <Link
-              href={`/posts/${post.slug}`}
+              href={`/notes/${post.slug}`}
               className="group block border-b border-border md:px-2 py-8 transition-colors hover:bg-accent/30 md:py-10"
             >
               <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-12">

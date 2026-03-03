@@ -3,92 +3,23 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/project-card"
+import { getAllProjects } from "@/lib/content"
 
 export default function ProjectsPage() {
-  const projects: Project[] = [
-    {
-      id: "1",
-      slug: "jakarta-demography",
-      title: "Visualizing Jakarta's Demography",
-      description: "Interactive geospatial analysis exploring demographic patterns and urban development trends across Jakarta's districts using GeoPandas and choropleth mapping.",
-      image: "https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg",
-      year: "2024",
-      tags: [
-        { name: "GeoPandas", color: "#22c55e" },
-        { name: "Python", color: "#3b82f6" },
-        { name: "QGIS", color: "#8b5cf6" },
-      ],
-      featured: true,
-      github: "https://github.com/riidwansatria",
-    },
-    {
-      id: "2",
-      slug: "transit-network-analysis",
-      title: "Transit Network Analysis",
-      description: "Comprehensive analysis of public transit accessibility using GTFS data, spatial joins, and catchment area calculations for urban mobility planning.",
-      image: "https://images.pexels.com/photos/681335/pexels-photo-681335.jpeg",
-      year: "2024",
-      tags: [
-        { name: "R", color: "#4295ee" },
-        { name: "GTFS", color: "#f97316" },
-        { name: "Network Analysis", color: "#ec4899" },
-      ],
-      featured: true,
-    },
-    {
-      id: "3",
-      slug: "bus-operations-optimization",
-      title: "Optimizing Bus Operations",
-      description: "Python-based tool for GPS probe data processing, generating route adherence and schedule deviation reports for transit operations in Maputo.",
-      image: "https://images.pexels.com/photos/6091193/pexels-photo-6091193.jpeg",
-      year: "2024",
-      tags: [
-        { name: "Streamlit", color: "#e79e2a" },
-        { name: "GPS Analytics", color: "#14b8a6" },
-        { name: "Python", color: "#3b82f6" },
-      ],
-      featured: true,
-      demo: "#",
-    },
-    {
-      id: "4",
-      slug: "jakarta-flood-warning",
-      title: "TOD-Induced Gentrification Analysis",
-      description: "Research identifying areas vulnerable to Transit-Oriented Development-induced gentrification, proposing equitable TOD implementation strategies for Jakarta.",
-      image: "https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg",
-      year: "2024",
-      tags: [
-        { name: "Urban Policy", color: "#6366f1" },
-        { name: "GIS", color: "#8b5cf6" },
-        { name: "PCA", color: "#0ea5e9" },
-      ],
-    },
-    {
-      id: "5",
-      slug: "land-use-visualization",
-      title: "Aerial Imagery & Land Use Tool",
-      description: "Web-based tool for aerial imagery and land use visualization using JavaScript, deployed for TOD area analysis by urban design team at Nikken Sekkei.",
-      image: "https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg",
-      year: "2023",
-      tags: [
-        { name: "JavaScript", color: "#eab308" },
-        { name: "Web Mapping", color: "#22c55e" },
-        { name: "Leaflet", color: "#0ea5e9" },
-      ],
-    },
-    {
-      id: "6",
-      slug: "nmt-mobility-strategies",
-      title: "Non-Motorized Transport Strategies",
-      description: "Research and proposed mobility management strategies for non-motorized transportation based on international best practices for JUTPI 3 project.",
-      image: "https://images.pexels.com/photos/3971983/pexels-photo-3971983.jpeg",
-      year: "2023",
-      tags: [
-        { name: "Policy Research", color: "#a855f7" },
-        { name: "Mobility", color: "#f43f5e" },
-      ],
-    },
-  ]
+  const allProjectData = getAllProjects()
+
+  const projects: Project[] = allProjectData.map((p, i) => ({
+    id: String(i + 1),
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    image: p.image,
+    year: p.year,
+    tags: p.tags,
+    featured: p.featured,
+    github: p.github,
+    demo: p.demo,
+  }))
 
   const featuredProjects = projects.filter((p) => p.featured)
   const otherProjects = projects.filter((p) => !p.featured)
