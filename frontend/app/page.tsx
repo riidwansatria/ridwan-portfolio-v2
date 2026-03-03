@@ -132,11 +132,11 @@ export default async function Page() {
               <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
-          <div className="-mx-1">
+          <div>
             {posts.map((post) => (
               <article key={post.slug} className="border-t first:border-t-0 border-border/60">
                 <Link href={`/notes/${post.slug}`}>
-                  <div className="mx-1 py-3 rounded-lg transition-colors hover:bg-accent/50">
+                  <div className="-mx-2 px-2 py-3 rounded-lg transition-colors hover:bg-accent/50">
                     <p className="text-sm font-medium text-foreground leading-snug">{post.title}</p>
                     <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
                   </div>
@@ -180,9 +180,6 @@ export default async function Page() {
             <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
               Email <ArrowUpRight size={12} />
             </a>
-            <Link href="/about" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
-              CV <ArrowUpRight size={12} />
-            </Link>
           </div>
         </section>
 

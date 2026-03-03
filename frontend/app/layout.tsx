@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import { Public_Sans, Plus_Jakarta_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 
+import { DevTools } from "@/components/dev-tools"
 import { ThemeProvider } from "@/components/theme-provider"
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </TransitionProvider>
         </ThemeProvider>
         <SpeedInsights />
+        <DevTools />
       </body>
     </html>
   )
