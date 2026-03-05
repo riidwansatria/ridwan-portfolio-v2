@@ -40,7 +40,7 @@ export function ShowcaseLayout({ project }: { project: ProjectData }) {
 
     return (
         // Changed from fixed to standard flow to prevent stacking context issues with framer-motion transforms
-        <div className="w-full bg-background text-foreground px-4 py-8 md:px-6 lg:px-8 md:h-[calc(100vh-5rem)] md:overflow-hidden md:flex md:flex-col md:pb-8">
+        <div className="w-full bg-background text-foreground px-4 py-2 md:px-4 md:h-[calc(100vh-60px)] md:overflow-hidden md:flex md:flex-col md:pb-4">
 
             {/* Bento Grid Container - Wrapped in Stagger */}
             <FadeInStagger className="flex flex-col gap-6 md:grid md:grid-cols-12 md:grid-rows-12 md:gap-4 md:min-h-0 md:flex-1">
@@ -70,18 +70,6 @@ export function ShowcaseLayout({ project }: { project: ProjectData }) {
 
                 {/* 2. Right Column: Control Panel (Flex Container) */}
                 <div className="flex flex-col gap-4 md:h-full md:min-h-0 md:col-span-4 md:row-span-12">
-
-                    {/* 2a. Navigation & Metadata */}
-                    <FadeIn className="shrink-0 flex items-center justify-between px-1">
-                        <TransitionLink
-                            href="/projects"
-                            transition="back"
-                            className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors group"
-                        >
-                            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
-                            <span>Back to Projects</span>
-                        </TransitionLink>
-                    </FadeIn>
 
                     {/* 2b. Title & Metadata Card */}
                     <FadeIn className="shrink-0 bg-card border border-border rounded-2xl p-4 flex flex-col justify-between">
