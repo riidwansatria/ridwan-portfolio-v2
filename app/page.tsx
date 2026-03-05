@@ -40,7 +40,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-8">
       <div className="space-y-16">
 
         {/* Intro */}
