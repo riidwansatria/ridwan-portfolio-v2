@@ -1,98 +1,211 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 // Navigation items
 const navigation = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
-  { name: 'Research', href: '/research' },
-  { name: 'CV', href: '/about' },
+  { name: 'Notes', href: '/notes' },
 ]
 
-// Mobile-only navigation
-const mobileNavigation = [
-  { name: 'Home', href: '/' },
-  ...navigation,
-]
+// Map route segments to readable names
+function getSegmentLabel(segment: string): string {
+  const labels: Record<string, string> = {
+    projects: 'Projects',
+    notes: 'Notes',
+    about: 'About',
+    research: 'Research',
+  }
+  return labels[segment] || segment
+}
+
+// Build breadcrumb from pathname
+function getBreadcrumbs(pathname: string) {
+  if (pathname === '/') return []
+
+  const segments = pathname.split('/').filter(Boolean)
+  const crumbs: { label: string; href: string }[] = []
+
+  crumbs.push({ label: 'Ridwan Satria', href: '/' })
+
+  if (segments.length >= 1) {
+    crumbs.push({
+      label: getSegmentLabel(segments[0]),
+      href: `/${segments[0]}`,
+    })
+  }
+
+  return crumbs
+}
+
+// Animated 2-line menu / X icon
+// Both bars start at the SVG center — translateY for hamburger, rotate for X
+function MenuIcon({ open }: { open: boolean }) {
+  const shared = {
+    transformBox: 'fill-box' as const,
+    transformOrigin: 'center',
+    transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)',
+  }
+
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="shrink-0"
+    >
+      {/* Both rects at y=11 (center = y:12). Spread with translateY for ☰, rotate for ✕ */}
+      <rect
+        x="3" y="11" width="18" height="2" rx="1"
+        fill="currentColor"
+        style={{
+          ...shared,
+          transform: open ? 'rotate(45deg)' : 'translateY(-4.5px)',
+        }}
+      />
+      <rect
+        x="3" y="11" width="18" height="2" rx="1"
+        fill="currentColor"
+        style={{
+          ...shared,
+          transform: open ? 'rotate(-45deg)' : 'translateY(4.5px)',
+        }}
+      />
+    </svg>
+  )
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
 
-  if (pathname === '/') {
-    return null
-  }
+  const breadcrumbs = getBreadcrumbs(pathname)
+  const isHome = pathname === '/'
+
+  // Close menu on route change
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
-    <header className="sticky top-0 z-50 h-12 backdrop-blur-sm bg-background/90 border-b">
-      <nav className="max-w-4xl mx-auto px-4 sm:px-6 h-full">
-        <div className="flex items-center justify-between h-full">
-          
-          {/* Mobile nav */}
-          <div className="flex sm:hidden mr-2">
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Toggle menu">
-                  {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-4/5">
-                {/* Hidden title for accessibility */}
-                <SheetTitle className="sr-only">Mobile navigation menu</SheetTitle>
-                <SheetDescription className="sr-only">
-                  Contains navigation links for mobile users.
-                </SheetDescription>
-                <div className="mt-6 flex flex-col h-full">
-                  <div className="flex-1 space-y-2">
-                    {mobileNavigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
-                        onClick={() => setOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80">
+        <nav className="px-3 py-3 h-full">
+          <div className="flex items-center h-full gap-2.5">
 
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+            {/* Animated menu toggle */}
+            <button
+              className="h-8 w-8 shrink-0 rounded-full z-[60] flex items-center justify-center
+                         hover:bg-accent transition-colors"
+              aria-label="Toggle menu"
+              onClick={() => setOpen(!open)}
+            >
+              <MenuIcon open={open} />
+            </button>
 
-          {/* Name */}
-          <div className="flex flex-1 items-center">
-            <Link href="/">
-              <span className="text-sm font-medium tracking-tight text-foreground">
-                Ridwan Satria
-              </span>
-            </Link>
-          </div>
-
-          {/* Desktop nav */}
-          <div className="hidden sm:flex items-center gap-2">
-            {navigation.map((item, idx) => (
-              <Button
-                key={item.name}
-                asChild
-                variant="link"
-                className="rounded-none bg-transparent px-4 py-0 text-sm text-muted-foreground font-medium hover:text-foreground border-r"
+            {/* Breadcrumb — fades out when menu opens */}
+            {!isHome && breadcrumbs.length > 0 && (
+              <div
+                className="flex items-center gap-3 text-base min-w-0 transition-opacity duration-200"
+                style={{ opacity: open ? 0 : 1 }}
               >
-                <Link href={item.href} className="flex items-center h-auto">
-                  {item.name}
-                </Link>
-              </Button>
-            ))}
+                {breadcrumbs.map((crumb, index) => (
+                  <span key={crumb.href} className="flex items-center gap-3 min-w-0">
+                    {index > 0 && (
+                      <span className="text-muted-foreground/40 select-none">/</span>
+                    )}
+                    <Link
+                      href={crumb.href}
+                      className={`
+                        hover:text-foreground/70 transition-colors truncate
+                        ${index === breadcrumbs.length - 1
+                          ? 'text-muted-foreground'
+                          : 'text-foreground font-medium'
+                        }
+                      `}
+                    >
+                      {crumb.label}
+                    </Link>
+                  </span>
+                ))}
+              </div>
+            )}
+
           </div>
+        </nav>
+      </header>
+
+      {/* Full-screen menu overlay */}
+      <div
+        className="fixed inset-0 z-40 bg-background pointer-events-none"
+        style={{
+          clipPath: open
+            ? 'circle(150% at 24px 28px)'
+            : 'circle(0% at 24px 28px)',
+          transition: open
+            ? 'clip-path 0.5s cubic-bezier(0.76, 0, 0.24, 1)'
+            : 'clip-path 0.4s cubic-bezier(0.76, 0, 0.24, 1)',
+          pointerEvents: open ? 'auto' : 'none',
+        }}
+      >
+        <div className="flex flex-col justify-center items-start h-full px-8 sm:px-16">
+          <nav className="flex flex-col gap-2 w-full max-w-md">
+            {navigation.map((item, i) => {
+              const isActive = pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(item.href))
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`
+                    group flex items-center justify-between rounded-xl px-4 py-4
+                    text-2xl transition-all duration-300
+                    ${isActive
+                      ? 'bg-accent text-foreground font-medium'
+                      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+                    }
+                  `}
+                  style={{
+                    opacity: open ? 1 : 0,
+                    transform: open ? 'translateY(0)' : 'translateY(12px)',
+                    transition: open
+                      ? `opacity 0.3s ${0.15 + i * 0.05}s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) ${0.15 + i * 0.05}s`
+                      : 'opacity 0.15s, transform 0.15s',
+                  }}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.name}
+                  <ArrowRight className={`
+                    h-5 w-5 transition-all
+                    ${isActive
+                      ? 'opacity-100'
+                      : 'opacity-0 -translate-x-2 group-hover:opacity-50 group-hover:translate-x-0'
+                    }
+                  `} />
+                </Link>
+              )
+            })}
+          </nav>
         </div>
-      </nav>
-    </header>
+      </div>
+    </>
   )
 }

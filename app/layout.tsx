@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <section className="min-h-screen">
               <Toaster />
               <Header />
-              <main className="">{children}</main>
+              <main className="pt-14">{children}</main>
               <Footer />
             </section>
           </TransitionProvider>

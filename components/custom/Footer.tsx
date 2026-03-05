@@ -12,8 +12,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative border-t pt-2 pb-4">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center">
+    <footer className="relative border-t py-2">
+      <div className="px-4 sm:px-6 flex items-center">
         <div className="flex-1 text-muted-foreground text-xs sm:text-sm">
           © {new Date().getFullYear()} Ridwan Satria.
         </div>
