@@ -1,6 +1,7 @@
 import { TransitionProvider } from '@/lib/transition-context'
 import './globals.css'
 
+import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { Public_Sans, Plus_Jakarta_Sans } from 'next/font/google'
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </section>
           </TransitionProvider>
         </ThemeProvider>
+        <Analytics />
         <SpeedInsights />
         <DevTools />
       </body>
