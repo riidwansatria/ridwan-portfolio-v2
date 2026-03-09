@@ -226,8 +226,6 @@ Important implementation notes:
 - uses breadcrumbs on non-home routes
 - current nav items are `Home`, `About`, `Projects`, `Notes`
 
-The previous doc's sticky header and `/research` link are no longer accurate.
-
 ### Footer
 
 [`components/custom/Footer.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/Footer.tsx):
@@ -288,3 +286,13 @@ Configured in [`next.config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v
 - [`components/custom/note-layouts/layout-article.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/note-layouts/layout-article.tsx) exists but is not currently used by the active note route.
 - `app/page.tsx` still contains an unused `photos` array.
 - `ImageGallery` uses a dynamic Tailwind class pattern that may need hardcoded variants if styling becomes inconsistent.
+
+---
+
+## Reference docs
+
+- Content model (layouts, frontmatter, /projects vs /notes): docs/CONTENT-MODEL.md
+- Design system (typography, color, motion, layout): docs/DESIGN-SYSTEM.md
+- Component inventory and usage: docs/COMPONENTS.md
+- Content templates (frontmatter starters, palette reference): docs/TEMPLATES.md
+- Common workflows (add project/note/component/layout): docs/WORKFLOWS.md

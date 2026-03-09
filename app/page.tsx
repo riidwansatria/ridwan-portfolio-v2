@@ -138,9 +138,6 @@ export default async function Page() {
                   <div className="-mx-2 px-2 py-3 rounded-lg transition-colors hover:bg-accent/50">
                     <p className="text-sm font-medium text-foreground leading-snug">{post.title}</p>
                     <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">
-                      {post.abstract}
-                    </p>
                   </div>
                 </Link>
               </article>
