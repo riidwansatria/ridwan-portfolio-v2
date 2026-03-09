@@ -108,7 +108,7 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80">
-        <nav className="px-3 py-3 h-full">
+        <nav className="p-4 h-full">
           <div className="flex items-center h-full gap-2.5">
 
             {/* Animated menu toggle */}

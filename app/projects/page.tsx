@@ -7,18 +7,20 @@ import { getAllProjects } from "@/lib/content"
 
 export default function ProjectsPage() {
   const allProjectData = getAllProjects()
+  const projectsForIndex = allProjectData.filter(
+    (p) => process.env.NODE_ENV === 'development' || p.status !== 'draft'
+  )
 
-  const projects: Project[] = allProjectData.map((p, i) => ({
+  const projects: Project[] = projectsForIndex.map((p, i) => ({
     id: String(i + 1),
     slug: p.slug,
     title: p.title,
-    description: p.description,
-    image: p.image,
-    year: p.year,
+    abstract: p.abstract,
+    heroImage: p.heroImage,
+    date: p.date,
     tags: p.tags,
+    accentColors: p.accentColors,
     featured: p.featured,
-    github: p.github,
-    demo: p.demo,
   }))
 
   const featuredProjects = projects.filter((p) => p.featured)
@@ -58,12 +60,12 @@ export default function ProjectsPage() {
             <div key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-4 md:p-5 rounded-2xl border bg-card hover:bg-accent/30 transition-colors duration-200"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/30 transition-colors duration-200"
               >
                 {/* Thumbnail */}
-                <div className="hidden md:block relative w-full md:w-40 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
+                <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
                   <Image
-                    src={project.image}
+                    src={project.heroImage}
                     alt={project.title}
                     fill
                     className="object-cover"
@@ -76,25 +78,25 @@ export default function ProjectsPage() {
                     {project.title}
                   </h3>
                   <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 mb-3">
-                    {project.description}
+                    {project.abstract}
                   </p>
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-medium text-muted-foreground">
-                      {project.year}
+                      {new Date(project.date).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
                     </span>
                     <div className="flex flex-wrap gap-1.5">
-                      {project.tags.slice(0, 2).map((tag) => (
+                      {project.tags.slice(0, 2).map((tag, index) => (
                         <Badge
-                          key={tag.name}
+                          key={tag}
                           variant="secondary"
                           className="text-xs font-medium px-2 py-0"
                           style={{
-                            backgroundColor: `${tag.color}15`,
-                            border: `1px solid ${tag.color}40`,
-                            color: tag.color,
+                            backgroundColor: `${project.accentColors[index] ?? "#64748b"}15`,
+                            border: `1px solid ${project.accentColors[index] ?? "#64748b"}40`,
+                            color: project.accentColors[index] ?? "#64748b",
                           }}
                         >
-                          {tag.name}
+                          {tag}
                         </Badge>
                       ))}
                     </div>

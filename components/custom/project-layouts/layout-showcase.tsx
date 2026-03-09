@@ -1,172 +1,127 @@
 "use client"
 
-import { TransitionLink } from "@/components/ui/transition-link"
-import { FadeIn, FadeInStagger, ScaleIn } from "@/components/custom/visual/motion-primitives"
 import { useEffect } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, ArrowRight, ExternalLink, Github, LayoutGrid } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+import { TransitionLink } from "@/components/ui/transition-link"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import type { ReactNode } from "react"
+import { FadeIn, FadeInStagger, ScaleIn } from "@/components/custom/visual/motion-primitives"
+import type { ProjectLayoutData } from "@/components/custom/project-layouts/types"
 
-export interface ProjectData {
-    id: string
-    slug: string
-    title: string
-    subtitle: string
-    description: string
-    image: string
-    year: string
-    role: string
-    techStack: Array<{ name: string; color: string }>
-    links?: {
-        github?: string
-        demo?: string
-    }
-    nextProject?: {
-        slug: string
-        title: string
-    }
-    content: ReactNode
+function formatProjectDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  })
 }
 
-export function ShowcaseLayout({ project }: { project: ProjectData }) {
-    // Fix for "jump" on refresh: Force scroll to top on mount to prevent browser scroll restoration
-    // interfering with the fixed layout.
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+export function ShowcaseLayout({ project }: { project: ProjectLayoutData }) {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
-    return (
-        // Changed from fixed to standard flow to prevent stacking context issues with framer-motion transforms
-        <div className="w-full bg-background text-foreground px-4 py-2 md:px-4 md:h-[calc(100vh-60px)] md:overflow-hidden md:flex md:flex-col md:pb-4">
+  return (
+    <div className="w-full bg-background px-4 py-2 text-foreground md:flex md:h-[calc(100vh-60px)] md:flex-col md:px-4 md:pb-4">
+      <FadeInStagger className="flex flex-col gap-6 md:grid md:min-h-0 md:flex-1 md:grid-cols-12 md:grid-rows-12 md:gap-4">
+        <ScaleIn className="relative flex aspect-video flex-col overflow-hidden rounded-2xl border border-border bg-muted md:col-span-8 md:row-span-12 md:h-full md:aspect-auto">
+          <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center border-b border-white/10 bg-black/20 px-4 backdrop-blur-md">
+            <div className="flex gap-1.5">
+              <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+            </div>
+            <div className="mx-auto text-[10px] tracking-wider text-white/50">{project.slug}</div>
+          </div>
 
-            {/* Bento Grid Container - Wrapped in Stagger */}
-            <FadeInStagger className="flex flex-col gap-6 md:grid md:grid-cols-12 md:grid-rows-12 md:gap-4 md:min-h-0 md:flex-1">
+          <Image
+            src={project.heroImage}
+            alt={project.title}
+            fill
+            priority
+            className="object-cover"
+          />
+        </ScaleIn>
 
-                {/* 1. Main Visual (Large) */}
-                <ScaleIn className="relative rounded-2xl overflow-hidden border border-border bg-muted group aspect-video md:aspect-auto md:h-full md:col-span-8 md:row-span-12 flex flex-col">
-                    {/* Window Frame Header */}
-                    <div className="absolute top-0 inset-x-0 h-8 bg-black/20 backdrop-blur-md z-10 flex items-center px-4 border-b border-white/10">
-                        <div className="flex gap-1.5">
-                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                        </div>
-                        <div className="mx-auto text-[10px] font-mono text-white/50 tracking-wider">
-                            {project.slug} — Preview
-                        </div>
-                    </div>
+        <div className="flex flex-col gap-4 md:col-span-4 md:row-span-12 md:h-full md:min-h-0">
+          <FadeIn className="rounded-2xl border border-border bg-card p-4">
+            <div className="space-y-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {formatProjectDate(project.date)}
+                </p>
+                <h1 className="mt-2 text-xl font-medium leading-[1.1] tracking-tight md:text-2xl lg:text-3xl">
+                  {project.title}
+                </h1>
+              </div>
 
-                    <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </ScaleIn>
-
-                {/* 2. Right Column: Control Panel (Flex Container) */}
-                <div className="flex flex-col gap-4 md:h-full md:min-h-0 md:col-span-4 md:row-span-12">
-
-                    {/* 2b. Title & Metadata Card */}
-                    <FadeIn className="shrink-0 bg-card border border-border rounded-2xl p-4 flex flex-col justify-between">
-                        <div>
-                            <h1 className="text-xl md:text-2xl lg:text-3xl font-medium tracking-tighter text-foreground leading-[1.1]">
-                                {project.title}
-                            </h1>
-                        </div>
-
-                        <div className="flex justify-between items-end pt-4">
-                            <div className="space-y-1.5">
-                                <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono">Toolkit</span>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {project.techStack.map((t: { name: string; color: string }) => (
-                                        <Badge
-                                            key={t.name}
-                                            variant="outline"
-                                            className="font-mono text-[10px] px-2 py-0.5"
-                                            style={{
-                                                backgroundColor: t.color ? `${t.color}15` : undefined,
-                                                color: t.color,
-                                                borderColor: t.color ? `${t.color}30` : undefined
-                                            }}
-                                        >
-                                            {t.name}
-                                        </Badge>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="space-y-1.5 text-right">
-                                <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono">Year</span>
-                                <div className="font-mono text-sm">{project.year}</div>
-                            </div>
-                        </div>
-                    </FadeIn>
-
-                    {/* 2c. Links (Fixed Height) */}
-                    <FadeIn className="shrink-0 bg-muted/30 border border-border rounded-2xl p-4">
-                        <div className="space-y-2">
-                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono block">Project Links</span>
-                            <div className="flex flex-wrap gap-2">
-                                {project.links?.github && (
-                                    <a
-                                        href={project.links.github}
-                                        target="_blank"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 hover:bg-secondary text-secondary-foreground text-xs font-medium rounded-full transition-colors border border-border/50"
-                                    >
-                                        <Github className="h-3.5 w-3.5" />
-                                        <span>Notebook</span>
-                                    </a>
-                                )}
-                                {project.links?.demo && (
-                                    <a
-                                        href={project.links.demo}
-                                        target="_blank"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 hover:bg-secondary text-secondary-foreground text-xs font-medium rounded-full transition-colors border border-border/50"
-                                    >
-                                        <span>Dashboard</span>
-                                        <ArrowRight className="h-3 w-3 opacity-50 -mr-1" />
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-                    </FadeIn>
-
-                    {/* 2d. Description / Brief */}
-                    <FadeIn className="bg-muted/20 border border-border rounded-2xl p-5 md:flex-1 md:overflow-y-auto md:min-h-[120px] flex flex-col gap-3">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-mono">About</span>
-                        <div className="prose prose-sm prose-neutral dark:prose-invert leading-relaxed text-muted-foreground max-w-none text-pretty">
-                            <p>{project.description}</p>
-                        </div>
-                    </FadeIn>
-
-                    {/* 2e. Navigation (Next Project) */}
-                    {project.nextProject && (
-                        <FadeIn>
-                            <TransitionLink
-                                href={`/projects/${project.nextProject.slug}`}
-                                transition="next"
-                                className="w-full shrink-0 border border-border rounded-xl flex items-center justify-between p-1 pl-4 gap-2 bg-card hover:bg-secondary/50 transition-all group"
-                            >
-                                <div className="flex flex-col gap-0.5 overflow-hidden">
-                                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Next Project</span>
-                                    <span className="text-xs font-medium truncate group-hover:text-foreground transition-colors">
-                                        {project.nextProject.title}
-                                    </span>
-                                </div>
-                                <div className="shrink-0 h-10 w-10 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-background transition-colors border border-border/50">
-                                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                                </div>
-                            </TransitionLink>
-                        </FadeIn>
-                    )}
-
+              <div className="space-y-3">
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                    Tags
+                  </span>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {project.tags.map((tag, index) => (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="text-[10px]"
+                        style={{
+                          borderColor: project.accentColors[index] ?? undefined,
+                          color: project.accentColors[index] ?? undefined,
+                        }}
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
 
-            </FadeInStagger>
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                    Tools
+                  </span>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {project.tools.join(" • ")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn className="rounded-2xl border border-border bg-muted/20 p-5">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
+              Abstract
+            </span>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.abstract}</p>
+          </FadeIn>
+
+          <FadeIn className="rounded-2xl border border-border bg-background p-5 md:min-h-[220px] md:flex-1 md:overflow-y-auto">
+            <div className="prose prose-sm prose-neutral max-w-none dark:prose-invert">
+              {project.content}
+            </div>
+          </FadeIn>
+
+          {project.nextProject && (
+            <FadeIn>
+              <TransitionLink
+                href={`/projects/${project.nextProject.slug}`}
+                transition="next"
+                className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-1 pl-4 transition-all hover:bg-secondary/50"
+              >
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Next Project
+                  </span>
+                  <span className="truncate text-xs font-medium">{project.nextProject.title}</span>
+                </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-secondary">
+                  <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </TransitionLink>
+            </FadeIn>
+          )}
         </div>
-    )
+      </FadeInStagger>
+    </div>
+  )
 }

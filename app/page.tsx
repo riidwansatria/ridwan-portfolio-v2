@@ -7,31 +7,30 @@ import { Button } from '@/components/ui/button'
 export default async function Page() {
   const allProjects = getAllProjects()
   const allNotes = getAllNotes()
+  const visibleProjects = allProjects.filter(
+    (p) => process.env.NODE_ENV === 'development' || p.status !== 'draft'
+  )
+  const visibleNotes = allNotes.filter(
+    (n) => process.env.NODE_ENV === 'development' || n.status !== 'draft'
+  )
 
-  const projects = allProjects.slice(0, 3).map((p, i) => ({
+  const projects = visibleProjects.slice(0, 3).map((p, i) => ({
     id: String(i + 1),
     slug: p.slug,
-    image: p.image,
+    heroImage: p.heroImage,
     title: p.title,
-    description: p.description,
-    year: p.year,
+    abstract: p.abstract,
+    date: p.date,
     tags: p.tags.slice(0, 2),
+    accentColors: p.accentColors,
   }))
 
-  const posts = allNotes.slice(0, 3).map((n) => ({
+  const posts = visibleNotes.slice(0, 3).map((n) => ({
     slug: n.slug,
     title: n.title,
+    abstract: n.abstract,
     date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
   }))
-
-  const photos = [
-    { city: "Tokyo", src: "https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { city: "Jakarta", src: "https://images.pexels.com/photos/2126395/pexels-photo-2126395.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { city: "Kyoto", src: "https://images.pexels.com/photos/590478/pexels-photo-590478.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { city: "Bangkok", src: "https://images.pexels.com/photos/1031593/pexels-photo-1031593.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { city: "Manila", src: "https://images.pexels.com/photos/3519568/pexels-photo-3519568.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { city: "Maputo", src: "https://images.pexels.com/photos/3836368/pexels-photo-3836368.jpeg?auto=compress&cs=tinysrgb&w=600" },
-  ]
 
   const reading = {
     title: "Seeing Like a State",
@@ -100,14 +99,14 @@ export default async function Page() {
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <Image
-                    src={project.image}
+                    src={project.heroImage}
                     alt={project.title}
                     fill
                     className="object-cover"
                     sizes="(min-width: 640px) 33vw, 100vw"
                   />
                   <span className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-[11px] font-medium px-2 py-0.5 rounded-full">
-                    {project.year}
+                    {new Date(project.date).toLocaleDateString("en-US", { year: "numeric" })}
                   </span>
                 </div>
                 <div className="flex flex-col flex-1 p-4">
@@ -115,7 +114,7 @@ export default async function Page() {
                     {project.title}
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {project.description}
+                    {project.abstract}
                   </p>
                 </div>
               </Link>
@@ -139,6 +138,9 @@ export default async function Page() {
                   <div className="-mx-2 px-2 py-3 rounded-lg transition-colors hover:bg-accent/50">
                     <p className="text-sm font-medium text-foreground leading-snug">{post.title}</p>
                     <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+                      {post.abstract}
+                    </p>
                   </div>
                 </Link>
               </article>

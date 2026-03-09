@@ -15,11 +15,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Prevent Safari 100vw scrollbar bug */
+/* Prevent Safari 100vw scrollbar bug — use clip instead of hidden
+   to avoid creating a scroll container that breaks position: sticky */
 html,
 body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 :root {
@@ -139,6 +140,17 @@ body {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+
+  .maplibregl-popup-content {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .maplibregl-popup-tip {
+    display: none !important;
   }
 }
 

@@ -1,0 +1,602 @@
+[
+  {
+    "name": "Lebak Bulus Grab",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.157,
+    "place": 0.342,
+    "people": 0.633
+  },
+  {
+    "name": "Fatmawati Indomaret",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.277,
+    "place": 0.339,
+    "people": 0.556
+  },
+  {
+    "name": "Cipete Raya",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.181,
+    "place": 0.236,
+    "people": 0.564
+  },
+  {
+    "name": "Haji Nawi",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.205,
+    "place": 0.201,
+    "people": 0.461
+  },
+  {
+    "name": "Blok A",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.629,
+    "place": 0.813,
+    "people": 0.394
+  },
+  {
+    "name": "Blok M BCA",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.605,
+    "place": 0.969,
+    "people": 0.365
+  },
+  {
+    "name": "ASEAN",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.803,
+    "place": 0.969,
+    "people": 0.379
+  },
+  {
+    "name": "Senayan",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.82,
+    "place": 0.977,
+    "people": 0.353
+  },
+  {
+    "name": "Istora Mandiri",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.83,
+    "place": 0.935,
+    "people": 0.409
+  },
+  {
+    "name": "Bendungan Hilir",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.713,
+    "place": 0.878,
+    "people": 0.275
+  },
+  {
+    "name": "Setiabudi Astra",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.878,
+    "place": 0.408,
+    "people": 0.465
+  },
+  {
+    "name": "Dukuh Atas BNI",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.885,
+    "place": 0.623,
+    "people": 0.54
+  },
+  {
+    "name": "Bundaran HI",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.806,
+    "place": 0.52,
+    "people": 0.423
+  },
+  {
+    "name": "Sarinah",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.871,
+    "place": 0.589,
+    "people": 0.459
+  },
+  {
+    "name": "Monas",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.603,
+    "place": 0.745,
+    "people": 0.422
+  },
+  {
+    "name": "Harmoni",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.516,
+    "place": 0.912,
+    "people": 0.442
+  },
+  {
+    "name": "Pegangsaan Dua",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.227,
+    "place": 0.248,
+    "people": 0.551
+  },
+  {
+    "name": "Boulevard Utara",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.376,
+    "place": 0.156,
+    "people": 0.537
+  },
+  {
+    "name": "Boulevard Selatan",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.365,
+    "place": 0.368,
+    "people": 0.635
+  },
+  {
+    "name": "Pulomas",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.24,
+    "place": 0.291,
+    "people": 0.453
+  },
+  {
+    "name": "Equestrian",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.384,
+    "place": 0.398,
+    "people": 0.776
+  },
+  {
+    "name": "Velodrome",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.251,
+    "place": 0.443,
+    "people": 0.762
+  },
+  {
+    "name": "Rawamangun",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.238,
+    "place": 0.39,
+    "people": 0.845
+  },
+  {
+    "name": "Jakarta Kota",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.53,
+    "place": 0.822,
+    "people": 0.416
+  },
+  {
+    "name": "Jayakarta",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.523,
+    "place": 0.812,
+    "people": 0.586
+  },
+  {
+    "name": "Mangga Besar",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.509,
+    "place": 0.932,
+    "people": 0.447
+  },
+  {
+    "name": "Sawah Besar",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.676,
+    "place": 0.807,
+    "people": 0.469
+  },
+  {
+    "name": "Juanda",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.725,
+    "place": 0.902,
+    "people": 0.431
+  },
+  {
+    "name": "Gondangdia",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.723,
+    "place": 0.745,
+    "people": 0.44
+  },
+  {
+    "name": "Cikini",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.554,
+    "place": 0.726,
+    "people": 0.415
+  },
+  {
+    "name": "Manggarai",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.794,
+    "place": 0.838,
+    "people": 0.208
+  },
+  {
+    "name": "Tebet",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.711,
+    "place": 0.93,
+    "people": 0.297
+  },
+  {
+    "name": "Cawang",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.769,
+    "place": 0.802,
+    "people": 0.354
+  },
+  {
+    "name": "Duren Kalibata",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.763,
+    "place": 0.866,
+    "people": 0.218
+  },
+  {
+    "name": "Pasar Minggu Baru",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.268,
+    "place": 0.44,
+    "people": 0.938
+  },
+  {
+    "name": "Pasar Minggu",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.282,
+    "place": 0.396,
+    "people": 0.921
+  },
+  {
+    "name": "Tanjung Barat",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.371,
+    "place": 0.476,
+    "people": 0.786
+  },
+  {
+    "name": "Lenteng Agung",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.382,
+    "place": 0.41,
+    "people": 0.941
+  },
+  {
+    "name": "Universitas Pancasila",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.344,
+    "place": 0.384,
+    "people": 0.809
+  },
+  {
+    "name": "Universitas Indonesia",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.754,
+    "place": 0.571,
+    "people": 0.533
+  },
+  {
+    "name": "Duri",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.926,
+    "place": 0.571,
+    "people": 0.302
+  },
+  {
+    "name": "Grogol",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.806,
+    "place": 0.426,
+    "people": 0.41
+  },
+  {
+    "name": "Pesing",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.175,
+    "place": 0.303,
+    "people": 0.45
+  },
+  {
+    "name": "Taman Kota",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.247,
+    "place": 0.379,
+    "people": 0.522
+  },
+  {
+    "name": "Bojong Indah",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.36,
+    "place": 0.293,
+    "people": 0.548
+  },
+  {
+    "name": "Rawa Buaya",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.391,
+    "place": 0.365,
+    "people": 0.601
+  },
+  {
+    "name": "Kalideres",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.652,
+    "place": 0.876,
+    "people": 0.525
+  },
+  {
+    "name": "Jatinegara",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.723,
+    "place": 0.74,
+    "people": 0.542
+  },
+  {
+    "name": "Klender",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.256,
+    "place": 0.398,
+    "people": 0.729
+  },
+  {
+    "name": "Buaran",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.381,
+    "place": 0.451,
+    "people": 0.702
+  },
+  {
+    "name": "Klender Baru",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.392,
+    "place": 0.488,
+    "people": 0.815
+  },
+  {
+    "name": "Cakung",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.728,
+    "place": 0.463,
+    "people": 0.36
+  },
+  {
+    "name": "Tanah Abang",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.762,
+    "place": 0.522,
+    "people": 0.449
+  },
+  {
+    "name": "Palmerah",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.78,
+    "place": 0.471,
+    "people": 0.335
+  },
+  {
+    "name": "Kebayoran",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.192,
+    "place": 0.213,
+    "people": 0.647
+  },
+  {
+    "name": "Pondok Ranji",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.238,
+    "place": 0.371,
+    "people": 0.567
+  },
+  {
+    "name": "Sudimara",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.328,
+    "place": 0.175,
+    "people": 0.611
+  },
+  {
+    "name": "Jurangmangu",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.291,
+    "place": 0.233,
+    "people": 0.61
+  },
+  {
+    "name": "Serpong",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.379,
+    "place": 0.427,
+    "people": 0.861
+  },
+  {
+    "name": "Kemayoran",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.649,
+    "place": 0.875,
+    "people": 0.451
+  },
+  {
+    "name": "Rajawali",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.936,
+    "place": 0.492,
+    "people": 0.328
+  },
+  {
+    "name": "Kampung Bandan",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.283,
+    "place": 0.296,
+    "people": 0.445
+  },
+  {
+    "name": "Ancol",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.314,
+    "place": 0.359,
+    "people": 0.889
+  },
+  {
+    "name": "Tanjung Priok",
+    "cluster": 2,
+    "cluster_label": "Urban Core",
+    "node": 0.677,
+    "place": 0.804,
+    "people": 0.521
+  },
+  {
+    "name": "Kramat",
+    "cluster": 4,
+    "cluster_label": "Downtown",
+    "node": 0.651,
+    "place": 0.995,
+    "people": 0.382
+  },
+  {
+    "name": "Pondok Jati",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.21,
+    "place": 0.461,
+    "people": 0.868
+  },
+  {
+    "name": "Cipinang",
+    "cluster": 1,
+    "cluster_label": "Transit Hub",
+    "node": 0.895,
+    "place": 0.411,
+    "people": 0.385
+  },
+  {
+    "name": "Pasar Senen",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.188,
+    "place": 0.17,
+    "people": 0.537
+  },
+  {
+    "name": "Gang Sentiong",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.306,
+    "place": 0.396,
+    "people": 0.763
+  },
+  {
+    "name": "Kranji",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.289,
+    "place": 0.183,
+    "people": 0.558
+  },
+  {
+    "name": "Bekasi",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.354,
+    "place": 0.157,
+    "people": 0.445
+  },
+  {
+    "name": "Tambun",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.23,
+    "place": 0.443,
+    "people": 0.791
+  },
+  {
+    "name": "Cilebut",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.156,
+    "place": 0.312,
+    "people": 0.544
+  },
+  {
+    "name": "Bojonggede",
+    "cluster": 0,
+    "cluster_label": "Vulnerable",
+    "node": 0.288,
+    "place": 0.455,
+    "people": 0.865
+  },
+  {
+    "name": "Citayam",
+    "cluster": 3,
+    "cluster_label": "Suburban",
+    "node": 0.34,
+    "place": 0.362,
+    "people": 0.586
+  }
+]

@@ -2,194 +2,289 @@
 
 ## Overview
 
-Next.js 16 portfolio site using **file-based MDX** for content management.
-All code lives at the repo root (no monorepo). Content lives as `.mdx` files with YAML frontmatter. No external CMS.
+Personal portfolio built with Next.js App Router, React 19, and Tailwind CSS v4.
+The site is mostly file-driven: projects and notes come from local `.mdx` files in `content/`, while some pages like `/about` and the homepage reading/contact sections are still hardcoded in React.
+
+This is a single-app repo rooted at the project root. There is no CMS, no database, and no monorepo setup.
 
 ---
 
 ## Commands
 
 ```bash
-npm run dev              # Start Next.js dev server (Turbopack)
-npm run build            # Production build
-npm run start            # Start production server
-npm run format           # Prettier
-npm run lint             # ESLint
-npm run type-check       # TypeScript check
+npm run dev         # Next.js dev server with Turbopack
+npm run build       # Production build
+npm run start       # Start production server
+npm run lint        # next lint
+npm run format      # Prettier write
+npm run type-check  # TypeScript check without emit
 ```
 
 ---
 
-## Architecture
+## Stack
 
-### Directory Structure
-
-```
-├── app/                        # Next.js App Router pages (server components by default)
-│   ├── about/
-│   ├── notes/
-│   │   └── [slug]/             # Note detail (MDX rendered)
-│   ├── projects/
-│   │   └── [slug]/             # Project detail (MDX rendered)
-│   ├── layout.tsx              # Root layout (ThemeProvider, TransitionProvider)
-│   ├── page.tsx                # Home/hero page
-│   ├── globals.css             # CSS vars, OKLch theme tokens
-│   ├── sitemap.ts              # Auto-generates sitemap from MDX files
-│   └── template.tsx            # Page transitions
-├── content/
-│   ├── projects/               # Project MDX files (*.mdx)
-│   └── notes/                  # Note MDX files (*.mdx)
-├── components/
-│   ├── ui/                     # Shadcn/Radix UI primitives
-│   ├── motion-primitives/      # motion-primitives library components
-│   └── custom/                 # Custom components
-│       ├── Header.tsx, Footer.tsx, ThemeToggle.tsx ...
-│       ├── visual/             # FadeIn, FadeInStagger, ScaleIn motion wrappers
-│       ├── project-layouts/    # Project detail page layouts
-│       └── note-layouts/       # Note/article page layouts
-├── lib/
-│   ├── content.ts              # File-system content reader (getAllProjects, getAllNotes, etc.)
-│   ├── mdx.tsx                 # MDX compilation & custom components
-│   ├── site-config.ts          # Site metadata (title, description, author, social links)
-│   ├── utils.ts                # Shared utilities (cn, etc.)
-│   └── transition-context.tsx  # Page transition state
-├── next.config.ts              # Image remote patterns
-├── tailwind.config.ts          # Custom palette, fonts, dark mode
-└── tsconfig.json               # Strict mode, path alias @/* → root
-```
+- Next.js `^16.1.3`
+- React / React DOM `^19.2.3`
+- Tailwind CSS v4 via `@import "tailwindcss"` in `app/globals.css`
+- MDX rendered with `next-mdx-remote/rsc`
+- `gray-matter` for frontmatter parsing
+- Radix UI + custom shadcn-style components in `components/ui/`
+- `framer-motion` and `motion`
+- `next-themes` for dark mode
+- `maplibre-gl`, `recharts`, and `scrollama` for rich project/article embeds
 
 ---
 
-## Content Management (MDX)
+## Actual Project Structure
 
-### Adding a New Project
+```text
+app/
+  about/page.tsx                 # Static resume-style about page
+  notes/page.tsx                 # Notes index
+  notes/[slug]/page.tsx          # Note detail page from MDX
+  projects/page.tsx              # Projects index
+  projects/[slug]/page.tsx       # Project detail page from MDX
+  layout.tsx                     # Root layout, fonts, theme, header/footer, dev tools
+  template.tsx                   # Page fade transition + scroll reset
+  globals.css                    # Tailwind v4 imports, tokens, article styles
+  sitemap.ts                     # Sitemap from static routes + content slugs
 
-Create `content/projects/<slug>.mdx`:
+content/
+  notes/*.mdx                    # Notes content
+  projects/*.mdx                 # Projects content
 
-```mdx
----
-title: "Project Title"
-slug: "project-slug"
-description: "Short description for cards and meta"
-subtitle: "Longer subtitle for detail page"
-image: "/images/project-hero.jpg"
-year: "2024"
-role: "Lead Developer"
-tags: ["React", "TypeScript"]
-featured: true
-order: 1
-github: "https://github.com/..."
-demo: "https://..."
-nextProject: "other-project-slug"
----
+components/
+  custom/                        # App-specific components and page sections
+  mdx/                           # Custom MDX embeds (maps, charts, diagrams)
+  motion-primitives/             # Text animation primitive(s)
+  ui/                            # Shared UI primitives
 
-Your project content in MDX here...
+lib/
+  content.ts                     # Local filesystem MDX loader/sorter
+  mdx.tsx                        # MDX compiler + component mapping
+  site-config.ts                 # Global metadata and author links
+  transition-context.tsx         # Transition state context
+
+public/
+  images/                        # Static images
+  data/tod-equity/               # GeoJSON / JSON for scrollytelling project
+  Resume_2026_01.pdf             # Public resume asset
 ```
 
-### Adding a New Note
-
-Create `content/notes/<slug>.mdx`:
-
-```mdx
----
-title: "Note Title"
-slug: "note-slug"
-date: "2024-01-15"
-excerpt: "Brief summary for listings"
-category: "Development"
-tags: ["React", "Performance"]
-published: true
 ---
 
-Your note content in MDX here...
+## Routing And Page Behavior
+
+### `/`
+
+- Server component homepage.
+- Pulls latest projects and notes from `lib/content.ts`.
+- Only the first 3 projects and first 3 notes are shown.
+- Intro, reading, and connect sections are hardcoded in `app/page.tsx`.
+- The old "photo strip" section described in the previous doc is not currently rendered, even though a `photos` array still exists in the file.
+
+### `/projects`
+
+- Server component listing page.
+- Splits projects into `featured` and non-featured groups.
+- Uses `components/custom/project-card.tsx` for featured cards.
+
+### `/projects/[slug]`
+
+- Static params generated from MDX filenames.
+- Reads project content from `content/projects/<slug>.mdx`.
+- Renders one of two layouts based on frontmatter:
+  - `layout: "showcase"` or unset -> `ShowcaseLayout`
+  - `layout: "case-study"` -> `CaseStudyLayout`
+
+### `/notes`
+
+- Server component notes index.
+- Lists all published notes sorted newest-first.
+
+### `/notes/[slug]`
+
+- Static params generated from note filenames.
+- Reads note content from `content/notes/<slug>.mdx`.
+- Renders inline page structure directly in the route file.
+- Adjacent note navigation is computed from the sorted note list.
+
+### `/about`
+
+- Fully hardcoded page in [`app/about/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/about/page.tsx).
+- Education, experience, awards, skills, and interests are not MDX-backed.
+
+---
+
+## Content System
+
+All content is loaded from the local filesystem with synchronous `fs` reads in [`lib/content.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/content.ts).
+
+### Project Frontmatter
+
+Current shape expected by the code:
+
+```ts
+type ProjectFrontmatter = {
+  title: string
+  slug: string
+  description: string
+  subtitle: string
+  image: string
+  year: string
+  role: string
+  tags: Array<{ name: string; color: string }>
+  featured?: boolean
+  github?: string
+  demo?: string
+  nextProject?: { slug: string; title: string }
+  order?: number
+  layout?: 'showcase' | 'case-study'
+}
 ```
 
-### Content Utilities (`lib/content.ts`)
+Important:
+- `tags` is an array of objects, not strings.
+- `nextProject` is an object with `slug` and `title`, not a bare slug string.
 
-| Function | Purpose |
-|----------|---------|
-| `getAllProjects()` | Returns all projects sorted by `order` field |
-| `getProjectBySlug(slug)` | Returns single project frontmatter + raw MDX |
-| `getProjectSlugs()` | Returns all project slugs (for `generateStaticParams`) |
-| `getAllNotes()` | Returns all published notes sorted by date (newest first) |
-| `getNoteBySlug(slug)` | Returns single note frontmatter + raw MDX |
-| `getNoteSlugs()` | Returns all note slugs (for `generateStaticParams`) |
-| `getAllContentSlugs()` | Returns all slugs with type prefix (for sitemap) |
+### Note Frontmatter
 
-### MDX Components (`lib/mdx.tsx`)
+```ts
+type NoteFrontmatter = {
+  title: string
+  slug: string
+  date: string
+  excerpt?: string
+  category?: string
+  tags?: string[]
+  coverImage?: string
+  author?: { name: string; avatar?: string }
+  published?: boolean
+}
+```
 
-Custom components available in MDX files:
-- `<Callout type="info|warning|tip">` — styled callout boxes
-- `<ImageGallery images={[{src, alt, caption}]}>` — responsive image grid
-- Images auto-wrapped in `<figure>` with optional `<figcaption>`
-- Internal links auto-use Next.js `<Link>`
+Important:
+- Notes are filtered out only when `published: false`.
+- If `published` is omitted, the note is included.
 
----
+### Sorting Rules
 
-## Key Conventions
-
-### Components
-- **Server components by default** — only add `"use client"` where truly needed (event handlers, hooks, browser APIs)
-- **Shadcn/ui pattern** — Radix UI primitives styled with Tailwind classes; components live in `components/ui/`
-
-### Styling
-- **Tailwind CSS v4** with PostCSS
-- **Dark mode** — class-based via `next-themes` (`.dark` selector)
-- **CSS custom properties** — OKLch color system, radius, and fonts as CSS vars
-- **Fonts** — `--font-public-sans` (Public Sans), `--font-plus-jakarta` (Plus Jakarta Sans)
-
-### Animations
-- **No scroll-triggered animations on public pages** (homepage, projects, notes, about) — all FadeIn/FadeInStagger have been stripped
-- Motion primitives (`components/custom/visual/`) are kept and still used in project detail layouts only
-- Framer Motion: `once: true, margin: "0px 0px -50px 0px"`, easing `[0.25, 0.1, 0.25, 1.0]`
-- Always respect `prefers-reduced-motion`
-
-### Images
-- Use Next.js `<Image>` component
-- Allowed remote patterns: `pexels.com`, `vercel-storage.com`
+- Projects sort by ascending `order`, defaulting to `99`.
+- Notes sort by descending `date`.
 
 ---
 
-## Design System
+## MDX Rendering
 
-### Layout
-- Content width: `max-w-5xl mx-auto px-4 sm:px-6` on all pages (homepage, projects, notes, header, footer)
-- Homepage uses **vertical sections** with `space-y-16` — no bento grid, no card wrappers around sections
-- Whitespace creates section separation; borders/backgrounds are only on interactive elements (ProjectCard, photo strip)
-- Border radius: `rounded-2xl` on ProjectCard and photo strip
+MDX is compiled in [`lib/mdx.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/mdx.tsx) using `compileMDX` from `next-mdx-remote/rsc` with `remark-gfm`.
 
-### Homepage section order
-1. Intro — avatar + name + bio + roles/location inline + social links
-2. Projects — label + 3-col ProjectCard grid
-3. Photo strip — horizontal scroll, city photos
-4. Notes — label + text list with hover
-5. Reading — label + book cover placeholder + title/author
+### Available MDX Components
 
-### No font-mono
-- All UI labels, navigation, year displays, and section headers use default sans (not font-mono)
+- `Image` / `img`
+- `a`
+- `Callout`
+- `ImageGallery`
+- `NPPDiagram`
+- `VariableTable`
+- `StationMap`
+- `ClusterRadar`
+- `ScatterPlot`
+- `PolicyMatrix`
+- `Wide`
+- `TodScrollytelling`
 
-### Navigation
-- Header: `h-12`, sticky, `max-w-4xl` inner nav
-- Nav links: [Ridwan Satria] [Projects] [Research] [CV → /about]
-- `/research` does not exist yet (returns 404 until scaffolded)
+Important implementation notes:
+- Internal links use Next.js `Link`.
+- External links automatically get `target="_blank"` and `rel="noopener noreferrer"`.
+- `ImageGallery` currently builds Tailwind classes dynamically with ``md:grid-cols-${columns}``, which may not be safe for static Tailwind extraction.
 
 ---
 
-## Critical Files
+## Layout, Theme, And UI Conventions
 
-| File | Purpose |
-|------|---------|
-| `app/page.tsx` | Homepage — vertical sections, content from MDX utils |
-| `components/custom/Header.tsx` | Sticky nav, h-12, max-w-4xl |
-| `components/custom/Footer.tsx` | Footer, max-w-4xl |
-| `components/custom/project-card.tsx` | Shared project card component |
-| `app/projects/page.tsx` | Projects listing — reads from `content/projects/` |
-| `app/projects/[slug]/page.tsx` | Project detail — renders MDX via ShowcaseLayout |
-| `app/notes/page.tsx` | Notes listing — reads from `content/notes/` |
-| `app/notes/[slug]/page.tsx` | Note detail — renders MDX via ArticleLayout |
-| `lib/content.ts` | File-system content reader |
-| `lib/mdx.tsx` | MDX compilation with custom components |
-| `lib/site-config.ts` | Site metadata and author info |
-| `next.config.ts` | Remote image patterns (pexels.com, vercel-storage.com) |
-| `app/globals.css` | CSS vars, OKLch theme tokens (`--radius: 0.625rem`) |
-| `lib/utils.ts` | Shared utilities (`cn`, etc.) |
+### Root Layout
+
+[`app/layout.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/layout.tsx) provides:
+
+- `ThemeProvider`
+- `TransitionProvider`
+- global `Header`
+- global `Footer`
+- `Toaster` from `sonner`
+- `SpeedInsights`
+- development-only `Agentation` dev tools
+- Google fonts:
+  - `Public Sans` -> `--font-public-sans`
+  - `Plus Jakarta Sans` -> `--font-plus-jakarta`
+
+### Header
+
+[`components/custom/Header.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/Header.tsx):
+
+- is a fixed top bar with a fullscreen menu overlay
+- uses breadcrumbs on non-home routes
+- current nav items are `Home`, `About`, `Projects`, `Notes`
+
+The previous doc's sticky header and `/research` link are no longer accurate.
+
+### Footer
+
+[`components/custom/Footer.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/Footer.tsx):
+
+- shows a live Tokyo clock
+- includes the theme toggle
+- is hidden on individual project detail pages (`/projects/[slug]`)
+
+### Theme Tokens
+
+[`app/globals.css`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/globals.css) defines:
+
+- OKLCH color tokens
+- `--radius: 0.625rem`
+- dark mode via `@custom-variant dark (&:is(.dark *))`
+- custom `.article-content` typography rules
+- MapLibre popup overrides
+
+---
+
+## Motion And Transitions
+
+- Route-level fade transition lives in [`app/template.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/template.tsx).
+- `template.tsx` also forces scroll-to-top on pathname changes.
+- Project showcase pages still use motion wrappers from `components/custom/visual/motion-primitives.tsx`.
+- The current codebase does use animated interactions on public pages, so the previous "no scroll-triggered animations on public pages" rule is stale.
+
+---
+
+## Images And Assets
+
+Next.js remote images are currently allowed only for:
+
+- `images.pexels.com`
+- `k8boaqmtfy4jtiib.public.blob.vercel-storage.com`
+
+Configured in [`next.config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/next.config.ts).
+
+---
+
+## Important Files
+
+- [`app/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/page.tsx): homepage composition
+- [`app/about/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/about/page.tsx): hardcoded about/resume page
+- [`app/projects/[slug]/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/projects/[slug]/page.tsx): project detail routing + layout selection
+- [`app/notes/[slug]/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/notes/[slug]/page.tsx): note detail rendering + prev/next nav
+- [`lib/content.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/content.ts): content loading and sorting
+- [`lib/mdx.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/mdx.tsx): MDX compiler and component map
+- [`lib/site-config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/site-config.ts): site metadata and social links
+- [`components/custom/project-layouts/layout-showcase.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/project-layouts/layout-showcase.tsx): interactive bento-style project layout
+- [`components/custom/project-layouts/layout-case-study.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/project-layouts/layout-case-study.tsx): longform case-study layout
+- [`components/custom/case-study/TodScrollytelling.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/case-study/TodScrollytelling.tsx): scrollama-powered sticky map narrative
+
+---
+
+## Current Caveats
+
+- [`components/custom/note-layouts/layout-article.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/note-layouts/layout-article.tsx) exists but is not currently used by the active note route.
+- `app/page.tsx` still contains an unused `photos` array.
+- `ImageGallery` uses a dynamic Tailwind class pattern that may need hardcoded variants if styling becomes inconsistent.

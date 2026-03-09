@@ -1,0 +1,64 @@
+---
+title: "Equitable TOD in Jakarta: Mapping Gentrification Risk Across 75 Stations"
+slug: tod-equity-jakarta
+date: "2025-02-14"
+status: published
+layout: case-study
+tags:
+  - tod
+  - gentrification-risk
+  - station-typologies
+tools:
+  - Spatial Analytics
+  - PCA
+  - K-means
+  - MapLibre
+  - Scrollama
+accentColors:
+  - "#04b8be"
+  - "#e57322"
+  - "#3ab564"
+  - "#727892"
+  - "#ef4434"
+heroImage: "https://images.pexels.com/photos/2674271/pexels-photo-2674271.jpeg"
+abstract: "Applied the Node-Place-People framework to Jakarta's 75 rail stations, identifying five typologies and flagging areas where transit investment risks displacing vulnerable populations."
+featured: true
+---
+
+## Transit investment in Jakarta risks displacing the communities it's meant to serve.
+
+Jakarta's new MRT, LRT, and commuter rail systems are reshaping property markets around stations. But the city lacks a systematic way to identify which station areas house vulnerable populations at risk of gentrification-induced displacement.
+
+This study builds that identification layer using the **Node-Place-People (NPP) framework** — measuring transit connectivity (Node), land use intensity (Place), and social vulnerability (People) across all 75 rail stations in Jakarta.
+
+<NPPDiagram />
+
+## Data & Methods
+
+Three composite indices were constructed via Principal Component Analysis (PCA) from 20 variables covering transport, land use, and demographics within 800-meter station catchments.
+
+K-means clustering (k=5) grouped stations into typologies based on their combined index profiles.
+
+<VariableTable />
+
+## Station Typologies
+
+<TodScrollytelling />
+
+<ClusterRadar />
+
+The scatter plots below show how stations distribute across pairs of indices, revealing the structural relationships between transit access, urbanization, and vulnerability:
+
+<Wide maxWidth="4xl">
+<ScatterPlot />
+</Wide>
+
+## Policy Directions
+
+Recommendations are tailored to each typology, distinguishing empirical findings from policy instruments drawn from Indonesian regulation and international equitable TOD literature.
+
+<PolicyMatrix />
+
+---
+
+*Published in Urban and Regional Planning Review (URPR), City Planning Institute of Japan. Co-authored with Tetsuharu Oba, Junichi Susaki, and Yoshie Ishii.*

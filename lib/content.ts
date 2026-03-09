@@ -9,29 +9,25 @@ import matter from 'gray-matter'
 export interface ProjectFrontmatter {
   title: string
   slug: string
-  description: string
-  subtitle: string
-  image: string
-  year: string
-  role: string
-  tags: Array<{ name: string; color: string }>
-  featured?: boolean
-  github?: string
-  demo?: string
-  nextProject?: { slug: string; title: string }
-  order?: number
+  date: string
+  status: 'draft' | 'published'
+  tags: string[]
+  tools: string[]
+  accentColors: string[]
+  heroImage: string
+  abstract: string
+  layout?: 'showcase' | 'case-study' | 'explorer' | 'split' | 'compare'
+  featured: boolean
 }
 
 export interface NoteFrontmatter {
   title: string
   slug: string
   date: string
-  excerpt?: string
-  category?: string
-  tags?: string[]
-  coverImage?: string
-  author?: { name: string; avatar?: string }
-  published?: boolean
+  status: 'draft' | 'published'
+  tags: string[]
+  category: 'city-read' | 'method-note' | 'policy-read'
+  abstract: string
 }
 
 // ---------------------------------------------------------------------------
@@ -50,6 +46,10 @@ function readMdxFile<T>(filePath: string): { frontmatter: T; content: string } {
   return { frontmatter: data as T, content }
 }
 
+function isVisible(status: 'draft' | 'published') {
+  return process.env.NODE_ENV === 'development' || status !== 'draft'
+}
+
 // ---------------------------------------------------------------------------
 // Projects
 // ---------------------------------------------------------------------------
@@ -65,23 +65,20 @@ export function getAllProjects(): ProjectFrontmatter[] {
       const { frontmatter } = readMdxFile<ProjectFrontmatter>(path.join(dir, file))
       return frontmatter
     })
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+    .filter((project) => isVisible(project.status))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
 export function getProjectBySlug(slug: string) {
   const dir = getContentDir('projects')
   const filePath = path.join(dir, `${slug}.mdx`)
   if (!fs.existsSync(filePath)) return null
-  return readMdxFile<ProjectFrontmatter>(filePath)
+  const data = readMdxFile<ProjectFrontmatter>(filePath)
+  return isVisible(data.frontmatter.status) ? data : null
 }
 
 export function getProjectSlugs(): string[] {
-  const dir = getContentDir('projects')
-  if (!fs.existsSync(dir)) return []
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace(/\.mdx$/, ''))
+  return getAllProjects().map((project) => project.slug)
 }
 
 // ---------------------------------------------------------------------------
@@ -99,7 +96,7 @@ export function getAllNotes(): NoteFrontmatter[] {
       const { frontmatter } = readMdxFile<NoteFrontmatter>(path.join(dir, file))
       return frontmatter
     })
-    .filter((n) => n.published !== false)
+    .filter((note) => isVisible(note.status))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
@@ -107,16 +104,12 @@ export function getNoteBySlug(slug: string) {
   const dir = getContentDir('notes')
   const filePath = path.join(dir, `${slug}.mdx`)
   if (!fs.existsSync(filePath)) return null
-  return readMdxFile<NoteFrontmatter>(filePath)
+  const data = readMdxFile<NoteFrontmatter>(filePath)
+  return isVisible(data.frontmatter.status) ? data : null
 }
 
 export function getNoteSlugs(): string[] {
-  const dir = getContentDir('notes')
-  if (!fs.existsSync(dir)) return []
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace(/\.mdx$/, ''))
+  return getAllNotes().map((note) => note.slug)
 }
 
 // ---------------------------------------------------------------------------
