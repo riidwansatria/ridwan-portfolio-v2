@@ -12,16 +12,32 @@ import { Wide } from '@/components/mdx/Wide'
 import { TodScrollytelling } from '@/components/custom/case-study/TodScrollytelling'
 
 function MdxImage(props: ComponentPropsWithoutRef<typeof Image>) {
+  const { alt, width, height, ...rest } = props
+  const hasSize = width && height
+
   return (
-    <figure className="my-8">
-      <Image
-        {...props}
-        className="rounded-lg border border-border"
-        sizes="(min-width: 768px) 720px, 100vw"
-      />
-      {props.alt && props.alt !== 'image' && (
-        <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-          {props.alt}
+    <figure>
+      {hasSize ? (
+        <Image
+          {...rest}
+          alt={alt ?? ''}
+          width={width}
+          height={height}
+          className="rounded-lg w-full"
+          sizes="(min-width: 768px) 720px, 100vw"
+        />
+      ) : (
+        // Markdown ![alt](src) — no dimensions, use native img
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          {...(rest as ComponentPropsWithoutRef<'img'>)}
+          alt={alt ?? ''}
+          className="rounded-lg w-full"
+        />
+      )}
+      {alt && alt !== 'image' && (
+        <figcaption className="mt-2 text-center text-xs text-muted-foreground/70">
+          {alt}
         </figcaption>
       )}
     </figure>
@@ -39,21 +55,6 @@ function MdxLink(props: ComponentPropsWithoutRef<'a'>) {
   return <a target="_blank" rel="noopener noreferrer" {...props} />
 }
 
-function Callout({
-  children,
-  type = 'info',
-}: {
-  children: ReactNode
-  type?: 'info' | 'warning' | 'tip'
-}) {
-  const styles = {
-    info: 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/50',
-    warning: 'border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/50',
-    tip: 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/50',
-  }
-
-  return <div className={`my-6 rounded-lg border p-4 ${styles[type]}`}>{children}</div>
-}
 
 function ImageGallery({
   children,
@@ -71,11 +72,19 @@ function ImageGallery({
   return <div className={`my-8 grid grid-cols-1 gap-4 ${columnClass}`}>{children}</div>
 }
 
+function MdxTable(props: ComponentPropsWithoutRef<'table'>) {
+  return (
+    <div className="overflow-x-auto">
+      <table {...props} />
+    </div>
+  )
+}
+
 export const sharedMdxComponents: MDXComponents = {
   Image: MdxImage,
   img: MdxImage as never,
   a: MdxLink,
-  Callout,
+  table: MdxTable,
   ImageGallery,
   NPPDiagram,
   VariableTable,

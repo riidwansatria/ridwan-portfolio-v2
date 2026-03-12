@@ -33,11 +33,12 @@ export default async function NotePage(props: Props) {
   const { frontmatter, content: rawContent } = data
   const mdxContent = await renderMdx(rawContent)
 
-  // Get adjacent notes for navigation
+  // Get more notes for footer (up to 4, excluding current)
   const allNotes = getAllNotes()
-  const currentIndex = allNotes.findIndex((n) => n.slug === slug)
-  const prevNote = currentIndex < allNotes.length - 1 ? allNotes[currentIndex + 1] : null
-  const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null
+  const moreNotes = allNotes
+    .filter((n) => n.slug !== slug)
+    .slice(0, 3)
+    .map((n) => ({ title: n.title, slug: n.slug, date: n.date }))
 
   return (
     <LayoutArticle
@@ -47,11 +48,10 @@ export default async function NotePage(props: Props) {
         date: frontmatter.date,
         abstract: frontmatter.abstract,
         category: frontmatter.category,
-        tags: frontmatter.tags,
+        rawContent: rawContent,
         content: mdxContent,
       }}
-      prevPost={prevNote ? { title: prevNote.title, slug: prevNote.slug } : null}
-      nextPost={nextNote ? { title: nextNote.title, slug: nextNote.slug } : null}
+      moreNotes={moreNotes}
     />
   )
 }
