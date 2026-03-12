@@ -2,6 +2,7 @@ import type { MDXComponents } from 'mdx/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { MdxPre } from '@/components/ui/copy-button'
 import { NPPDiagram } from '@/components/mdx/NPPDiagram'
 import { VariableTable } from '@/components/mdx/VariableTable'
 import { StationMap } from '@/components/mdx/StationMap'
@@ -84,6 +85,7 @@ export const sharedMdxComponents: MDXComponents = {
   Image: MdxImage,
   img: MdxImage as never,
   a: MdxLink,
+  pre: MdxPre,
   table: MdxTable,
   ImageGallery,
   NPPDiagram,
