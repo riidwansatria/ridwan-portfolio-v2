@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation"
-import { ShowcaseLayout } from "@/components/custom/project-layouts/layout-showcase"
-import { CaseStudyLayout } from "@/components/custom/project-layouts/layout-case-study"
-import { ExplorerLayout } from "@/components/custom/project-layouts/layout-explorer"
-import { SplitLayout } from "@/components/custom/project-layouts/layout-split"
-import { CompareLayout } from "@/components/custom/project-layouts/layout-compare"
+import { ShowcaseLayout } from "@/components/app/layouts/layout-showcase"
+import { CaseStudyLayout } from "@/components/app/layouts/layout-case-study"
+import { ExplorerLayout } from "@/components/app/layouts/layout-explorer"
+import { SplitLayout } from "@/components/app/layouts/layout-split"
+import { CompareLayout } from "@/components/app/layouts/layout-compare"
 import { getAllProjects, getProjectBySlug, getProjectSlugs } from "@/lib/content"
 import { renderMdx } from "@/lib/mdx"
 import type { Metadata } from "next"
-import type { ProjectLayoutData } from "@/components/custom/project-layouts/types"
+import type { ProjectLayoutData } from "@/components/app/layouts/types"
 
 type Props = {
   params: Promise<{ slug: string }>

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getNoteBySlug, getNoteSlugs, getAllNotes } from '@/lib/content'
 import { renderMdx } from '@/lib/mdx'
-import { LayoutArticle } from '@/components/custom/note-layouts/layout-article'
+import { LayoutArticle } from '@/components/app/layouts/layout-article'
 
 type Props = {
   params: Promise<{ slug: string }>

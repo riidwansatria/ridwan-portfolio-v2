@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from "next/navigation"
-import { ThemeToggle } from "@/components/custom/ThemeToggle"
+import { ThemeToggle } from "@/components/app/theme-toggle"
 
 function LiveClock() {
   const [time, setTime] = useState<string>('')

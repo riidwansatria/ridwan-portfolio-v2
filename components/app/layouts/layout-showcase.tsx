@@ -3,10 +3,10 @@
 import { useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
-import { TransitionLink } from "@/components/ui/transition-link"
+import { TransitionLink } from "@/components/primitives/transition-link"
 import { Badge } from "@/components/ui/badge"
-import { FadeIn, FadeInStagger, ScaleIn } from "@/components/custom/visual/motion-primitives"
-import type { ProjectLayoutData } from "@/components/custom/project-layouts/types"
+import { FadeIn, FadeInStagger, ScaleIn } from "@/components/app/visual/motion-primitives"
+import type { ProjectLayoutData } from "@/components/app/layouts/types"
 
 function formatProjectDate(date: string) {
   return new Date(date).toLocaleDateString("en-US", {

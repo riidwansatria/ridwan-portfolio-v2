@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import type { ProjectLayoutData } from "@/components/custom/project-layouts/types"
+import type { ProjectLayoutData } from "@/components/app/layouts/types"
 
 export function ExplorerLayout({ project }: { project: ProjectLayoutData }) {
   return (

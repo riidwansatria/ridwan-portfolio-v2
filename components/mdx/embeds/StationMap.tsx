@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react"
-import { Map, useMap, type MapRef } from "@/components/ui/map"
+import { Map, useMap, type MapRef } from "@/components/primitives/map"
 
 // ---------------------------------------------------------------------------
 // Constants

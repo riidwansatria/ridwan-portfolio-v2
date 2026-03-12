@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import scrollama from "scrollama"
-import { StationMap } from "@/components/mdx/StationMap"
+import { StationMap } from "@/components/mdx/embeds/StationMap"
 
 // ---------------------------------------------------------------------------
 // Step Component

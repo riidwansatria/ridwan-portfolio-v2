@@ -7,10 +7,10 @@ import type { Metadata } from 'next'
 import { Public_Sans, Plus_Jakarta_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 
-import { DevTools } from "@/components/custom/dev-tools"
-import { ThemeProvider } from "@/components/custom/theme-provider"
-import Footer from '@/components/custom/Footer'
-import Header from '@/components/custom/Header'
+import { DevTools } from "@/components/app/dev-tools"
+import { ThemeProvider } from "@/components/app/theme-provider"
+import Footer from '@/components/app/footer'
+import Header from '@/components/app/header'
 import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
