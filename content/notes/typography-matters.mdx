@@ -11,4 +11,93 @@ tags:
 abstract: "Type decisions shape readability, tone, and trust long before a user notices any other part of the interface."
 ---
 
-Typography matters — choosing the right fonts for your project can make or break the user experience.
+Typography is one of the most consequential decisions in any interface — and one of the least revisited once made. A font choice embeds assumptions about reading distance, language, screen density, and user context that ripple into every corner of the UI. Getting it right early is worth the time; retrofitting it later rarely is.
+
+## Why font choice is a system decision
+
+Most designers treat font selection as an aesthetic call: pick something that looks good, pair it with something neutral, ship it. But a typeface is really a system constraint. It affects line-length, vertical rhythm, minimum touch targets, code legibility, and how data-dense tables read under stress.
+
+Sans-serif faces like Inter or Plus Jakarta Sans were designed for screen rendering at multiple weights. They hold up at 12px in a data table and scale gracefully to a 48px headline. Serif faces carry different connotations — they signal editorial credibility — but they demand more generous leading and struggle in tightly-spaced UI contexts.
+
+> A useful heuristic: if your product has any data-dense views (tables, dashboards, forms), start with a variable sans-serif. Add a display or serif face for editorial moments only if the hierarchy genuinely calls for it.
+
+![A spread of printed type specimens showing varied weights and styles](https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+
+## The mechanics of readability
+
+Readability isn't just about font size. It's a product of four interacting properties:
+
+- **Size** — the baseline, typically 16px for body text on web
+- **Line height** — too tight feels breathless; too loose loses thread. 1.6–1.75× is the sweet spot for prose
+- **Measure** — line length. 60–75 characters per line is the classical ideal
+- **Contrast** — relative luminance between text and background, minimum 4.5:1 for WCAG AA
+
+When these four are tuned together, reading feels effortless. When even one is off, readers fatigue faster without knowing why.
+
+```css
+/* A reasonable starting system for prose */
+body {
+  font-size: 1rem;           /* 16px */
+  line-height: 1.7;
+  max-width: 68ch;           /* ~680px at 16px */
+  color: oklch(0.2 0 0);    /* near-black, not pure black */
+}
+
+h2 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;  /* tighten at large sizes */
+  margin-top: 2.5rem;
+}
+```
+
+## Pairing logic
+
+Font pairing often gets mystified, but the underlying principle is simple: contrast in *role*, harmony in *feeling*. A sharp geometric sans and a soft humanist sans clash. A geometric sans and a transitional serif harmonize because the geometric construction is shared.
+
+
+| Role | Category | Examples | Best at |
+|------|----------|---------|---------|
+| UI / body | Humanist sans | Inter, Public Sans, Source Sans | Small sizes, data tables, forms |
+| Display | Geometric sans | DM Sans, Outfit, Geist | Headlines, marketing |
+| Editorial | Transitional serif | Source Serif, Lora, Freight | Long-form reading |
+| Code | Monospace | JetBrains Mono, Fira Code | Terminals, code blocks |
+| System fallback | System stack | -apple-system, Segoe UI | Performance-sensitive contexts |
+
+
+For most product work, two typefaces is the right number. Three is a justified exception. Four is almost always a mistake.
+
+## Variable fonts change the calculus
+
+Variable font technology lets a single font file span an entire design system's weight and width range. Instead of loading separate files for Regular, Medium, and Bold, you load one `.woff2` that interpolates continuously across axes.
+
+The practical consequence: you can use intermediate weights (450, 550, 650) that don't exist as named variants, which gives you finer typographic control without extra HTTP requests.
+
+```css
+/* Using a variable font's full range */
+@font-face {
+  font-family: 'Public Sans';
+  src: url('/fonts/PublicSans-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.label {
+  font-weight: 460;  /* between Regular (400) and Medium (500) */
+}
+```
+
+> Not all variable fonts are created equal. Check that the font supports the axes you actually need — weight (`wght`) is nearly universal, but optical size (`opsz`) and width (`wdth`) are rarer. Also verify the hinting quality at small sizes; some variable fonts trade hinting quality for flexibility.
+
+## When to break the rules
+
+Line-length guidance assumes single-column body text. A two-column magazine layout reads fine at 90+ characters per column because the visual rhythm of the grid helps the eye track. Similarly, tight 1.4× leading works in data tables because you're scanning vertically, not reading horizontally.
+
+The rule isn't the point — the reading task is the point. Ask what your user is doing with the text. Scanning for a value? Dense 14px tabular figures with 1.4× leading. Reading an essay? 18px prose at 1.75×. The same content rendered for both contexts should look different.
+
+> "The goal of typography is not to make text look beautiful. It is to make it read beautifully."
+> — Robert Bringhurst, *The Elements of Typographic Style*
+
+Most typography decisions made in product design are not about beauty. They're about reducing cognitive load at scale — ensuring that the tenth screen a user sees in a session reads as easily as the first. That's a harder target than beauty, and a more useful one.

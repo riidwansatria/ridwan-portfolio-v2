@@ -1,5 +1,6 @@
 import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
+import remarkUnwrapImages from 'remark-unwrap-images'
 import { sharedMdxComponents } from '@/mdx-components'
 
 // ---------------------------------------------------------------------------
@@ -12,7 +13,7 @@ export async function renderMdx(source: string) {
     components: sharedMdxComponents,
     options: {
       mdxOptions: {
-        remarkPlugins: [remarkGfm],
+        remarkPlugins: [remarkGfm, remarkUnwrapImages],
         rehypePlugins: [],
       },
     },
