@@ -159,17 +159,17 @@ export default async function Page() {
             </a>
           </p>
           <div className="flex flex-wrap gap-2 mt-5">
-            <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
-              GitHub <ArrowUpRight size={12} />
+            <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
+              GitHub <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
-              LinkedIn <ArrowUpRight size={12} />
+            <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
+              LinkedIn <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
-              X <ArrowUpRight size={12} />
+            <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
+              X <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
-              Email <ArrowUpRight size={12} />
+            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="group inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
+              Email <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
         </section>
