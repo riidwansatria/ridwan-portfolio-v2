@@ -24,7 +24,7 @@ export default function NotesPage() {
     <div className="max-w-4xl mx-auto px-6 pt-20 pb-16">
       {/* Page Header */}
       <div className="mb-20">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground leading-tight">
+        <h1 className="text-3xl md:text-4xl font-heading font-semibold tracking-tight text-foreground leading-tight">
           Notes
         </h1>
         <p className="mt-4 text-xl leading-relaxed text-muted-foreground">
@@ -34,17 +34,17 @@ export default function NotesPage() {
 
       {/* Featured */}
       <section className="mb-20">
-        <h2 className="text-lg font-medium text-foreground mb-6">Featured</h2>
+        <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">Featured</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {featured.map((note) => (
             <Link
               key={note.slug}
               href={`/notes/${note.slug}`}
-              className="group block border border-border rounded-2xl bg-muted/50 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-muted/80"
+              className="group block rounded-2xl border bg-card p-4 transition-all hover:bg-accent/70 hover:border-foreground/20"
             >
-              <h3 className="text-base font-semibold text-foreground leading-snug mb-3 transition-colors">
+              <h2 className="text-lg font-semibold text-foreground leading-snug mb-3 transition-colors">
                 {note.title}
-              </h3>
+              </h2>
               <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-5">
                 {note.abstract}
               </p>
@@ -62,7 +62,7 @@ export default function NotesPage() {
 
       {/* Year-grouped archive */}
       <section>
-        <h2 className="text-lg font-medium text-foreground mb-6">All Notes</h2>
+        <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">All Notes</h2>
         {years.map((year, i) => (
           <div key={year}>
             <div className="flex flex-col md:flex-row md:gap-12">
@@ -77,7 +77,7 @@ export default function NotesPage() {
                   <Link
                     key={note.slug}
                     href={`/notes/${note.slug}`}
-                    className="group flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 -mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/50"
+                    className="group flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 -mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/70"
                   >
                     <h2 className="text-lg font-medium text-foreground leading-snug transition-colors">
                       {note.title}

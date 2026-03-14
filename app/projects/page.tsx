@@ -27,18 +27,20 @@ export default function ProjectsPage() {
   const otherProjects = projects.filter((p) => !p.featured)
 
   return (
-    <>
+    <div className="max-w-4xl mx-auto px-6 pt-20 pb-16">
       {/* Page Header */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Projects</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+      <div className="mb-20">
+        <h1 className="text-3xl md:text-4xl font-heading font-semibold tracking-tight text-foreground leading-tight">
+          Projects
+        </h1>
+        <p className="mt-4 text-xl leading-relaxed text-muted-foreground">
           Selected work in geospatial analytics, transportation planning, and urban policy research.
         </p>
       </div>
 
       {/* Featured Projects */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        <h2 className="text-xs uppercase tracking-widest text-muted-foreground mb-6">
+      <section className="mb-20">
+        <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">
           Featured
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -51,8 +53,8 @@ export default function ProjectsPage() {
       </section>
 
       {/* Other Projects */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8 mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-muted-foreground mb-6">
+      <section>
+        <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">
           More
         </h2>
         <div className="grid gap-4">
@@ -60,7 +62,7 @@ export default function ProjectsPage() {
             <div key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/30 transition-colors duration-200"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
               >
                 {/* Thumbnail */}
                 <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
@@ -104,12 +106,12 @@ export default function ProjectsPage() {
                 </div>
 
                 {/* Arrow */}
-                <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-0.5" />
               </Link>
             </div>
           ))}
         </div>
       </section>
-    </>
+    </div>
   )
 }

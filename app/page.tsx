@@ -33,9 +33,9 @@ export default async function Page() {
   }))
 
   const reading = {
-    title: "Seeing Like a State",
-    author: "James C. Scott",
-    year: "1998",
+    title: "Why Nations Fail: The Origins of Power, Prosperity, and Poverty",
+    author: "Daron Acemoglu, James A. Robinson",
+    year: "2012",
   }
 
   return (
@@ -44,7 +44,7 @@ export default async function Page() {
 
         {/* Intro */}
         <section>
-          <div className="flex items-start justify-between gap-8">
+          <div className="flex items-center justify-between gap-8">
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-full bg-muted shrink-0 overflow-hidden">
@@ -57,7 +57,7 @@ export default async function Page() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-semibold text-foreground">Ridwan Satria</h1>
+                  <h1 className="font-heading font-semibold text-3xl text-foreground">Ridwan Satria</h1>
                   <p className="text-sm text-muted-foreground">MEng Student · The University of Tokyo</p>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export default async function Page() {
               <Link
                 key={project.id}
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:border-foreground/25 transition-colors duration-200"
+                className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <Image
@@ -135,8 +135,8 @@ export default async function Page() {
             {posts.map((post) => (
               <article key={post.slug} className="border-t first:border-t-0 border-border/60">
                 <Link href={`/notes/${post.slug}`}>
-                  <div className="-mx-2 px-2 py-3 rounded-lg transition-colors hover:bg-accent/50">
-                    <p className="text-sm font-medium text-foreground leading-snug">{post.title}</p>
+                  <div className="-mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/70">
+                    <p className="text-base font-medium text-foreground leading-snug">{post.title}</p>
                     <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
                   </div>
                 </Link>
@@ -148,11 +148,11 @@ export default async function Page() {
         {/* Reading */}
         <section>
           <p className="text-xs text-muted-foreground uppercase tracking-widest mb-5">Reading</p>
-          <div className="flex gap-3 items-start">
+          <div className="flex gap-3 items-center">
             <div className="w-10 h-14 bg-muted rounded shrink-0 border border-border/40" />
-            <div>
-              <p className="text-sm font-medium text-foreground leading-snug">{reading.title}</p>
-              <p className="text-xs text-muted-foreground mt-1">{reading.author}, {reading.year}</p>
+            <div className="">
+              <p className="text-sm font-heading font-medium text-foreground leading-snug">{reading.title}</p>
+              <p className="text-xs text-muted-foreground mt-1">{reading.author} ({reading.year})</p>
             </div>
           </div>
         </section>
@@ -167,16 +167,16 @@ export default async function Page() {
             </a>
           </p>
           <div className="flex flex-wrap gap-2 mt-5">
-            <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+            <a href="https://github.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
               GitHub <ArrowUpRight size={12} />
             </a>
-            <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+            <a href="https://linkedin.com/in/ridwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
               LinkedIn <ArrowUpRight size={12} />
             </a>
-            <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+            <a href="https://twitter.com/riidwansatria" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
               X <ArrowUpRight size={12} />
             </a>
-            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="inline-flex items-center gap-1.5 text-sm text-foreground border border-border rounded-full px-3.5 py-1.5 hover:bg-accent transition-colors">
+            <a href="mailto:ridwansatria@g.ecc.u-tokyo.ac.jp" className="inline-flex items-center gap-1.5 text-sm text-foreground bg-secondary rounded-full px-3.5 py-1.5 hover:bg-secondary/70 transition-colors">
               Email <ArrowUpRight size={12} />
             </a>
           </div>

@@ -106,7 +106,7 @@ export function ShowcaseLayout({ project }: { project: ProjectLayoutData }) {
               <TransitionLink
                 href={`/projects/${project.nextProject.slug}`}
                 transition="next"
-                className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-1 pl-4 transition-all hover:bg-secondary/50"
+                className="group flex items-center justify-between gap-2 rounded-2xl border border-border bg-card p-1 pl-4 transition-all hover:bg-accent/70 hover:border-foreground/20"
               >
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground">

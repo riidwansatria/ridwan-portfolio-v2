@@ -17,7 +17,10 @@ Visual language for ridwansatria.com. "A document, not an app."
 | Headings (article) | Plus Jakarta Sans | Bold, `font-stretch: extra-condensed`, `letter-spacing: -0.02em` |
 | Body (articles) | Public Sans | 18px, `line-height: 1.75` |
 | Body (UI) | Public Sans | 14–15px |
-| Meta labels | Public Sans muted | `text-xs text-muted-foreground uppercase tracking-widest` |
+| Page titles (index) | Public Sans | `text-3xl md:text-4xl font-semibold tracking-tight leading-tight` |
+| Page subtitles (index) | Public Sans muted | `text-xl leading-relaxed text-muted-foreground` |
+| Section labels | Public Sans muted | `text-xs text-muted-foreground uppercase tracking-widest` |
+| List item titles | Public Sans | `text-sm md:text-lg font-medium text-foreground leading-snug` |
 
 No font-mono in site chrome. `font-mono` is only used inside `.article-content code` and `.article-content pre`.
 
@@ -55,20 +58,33 @@ Restrained but not absent.
 
 - **Route transitions:** Fade via framer-motion (`app/template.tsx`). Forces scroll-to-top on navigation.
 - **Showcase pages:** Viewport-triggered animations via `components/motion-primitives/`.
-- **Hover:** Project cards `border-foreground/25` on hover, 200ms. Link arrows translate 0.5px.
+
+### Hover conventions
+
+| Element | Hover effect | Classes |
+|---|---|---|
+| Cards (project, note) | Background tint + border lighten | `hover:bg-accent/70 hover:border-foreground/20 transition-all` |
+| List rows (notes, nav) | Background fill | `hover:bg-accent/70 transition-colors` |
+| Link arrows | Slide right | `group-hover:translate-x-0.5 transition-transform` |
+| Social/connect pills | Background fade | `bg-secondary hover:bg-secondary/70 transition-colors` (filled, no border) |
 
 Hard rules:
 - No scroll hijacking or parallax
 - No continuous/looping animations
+- No `hover:-translate-y` lift on cards
 - Respect `prefers-reduced-motion`
+- Use Tailwind default transition duration (no explicit `duration-*` unless needed)
 
 ## Layout
 
-- **Homepage container:** `max-w-4xl mx-auto px-4 sm:px-6`
-- **Section spacing:** `space-y-16`, with `mt-24` before the Projects section
+- **Homepage container:** `max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28`
+- **Index page container (notes, projects):** `max-w-4xl mx-auto px-6 pt-20 pb-16`
+- **Index page header spacing:** `mb-20` between header and first section
+- **Section spacing (homepage):** `space-y-16`, with `mt-24` before the Projects section
 - **Project grid (homepage):** `grid-cols-1 sm:grid-cols-3 gap-4`
 - **Notes list:** `border-t first:border-t-0 border-border/60`, hover on `-mx-2 px-2` wrapper
-- **Border radius base:** `0.625rem` (`--radius`), rounded-2xl on cards
+- **Border radius:** `rounded-2xl` on all cards (no `rounded-xl` for cards)
+- **Card base:** `border bg-card p-4 rounded-2xl`
 - **Header:** Fixed top bar, `backdrop-blur`, fullscreen menu overlay
 - **Footer:** Hidden on `/projects/[slug]` detail pages
 

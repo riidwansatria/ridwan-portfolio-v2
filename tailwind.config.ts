@@ -145,8 +145,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-public-sans)"],
-        heading: ["var(--font-plus-jakarta)', 'serif"],
+        sans: ["var(--font-geist)"],
+        heading: ["var(--font-plus-jakarta)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

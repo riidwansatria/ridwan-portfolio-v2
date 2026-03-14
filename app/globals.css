@@ -131,6 +131,11 @@ body {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@theme inline {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
