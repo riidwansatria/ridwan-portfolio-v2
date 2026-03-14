@@ -12,17 +12,27 @@ Visual language for ridwansatria.com. "A document, not an app."
 
 ## Typography
 
+### Font families
+
+| Token | Font | Usage |
+|---|---|---|
+| `font-sans` (`--font-sans`) | Geist | Default body, UI text |
+| `font-heading` (`--font-heading`) | Plus Jakarta Sans | Page titles, header/nav, reading section |
+
+Defined in `app/globals.css` via `@theme inline`. No font-mono in site chrome — `font-mono` only inside `.article-content code` and `.article-content pre`.
+
+### Type scale
+
 | Element | Font | Treatment |
 |---|---|---|
-| Headings (article) | Plus Jakarta Sans | Bold, `font-stretch: extra-condensed`, `letter-spacing: -0.02em` |
-| Body (articles) | Public Sans | 18px, `line-height: 1.75` |
-| Body (UI) | Public Sans | 14–15px |
-| Page titles (index) | Public Sans | `text-3xl md:text-4xl font-semibold tracking-tight leading-tight` |
-| Page subtitles (index) | Public Sans muted | `text-xl leading-relaxed text-muted-foreground` |
-| Section labels | Public Sans muted | `text-xs text-muted-foreground uppercase tracking-widest` |
-| List item titles | Public Sans | `text-sm md:text-lg font-medium text-foreground leading-snug` |
-
-No font-mono in site chrome. `font-mono` is only used inside `.article-content code` and `.article-content pre`.
+| Headings (article) | Plus Jakarta Sans | Bold, `letter-spacing: -0.02em` |
+| Body (articles) | Geist | 18px, `line-height: 1.75` |
+| Body (UI) | Geist | 14–15px |
+| Page titles (index) | Plus Jakarta Sans | `text-3xl md:text-4xl font-heading font-semibold tracking-tight leading-tight` |
+| Page subtitles (index) | Geist muted | `text-xl leading-relaxed text-muted-foreground` |
+| Section labels | Geist muted | `text-xs text-muted-foreground uppercase tracking-widest` |
+| List item titles | Geist | `text-sm md:text-lg font-medium text-foreground leading-snug` |
+| Header / nav | Plus Jakarta Sans | `font-heading` on header and menu overlay |
 
 ## Color
 
@@ -56,15 +66,17 @@ Rules:
 
 Restrained but not absent.
 
-- **Route transitions:** Fade via framer-motion (`app/template.tsx`). Forces scroll-to-top on navigation.
-- **Showcase pages:** Viewport-triggered animations via `components/motion-primitives/`.
+- **Route transitions:** Fade + 8px upward slide, 200ms, subtle ease (`app/template.tsx`). Forces scroll-to-top on navigation.
+- **Showcase pages:** Viewport-triggered animations via `components/app/visual/motion-primitives.tsx`.
+- **AnimatedBackground:** Hover-sliding highlight via `layoutId` spring animation (`components/app/visual/animated-background.tsx`). Used on homepage notes list, notes archive list, article footer "more notes", and header nav overlay.
 
 ### Hover conventions
 
 | Element | Hover effect | Classes |
 |---|---|---|
 | Cards (project, note) | Background tint + border lighten | `hover:bg-accent/70 hover:border-foreground/20 transition-all` |
-| List rows (notes, nav) | Background fill | `hover:bg-accent/70 transition-colors` |
+| List rows (notes) | Sliding highlight | `AnimatedBackground` with `bg-accent/70`, spring transition |
+| Nav menu items | Sliding highlight | `layoutId` spring with `bg-accent`, 200ms delayed close on route change |
 | Link arrows | Slide right | `group-hover:translate-x-0.5 transition-transform` |
 | Social/connect pills | Background fade | `bg-secondary hover:bg-secondary/70 transition-colors` (filled, no border) |
 
@@ -85,7 +97,7 @@ Hard rules:
 - **Notes list:** `border-t first:border-t-0 border-border/60`, hover on `-mx-2 px-2` wrapper
 - **Border radius:** `rounded-2xl` on all cards (no `rounded-xl` for cards)
 - **Card base:** `border bg-card p-4 rounded-2xl`
-- **Header:** Fixed top bar, `backdrop-blur`, fullscreen menu overlay
+- **Header:** Fixed top bar, `backdrop-blur`, fullscreen menu overlay with `font-heading`. Menu close is delayed 200ms on navigation to prevent flash of old page content.
 - **Footer:** Hidden on `/projects/[slug]` detail pages
 
 ## Article Typography (.article-content)
@@ -114,6 +126,6 @@ Applied by `CaseStudyLayout` and note pages. Key values:
 - ❌ Testimonials, client logos, construction banners
 - ❌ Contact form (mailto + LinkedIn is sufficient)
 - ❌ Long personal philosophy sections
-- ❌ Additional font families
+- ❌ Additional font families beyond Geist (sans) and Plus Jakarta Sans (heading)
 - ❌ font-mono in UI labels, nav, or section headers
 - ❌ Dynamic Tailwind class generation (use hardcoded variants)
