@@ -1,10 +1,5 @@
-import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { getAllNotes } from "@/lib/content"
-
-function formatCategory(category: string) {
-  return category.replace(/-/g, " ")
-}
 
 export default function NotesPage() {
   const allNotes = getAllNotes()
@@ -12,75 +7,98 @@ export default function NotesPage() {
     (note) => process.env.NODE_ENV === 'development' || note.status !== 'draft'
   )
 
-  const blogPosts = notesForIndex.map((note, i) => ({
-    id: String(i + 1),
-    date: new Date(note.date).toLocaleDateString('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric',
-    }).toUpperCase(),
-    title: note.title,
-    category: note.category,
-    abstract: note.abstract,
-    slug: note.slug,
-  }))
+  // Featured: first 2 notes
+  const featured = notesForIndex.slice(0, 2)
+
+  // Group all notes by year
+  const notesByYear = notesForIndex.reduce<Record<string, typeof notesForIndex>>((acc, note) => {
+    const year = new Date(note.date).getFullYear().toString()
+    if (!acc[year]) acc[year] = []
+    acc[year].push(note)
+    return acc
+  }, {})
+
+  const years = Object.keys(notesByYear).sort((a, b) => Number(b) - Number(a))
 
   return (
-    <>
+    <div className="max-w-4xl mx-auto px-6 pt-20 pb-16">
       {/* Page Header */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-10">
-        <div className="grid gap-6 border-b border-border pb-8 md:grid-cols-[120px_minmax(0,1fr)]">
-          <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Notes</p>
-          <div>
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-              Prose first, with the interaction kept inline.
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-              Essays, method notes, and policy reads. The writing should still stand on its own
-              even if every interactive enhancement fails to load.
-            </p>
-          </div>
-        </div>
+      <div className="mb-20">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground leading-tight">
+          Notes
+        </h1>
+        <p className="mt-4 text-xl leading-relaxed text-muted-foreground">
+          Updates and occasional thoughts on cities, transport, and everyday design.
+        </p>
       </div>
 
-      {/* Posts List */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-16">
-        {blogPosts.map((post) => (
-          <article key={post.id}>
+      {/* Featured */}
+      <section className="mb-20">
+        <h2 className="text-lg font-medium text-foreground mb-6">Featured</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {featured.map((note) => (
             <Link
-              href={`/notes/${post.slug}`}
-              className="group block border-b border-border py-8 transition-colors hover:bg-accent/20 md:px-2 md:py-10"
+              key={note.slug}
+              href={`/notes/${note.slug}`}
+              className="group block border border-border rounded-2xl bg-muted/50 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-muted/80"
             >
-              <div className="grid gap-3 md:grid-cols-[120px_minmax(0,1fr)_40px] md:gap-12">
-                {/* Date */}
-                <time className="shrink-0 pt-0.5 text-xs font-medium uppercase tracking-widest text-muted-foreground md:text-sm">
-                  {post.date}
-                </time>
-
-                {/* Content */}
-                <div className="flex-1">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <span className="rounded-full border border-border px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                      {formatCategory(post.category)}
-                    </span>
-                  </div>
-                  <h2 className="mb-3 text-xl font-medium leading-tight text-foreground transition-colors group-hover:text-foreground/80 md:text-2xl">
-                    {post.title}
-                  </h2>
-                  <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                    {post.abstract}
-                  </p>
-                </div>
-
-                {/* Arrow Icon */}
-                <div className="hidden shrink-0 items-center justify-end md:flex">
-                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 md:h-6 md:w-6" />
-                </div>
-              </div>
+              <h3 className="text-base font-semibold text-foreground leading-snug mb-3 transition-colors">
+                {note.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-5">
+                {note.abstract}
+              </p>
+              <time className="text-xs text-muted-foreground">
+                {new Date(note.date).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: '2-digit',
+                  year: 'numeric',
+                })}
+              </time>
             </Link>
-          </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Year-grouped archive */}
+      <section>
+        <h2 className="text-lg font-medium text-foreground mb-6">All Notes</h2>
+        {years.map((year, i) => (
+          <div key={year}>
+            <div className="flex flex-col md:flex-row md:gap-12">
+              {/* Year label */}
+              <div className="md:w-[60px] shrink-0 mb-4 md:mb-0 md:pt-3">
+                <span className="text-sm font-medium text-muted-foreground">{year}</span>
+              </div>
+
+              {/* Posts list */}
+              <div className="flex-1 flex flex-col gap-1">
+                {notesByYear[year].map((note) => (
+                  <Link
+                    key={note.slug}
+                    href={`/notes/${note.slug}`}
+                    className="group flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 -mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/50"
+                  >
+                    <h2 className="text-lg font-medium text-foreground leading-snug transition-colors">
+                      {note.title}
+                    </h2>
+                    <time className="text-sm text-muted-foreground shrink-0">
+                      {new Date(note.date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {i < years.length - 1 && (
+              <hr className="border-t border-dashed border-border my-10" />
+            )}
+          </div>
         ))}
-      </div>
-    </>
+      </section>
+    </div>
   )
 }

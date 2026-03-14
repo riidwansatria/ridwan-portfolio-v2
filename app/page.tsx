@@ -29,7 +29,7 @@ export default async function Page() {
     slug: n.slug,
     title: n.title,
     abstract: n.abstract,
-    date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
   }))
 
   const reading = {
@@ -39,7 +39,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28 pb-8">
       <div className="space-y-16">
 
         {/* Intro */}
