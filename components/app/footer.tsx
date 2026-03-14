@@ -27,7 +27,7 @@ function LiveClock() {
   if (!time) return null
 
   return (
-    <span className="text-muted-foreground text-xs sm:text-sm tabular-nums">
+    <span className="text-muted-foreground text-xs sm:text-sm tabular-nums leading-none">
       {time} in Tokyo, Japan
     </span>
   )
@@ -42,9 +42,9 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative border-t py-2">
+    <footer className="relative border-t py-1">
       <div className="px-4 sm:px-6 flex items-center">
-        <div className="flex-1">
+        <div className="flex-1  pb-1.5">
           <LiveClock />
         </div>
         <ThemeToggle className="text-muted-foreground shadow-none" />
