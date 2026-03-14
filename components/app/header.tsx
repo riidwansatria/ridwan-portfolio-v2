@@ -210,8 +210,8 @@ export default function Header() {
                   )}
                   <span className="relative z-10">{item.name}</span>
                   <ArrowRight className={`
-                    relative z-10 h-5 w-5 transition-all
-                    opacity-0 -translate-x-2 group-hover:opacity-50 group-hover:translate-x-0
+                    relative z-10 h-5 w-5 transition-opacity
+                    ${hoveredItem === item.name ? 'opacity-50' : 'opacity-0'}
                   `} />
                 </Link>
               )
