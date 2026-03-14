@@ -4,7 +4,7 @@ import { getAllProjects, getAllNotes } from '@/lib/content'
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NotesList } from '@/components/app/notes-list'
-import { Spotlight } from '@/components/app/visual/spotlight'
+import { Spotlight } from '@/components/app/motion/spotlight'
 
 export default async function Page() {
   const allProjects = getAllProjects()

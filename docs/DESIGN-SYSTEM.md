@@ -67,9 +67,9 @@ Rules:
 Restrained but not absent.
 
 - **Route transitions:** Fade + 8px upward slide, 200ms, subtle ease (`app/template.tsx`). Forces scroll-to-top on navigation.
-- **Showcase pages:** Viewport-triggered animations via `components/app/visual/motion-primitives.tsx`.
-- **AnimatedBackground:** Hover-sliding highlight via `layoutId` spring animation (`components/app/visual/animated-background.tsx`). Used on homepage notes list, notes archive list, article footer "more notes", and header nav overlay.
-- **Spotlight:** Mouse-following radial glow (`components/app/visual/spotlight.tsx`). Drop `<Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />` as first child of any `relative overflow-hidden` card. Used on all project cards (homepage, featured grid, more list).
+- **Showcase pages:** Viewport-triggered animations (`FadeIn`, `FadeInStagger`, `ScaleIn`) defined as private helpers inside `components/app/layouts/layout-showcase.tsx`.
+- **AnimatedBackground:** Hover-sliding highlight via `layoutId` spring animation (`components/app/motion/animated-background.tsx`). Used on homepage notes list, notes archive list, article footer "more notes", and header nav overlay.
+- **Spotlight:** Mouse-following radial glow (`components/app/motion/spotlight.tsx`). Drop `<Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />` as first child of any `relative overflow-hidden` card. Used on all project cards (homepage, featured grid, more list).
 
 ### Hover conventions
 

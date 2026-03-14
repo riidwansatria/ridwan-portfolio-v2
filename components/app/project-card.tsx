@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Spotlight } from "@/components/app/visual/spotlight"
+import { Spotlight } from "@/components/app/motion/spotlight"
 
 export type Project = {
     id: string

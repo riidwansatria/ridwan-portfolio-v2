@@ -55,10 +55,10 @@ These are available in both `/projects` and `/notes` MDX files.
 
 | Component | Location | Description |
 |---|---|---|
-| `Spotlight` | `components/app/visual/spotlight.tsx` | `"use client"`. Mouse-following radial glow. Attaches to its parent element via `parentElement` ref. Props: `size` (default 200), `className`, `springOptions`. Use `className="z-10 bg-foreground/5 blur-3xl"` on cards. Add `relative overflow-hidden` to the parent. |
-| `AnimatedBackground` | `components/app/visual/animated-background.tsx` | Sliding hover highlight via `layoutId` spring. Used on notes lists. |
-| `FadeIn` / `FadeInStagger` / `ScaleIn` | `components/app/visual/motion-primitives.tsx` | Viewport-triggered entrance animations. Used in project showcase layouts. |
-| `TextEffect` | `components/app/visual/text-effect.tsx` | Per-word/char/line text animations. Not currently used on public pages. |
+| `Spotlight` | `components/app/motion/spotlight.tsx` | `"use client"`. Mouse-following radial glow. Attaches to its parent element via `parentElement` ref. Props: `size` (default 200), `className`, `springOptions`. Use `className="z-10 bg-foreground/5 blur-3xl"` on cards. Add `relative overflow-hidden` to the parent. |
+| `AnimatedBackground` | `components/app/motion/animated-background.tsx` | Sliding hover highlight via `layoutId` spring. Used on notes lists. |
+| `FadeIn` / `FadeInStagger` / `ScaleIn` | `components/app/layouts/layout-showcase.tsx` (private) | Viewport-triggered entrance animations. Local helpers, not exported. |
+| `TextEffect` | `components/app/motion/text-effect.tsx` | Per-word/char/line text animations. Not currently used on public pages. |
 
 Route-level fade transition is in `app/template.tsx`.
 

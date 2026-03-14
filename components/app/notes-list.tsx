@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { AnimatedBackground } from '@/components/app/visual/animated-background'
+import { AnimatedBackground } from '@/components/app/motion/animated-background'
 
 type NoteItem = {
   slug: string

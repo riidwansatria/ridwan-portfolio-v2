@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/app/project-card"
-import { Spotlight } from "@/components/app/visual/spotlight"
+import { Spotlight } from "@/components/app/motion/spotlight"
 import { getAllProjects } from "@/lib/content"
 
 export default function ProjectsPage() {

@@ -1,12 +1,64 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, createContext, useContext } from "react"
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 import { TransitionLink } from "@/components/primitives/transition-link"
 import { Badge } from "@/components/ui/badge"
-import { FadeIn, FadeInStagger, ScaleIn } from "@/components/app/visual/motion-primitives"
+import { motion, useReducedMotion, type Transition } from "motion/react"
 import type { ProjectLayoutData } from "@/components/app/layouts/types"
+
+// — Entrance animation helpers (local to showcase layout) —
+
+const viewport = { once: true, margin: "0px 0px -50px 0px" }
+const subtleEase: [number, number, number, number] = [0.25, 0.1, 0.25, 1.0]
+const StaggerContext = createContext(false)
+
+function FadeInStagger({ faster = false, children, className, delay = 0, staggerDuration, ...props }:
+  React.ComponentPropsWithoutRef<typeof motion.div> & { faster?: boolean; delay?: number; staggerDuration?: number }
+) {
+  const stagger = staggerDuration ?? (faster ? 0.08 : 0.15)
+  return (
+    <StaggerContext.Provider value={true}>
+      <motion.div
+        initial="hidden" whileInView="visible" viewport={viewport}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: stagger, delayChildren: delay } } }}
+        className={className} {...props}
+      >
+        {children}
+      </motion.div>
+    </StaggerContext.Provider>
+  )
+}
+
+function FadeIn({ children, className, delay = 0, ...props }:
+  React.ComponentPropsWithoutRef<typeof motion.div> & { delay?: number }
+) {
+  const shouldReduceMotion = useReducedMotion()
+  const inStagger = useContext(StaggerContext)
+  const variants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 15, filter: "blur(4px)" },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  }
+  const transition: Transition = { duration: 0.5, ease: subtleEase, ...(inStagger ? {} : { delay }) }
+  return inStagger
+    ? <motion.div variants={variants} transition={transition} className={className} {...props}>{children}</motion.div>
+    : <motion.div variants={variants} initial="hidden" whileInView="visible" viewport={viewport} transition={transition} className={className} {...props}>{children}</motion.div>
+}
+
+function ScaleIn({ children, className, delay = 0, ...props }:
+  React.ComponentPropsWithoutRef<typeof motion.div> & { delay?: number }
+) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+      viewport={viewport} transition={{ duration: 0.6, ease: subtleEase, delay }}
+      className={className} {...props}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 function formatProjectDate(date: string) {
   return new Date(date).toLocaleDateString("en-US", {
