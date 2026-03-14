@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
+import { Spotlight } from "@/components/app/visual/spotlight"
 
 export type Project = {
     id: string
@@ -20,8 +21,9 @@ export function ProjectCard({ project }: { project: Project }) {
     return (
         <Link
             href={`/projects/${project.slug}`}
-            className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
+            className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
         >
+            <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
             {/* Image */}
             <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                 <Image

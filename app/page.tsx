@@ -4,6 +4,7 @@ import { getAllProjects, getAllNotes } from '@/lib/content'
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NotesList } from '@/components/app/notes-list'
+import { Spotlight } from '@/components/app/visual/spotlight'
 
 export default async function Page() {
   const allProjects = getAllProjects()
@@ -98,6 +99,7 @@ export default async function Page() {
                 href={`/projects/${project.slug}`}
                 className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
               >
+                <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <Image
                     src={project.heroImage}

@@ -88,7 +88,7 @@ development challenges in emerging markets.`,
       ],
 
       skills: {
-        languages: ["English", "Indonesian", "Japanese"],
+        languages: ["English", "Indonesian", "Japanese (JLPT N2)"],
         programming: ["Python", "R", "SQL", "JavaScript"],
         software: [
           "QGIS",
@@ -101,9 +101,9 @@ development challenges in emerging markets.`,
       },
 
       interests: [
-        "Transport Systems",
-        "Digital Governance",
-        "International Development Policy",
+        "Transportation Systems",
+        "Urban Policy",
+        "International Development",
         "Grand Strategy Gaming",
         "Hiking",
       ],

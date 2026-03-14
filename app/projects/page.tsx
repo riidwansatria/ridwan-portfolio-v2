@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/app/project-card"
+import { Spotlight } from "@/components/app/visual/spotlight"
 import { getAllProjects } from "@/lib/content"
 
 export default function ProjectsPage() {
@@ -62,8 +63,9 @@ export default function ProjectsPage() {
             <div key={project.id}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
+                className="group relative flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all overflow-hidden"
               >
+                <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
                 {/* Thumbnail */}
                 <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
                   <Image
