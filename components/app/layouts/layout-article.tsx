@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NotesList } from '@/components/app/notes-list'
 
 interface ArticlePost {
   title: string
@@ -85,18 +86,10 @@ export function LayoutArticle({ post, prevPost, nextPost, moreNotes }: ArticleLa
           <>
             <hr className="border-border mt-16 mb-6" />
             <p className="mb-1 text-xs text-muted-foreground">More notes</p>
-            <nav>
-              {moreNotes.map((note) => (
-                <article key={note.slug} className="">
-                  <Link href={`/notes/${note.slug}`}>
-                    <div className="-mx-2 px-2 py-2 rounded-lg transition-colors hover:bg-accent/50 flex items-baseline justify-between gap-4">
-                      <p className="text-sm font-medium text-foreground leading-snug">{note.title}</p>
-                      <p className="text-xs text-muted-foreground shrink-0">{formatShortDate(note.date)}</p>
-                    </div>
-                  </Link>
-                </article>
-              ))}
-            </nav>
+            <NotesList
+              posts={moreNotes.map((n) => ({ slug: n.slug, title: n.title, date: formatShortDate(n.date) }))}
+              variant="compact"
+            />
           </>
         )}
       </div>

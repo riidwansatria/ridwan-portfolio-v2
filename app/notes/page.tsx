@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { getAllNotes } from "@/lib/content"
+import { NotesList } from "@/components/app/notes-list"
 
 export default function NotesPage() {
   const allNotes = getAllNotes()
@@ -73,23 +74,7 @@ export default function NotesPage() {
 
               {/* Posts list */}
               <div className="flex-1 flex flex-col gap-1">
-                {notesByYear[year].map((note) => (
-                  <Link
-                    key={note.slug}
-                    href={`/notes/${note.slug}`}
-                    className="group flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 -mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/70"
-                  >
-                    <h2 className="text-lg font-medium text-foreground leading-snug transition-colors">
-                      {note.title}
-                    </h2>
-                    <time className="text-sm text-muted-foreground shrink-0">
-                      {new Date(note.date).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
-                  </Link>
-                ))}
+                <NotesList posts={notesByYear[year]} variant="archive" />
               </div>
             </div>
 

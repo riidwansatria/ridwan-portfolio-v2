@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 // Navigation items
 const navigation = [
@@ -83,14 +84,16 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const pathname = usePathname()
 
   const breadcrumbs = getBreadcrumbs(pathname)
   const isHome = pathname === '/'
 
-  // Close menu on route change
+  // Close menu on route change — delay so page transition covers the old content
   useEffect(() => {
-    setOpen(false)
+    const timeout = setTimeout(() => setOpen(false), 200)
+    return () => clearTimeout(timeout)
   }, [pathname])
 
   // Prevent body scroll when menu is open
@@ -107,7 +110,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80">
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80 font-heading">
         <nav className="p-4 h-full">
           <div className="flex items-center h-full gap-2.5">
 
@@ -155,7 +158,7 @@ export default function Header() {
 
       {/* Full-screen menu overlay */}
       <div
-        className="fixed inset-0 z-40 bg-background pointer-events-none"
+        className="fixed inset-0 z-40 bg-background pointer-events-none font-heading font-medium"
         style={{
           clipPath: open
             ? 'circle(150% at 24px 28px)'
@@ -167,7 +170,10 @@ export default function Header() {
         }}
       >
         <div className="flex flex-col justify-center items-start h-full px-8 sm:px-16">
-          <nav className="flex flex-col gap-2 w-full max-w-md">
+          <nav
+            className="flex flex-col gap-2 w-full max-w-md"
+            onMouseLeave={() => setHoveredItem(null)}
+          >
             {navigation.map((item, i) => {
               const isActive = pathname === item.href ||
                 (item.href !== '/' && pathname.startsWith(item.href))
@@ -176,11 +182,13 @@ export default function Header() {
                   key={item.name}
                   href={item.href}
                   className={`
-                    group flex items-center justify-between rounded-xl px-4 py-4
-                    text-2xl transition-all duration-300
+                    group relative flex items-center justify-between rounded-xl px-4 py-4
+                    text-2xl
                     ${isActive
-                      ? 'bg-accent text-foreground font-medium'
-                      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+                      ? 'text-foreground font-medium'
+                      : hoveredItem === item.name
+                        ? 'text-foreground'
+                        : 'text-muted-foreground'
                     }
                   `}
                   style={{
@@ -190,15 +198,20 @@ export default function Header() {
                       ? `opacity 0.3s ${0.15 + i * 0.05}s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) ${0.15 + i * 0.05}s`
                       : 'opacity 0.15s, transform 0.15s',
                   }}
+                  onMouseEnter={() => setHoveredItem(item.name)}
                   onClick={() => setOpen(false)}
                 >
-                  {item.name}
+                  {hoveredItem === item.name && (
+                    <motion.div
+                      layoutId="nav-highlight"
+                      className="absolute inset-0 rounded-xl bg-accent"
+                      transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.name}</span>
                   <ArrowRight className={`
-                    h-5 w-5 transition-all
-                    ${isActive
-                      ? 'opacity-100'
-                      : 'opacity-0 -translate-x-2 group-hover:opacity-50 group-hover:translate-x-0'
-                    }
+                    relative z-10 h-5 w-5 transition-all
+                    opacity-0 -translate-x-2 group-hover:opacity-50 group-hover:translate-x-0
                   `} />
                 </Link>
               )

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { getAllProjects, getAllNotes } from '@/lib/content'
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { NotesList } from '@/components/app/notes-list'
 
 export default async function Page() {
   const allProjects = getAllProjects()
@@ -124,25 +125,14 @@ export default async function Page() {
 
         {/* Notes */}
         <section>
-          <div className="flex justify-between items-center mb-5">
+          <div className="flex justify-between items-center mb-2">
             <p className="text-xs text-muted-foreground uppercase tracking-widest">Notes</p>
             <Link href="/notes" className="group flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors">
               Read all
               <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
-          <div>
-            {posts.map((post) => (
-              <article key={post.slug} className="border-t first:border-t-0 border-border/60">
-                <Link href={`/notes/${post.slug}`}>
-                  <div className="-mx-3 px-3 py-3 rounded-lg transition-colors hover:bg-accent/70">
-                    <p className="text-base font-medium text-foreground leading-snug">{post.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
+          <NotesList posts={posts} />
         </section>
 
         {/* Reading */}
