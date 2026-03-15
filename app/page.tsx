@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NotesList } from '@/components/app/notes-list'
 import { Spotlight } from '@/components/app/motion/spotlight'
+import { ReadingSection } from '@/components/app/reading-section'
 
 export default async function Page() {
   const allProjects = getAllProjects()
@@ -33,12 +34,6 @@ export default async function Page() {
     abstract: n.abstract,
     date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
   }))
-
-  const reading = {
-    title: "Why Nations Fail: The Origins of Power, Prosperity, and Poverty",
-    author: "Daron Acemoglu, James A. Robinson",
-    year: "2012",
-  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28 pb-8">
@@ -139,14 +134,14 @@ export default async function Page() {
 
         {/* Reading */}
         <section>
-          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-5">Reading</p>
-          <div className="flex gap-3 items-center">
-            <div className="w-10 h-14 bg-muted rounded shrink-0 border border-border/40" />
-            <div className="">
-              <p className="text-sm font-heading font-medium text-foreground leading-snug">{reading.title}</p>
-              <p className="text-xs text-muted-foreground mt-1">{reading.author} ({reading.year})</p>
-            </div>
+          <div className="flex justify-between items-center mb-5">
+            <p className="text-xs text-muted-foreground uppercase tracking-widest">Reading</p>
+            <Link href="/bookshelf" className="group flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors">
+              View all
+              <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
+          <ReadingSection />
         </section>
 
         {/* Connect */}

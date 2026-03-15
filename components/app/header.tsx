@@ -12,6 +12,7 @@ const navigation = [
   { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
   { name: 'Notes', href: '/notes' },
+  { name: 'Bookshelf', href: '/bookshelf' },
 ]
 
 // Map route segments to readable names
@@ -20,6 +21,7 @@ function getSegmentLabel(segment: string): string {
     projects: 'Projects',
     notes: 'Notes',
     about: 'About',
+    bookshelf: 'Bookshelf',
     research: 'Research',
   }
   return labels[segment] || segment
