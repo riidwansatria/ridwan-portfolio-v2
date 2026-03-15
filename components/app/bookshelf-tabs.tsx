@@ -27,8 +27,8 @@ export function BookshelfContent({ books }: BookshelfContentProps) {
   }
 
   return (
-    <div className="border-t border-border space-y-4 pt-4 px-6">
-      <nav className="flex items-center gap-1 overflow-x-auto">
+    <div className="border-t border-border space-y-4 pt-4 px-6 overflow-hidden">
+      <nav className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
         <AnimatedBackground
           defaultValue={active}
           onValueChange={(id) => { if (id) setActive(id) }}
