@@ -1,112 +1,48 @@
-"use client";
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "@radix-ui/react-slot"
 
-import { forwardRef, type HTMLAttributes } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { useShape } from "@/lib/shape-context";
-
-const badgeColors = {
-  gray: "#a3a3a3",
-  red: "#ef4444",
-  orange: "#f97316",
-  amber: "#f59e0b",
-  yellow: "#eab308",
-  lime: "#84cc16",
-  green: "#22c55e",
-  emerald: "#10b981",
-  teal: "#14b8a6",
-  cyan: "#06b6d4",
-  blue: "#3b82f6",
-  indigo: "#6366f1",
-  violet: "#8b5cf6",
-  purple: "#a855f7",
-  fuchsia: "#d946ef",
-  pink: "#ec4899",
-  rose: "#f43f5e",
-} as const;
-
-type BadgeColor = keyof typeof badgeColors;
+import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center font-medium whitespace-nowrap",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3",
   {
     variants: {
       variant: {
-        solid: "",
-        dot: "border border-border text-foreground",
-      },
-      size: {
-        sm: "h-5 px-2 text-[11px] gap-1",
-        md: "h-6 px-2.5 text-[12px] gap-1.5",
-        lg: "h-7 px-3 text-[13px] gap-1.5",
+        default: "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
+        destructive:
+          "bg-destructive text-white focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [a&]:hover:bg-destructive/90",
+        outline:
+          "border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        ghost: "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 [a&]:hover:underline",
       },
     },
     defaultVariants: {
-      variant: "solid",
-      size: "md",
+      variant: "default",
     },
   }
-);
+)
 
-interface BadgeProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, "color">,
-    VariantProps<typeof badgeVariants> {
-  color?: BadgeColor;
+function Badge({
+  className,
+  variant = "default",
+  asChild = false,
+  ...props
+}: React.ComponentProps<"span"> &
+  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot : "span"
+
+  return (
+    <Comp
+      data-slot="badge"
+      data-variant={variant}
+      className={cn(badgeVariants({ variant }), className)}
+      {...props}
+    />
+  )
 }
 
-const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  (
-    {
-      className,
-      variant = "solid",
-      size = "md",
-      color = "gray",
-      children,
-      style,
-      ...props
-    },
-    ref
-  ) => {
-    const shape = useShape();
-    const colorValue = badgeColors[color];
-    const isSolid = variant === "solid";
-    const dotSize = size === "sm" ? 6 : size === "lg" ? 8 : 7;
-
-    const colorStyle = isSolid
-      ? color === "gray"
-        ? { backgroundColor: "var(--accent)", color: "var(--foreground)" }
-        : {
-            color: "var(--foreground)",
-            backgroundColor: `color-mix(in srgb, ${colorValue} 15%, var(--background))`,
-          }
-      : {};
-
-    const dotColor = color === "gray" ? "var(--muted-foreground)" : colorValue;
-
-    return (
-      <span
-        ref={ref}
-        className={cn(badgeVariants({ variant, size }), shape.item, className)}
-        style={{ ...colorStyle, ...style }}
-        {...props}
-      >
-        {!isSolid && (
-          <span
-            className="shrink-0 rounded-full"
-            style={{
-              width: dotSize,
-              height: dotSize,
-              backgroundColor: dotColor,
-            }}
-          />
-        )}
-        {children}
-      </span>
-    );
-  }
-);
-
-Badge.displayName = "Badge";
-
-export { Badge, badgeVariants, badgeColors };
-export type { BadgeProps, BadgeColor };
+export { Badge, badgeVariants }
