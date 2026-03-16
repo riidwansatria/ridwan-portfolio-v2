@@ -134,7 +134,7 @@ export default async function Page() {
 
         {/* Reading */}
         <section>
-          <div className="flex justify-between items-center mb-5">
+          <div className="flex justify-between items-center mb-2">
             <p className="text-xs text-muted-foreground uppercase tracking-widest">Reading</p>
             <Link href="/bookshelf" className="group flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors">
               View all
