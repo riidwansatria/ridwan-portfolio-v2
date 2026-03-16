@@ -73,6 +73,20 @@ Do not hand-write shadcn components — always use the CLI to get the correct ve
 
 ---
 
+## Add a book to the bookshelf
+
+Books are managed in Notion, not in code. No code changes needed.
+
+1. Open the Notion bookshelf database (ID in `NOTION_BOOKSHELF_DB_ID` env var)
+2. Add a new row with at minimum: `Title`, `Author`, `Status`
+3. Set `ISBN` if you want a cover image to resolve automatically
+4. Set `Progress` and `Pages` for reading-progress display
+5. The bookshelf page revalidates every hour (ISR). To force a refresh, redeploy or wait.
+
+The homepage reading section automatically picks up books with status `Reading` and books completed in the last 30 days.
+
+---
+
 ## Change homepage sections
 
 Homepage sections are all inline in `app/page.tsx`. The section order is:
@@ -80,7 +94,8 @@ Homepage sections are all inline in `app/page.tsx`. The section order is:
 
 - To reorder: move the `<section>` blocks
 - To add a section: add a `<section>` with a muted label header (`text-xs text-muted-foreground uppercase tracking-widest mb-5`)
-- Reading and Connect are hardcoded — update directly in `app/page.tsx`
+- Reading section is powered by Notion via `ReadingSection` server component — it shows currently reading + recently completed books
+- Connect is hardcoded — update directly in `app/page.tsx`
 
 ---
 
@@ -107,3 +122,6 @@ If a new image host is needed (e.g. a new CDN domain):
 Current allowed remote hosts:
 - `images.pexels.com`
 - `k8boaqmtfy4jtiib.public.blob.vercel-storage.com`
+- `covers.openlibrary.org` (book covers)
+- `books.google.com` (book covers)
+- `books.googleusercontent.com` (book covers)

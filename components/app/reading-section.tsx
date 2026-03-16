@@ -1,25 +1,18 @@
-import { getFeaturedBooks } from '@/lib/bookshelf'
-import { BookCover } from '@/components/app/book-cover'
+import { getBooks } from '@/lib/bookshelf'
+import { ReadingList } from '@/components/app/reading-list'
 
 export async function ReadingSection() {
-  const books = await getFeaturedBooks()
+  const allBooks = await getBooks()
+
+  const reading = allBooks.filter((b) => b.status === 'Reading')
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  const recentlyFinished = allBooks.filter(
+    (b) => b.status === 'Completed' && b.dateFinished && new Date(b.dateFinished) >= thirtyDaysAgo
+  )
+  const books = [...reading, ...recentlyFinished]
 
   if (books.length === 0) return null
 
-  return (
-    <div className="space-y-4">
-      {books.map((book) => (
-        <div key={book.id} className="flex gap-3 items-center">
-          <BookCover src={book.coverUrl} title={book.title} width={40} height={60} />
-          <div>
-            <p className="text-sm font-medium font-heading text-foreground leading-snug">
-              {book.title}
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">{book.author}</p>
-            <p className="text-xs font-mono text-muted-foreground mt-0.5">{book.status}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
+  return <ReadingList books={books} />
 }

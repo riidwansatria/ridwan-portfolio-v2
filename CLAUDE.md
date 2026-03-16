@@ -3,9 +3,9 @@
 ## Overview
 
 Personal portfolio built with Next.js App Router, React 19, and Tailwind CSS v4.
-The site is mostly file-driven: projects and notes come from local `.mdx` files in `content/`, while some pages like `/about` and the homepage reading/contact sections are still hardcoded in React.
+The site is mostly file-driven: projects and notes come from local `.mdx` files in `content/`, while the bookshelf pulls from a Notion database and some pages like `/about` and the homepage connect section are hardcoded in React.
 
-This is a single-app repo rooted at the project root. There is no CMS, no database, and no monorepo setup.
+This is a single-app repo rooted at the project root. There is no traditional CMS or database — Notion is used only as a bookshelf data source via `@notionhq/client`.
 
 ---
 
@@ -33,6 +33,7 @@ npm run type-check  # TypeScript check without emit
 - `framer-motion` and `motion`
 - `next-themes` for dark mode
 - `maplibre-gl`, `recharts`, and `scrollama` for rich project/article embeds
+- `@notionhq/client` v5 for bookshelf data (Notion database)
 
 ---
 
@@ -41,6 +42,8 @@ npm run type-check  # TypeScript check without emit
 ```text
 app/
   about/page.tsx                 # Static resume-style about page
+  bookshelf/page.tsx             # Bookshelf page (Notion-backed, ISR 1h)
+  bookshelf/loading.tsx          # Skeleton loading state for bookshelf
   notes/page.tsx                 # Notes index
   notes/[slug]/page.tsx          # Note detail page from MDX
   projects/page.tsx              # Projects index
@@ -61,6 +64,7 @@ components/
   ui/                            # Shared UI primitives
 
 lib/
+  bookshelf.ts                   # Notion bookshelf loader + cover resolver
   content.ts                     # Local filesystem MDX loader/sorter
   mdx.tsx                        # MDX compiler + component mapping
   site-config.ts                 # Global metadata and author links
@@ -81,8 +85,8 @@ public/
 - Server component homepage.
 - Pulls latest projects and notes from `lib/content.ts`.
 - Only the first 3 projects and first 3 notes are shown.
-- Intro, reading, and connect sections are hardcoded in `app/page.tsx`.
-- The old "photo strip" section described in the previous doc is not currently rendered, even though a `photos` array still exists in the file.
+- Reading section uses `ReadingSection` (server component) which fetches currently-reading books and books completed in the last 30 days from Notion.
+- Intro and connect sections are hardcoded in `app/page.tsx`.
 
 ### `/projects`
 
@@ -110,6 +114,15 @@ public/
 - Renders inline page structure directly in the route file.
 - Adjacent note navigation is computed from the sorted note list.
 
+### `/bookshelf`
+
+- Server component page backed by Notion database via `lib/bookshelf.ts`.
+- ISR with `revalidate = 3600` (1 hour).
+- Client-side tab filtering (All, Reading, Completed, Want to Read) via `BookshelfContent`.
+- Cover images resolved at build time: OpenLibrary first, Google Books fallback.
+- Has a skeleton loading state (`app/bookshelf/loading.tsx`).
+- Requires env vars: `NOTION_TOKEN`, `NOTION_BOOKSHELF_DB_ID`. Optional: `GOOGLE_BOOKS_KEY`.
+
 ### `/about`
 
 - Fully hardcoded page in [`app/about/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/about/page.tsx).
@@ -119,7 +132,9 @@ public/
 
 ## Content System
 
-All content is loaded from the local filesystem with synchronous `fs` reads in [`lib/content.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/content.ts).
+Projects and notes are loaded from the local filesystem with synchronous `fs` reads in [`lib/content.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/content.ts).
+
+Bookshelf data is fetched from a Notion database via [`lib/bookshelf.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/bookshelf.ts) using `@notionhq/client` v5's `dataSources.query` API (not the older `databases.query`).
 
 ### Project Frontmatter
 
@@ -224,7 +239,7 @@ Important implementation notes:
 
 - is a fixed top bar with a fullscreen menu overlay
 - uses breadcrumbs on non-home routes
-- current nav items are `Home`, `About`, `Projects`, `Notes`
+- current nav items are `Home`, `About`, `Projects`, `Notes`, `Bookshelf`
 
 ### Footer
 
@@ -261,6 +276,9 @@ Next.js remote images are currently allowed only for:
 
 - `images.pexels.com`
 - `k8boaqmtfy4jtiib.public.blob.vercel-storage.com`
+- `covers.openlibrary.org` (book covers)
+- `books.google.com` (book covers)
+- `books.googleusercontent.com` (book covers)
 
 Configured in [`next.config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/next.config.ts).
 
@@ -269,9 +287,11 @@ Configured in [`next.config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v
 ## Important Files
 
 - [`app/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/page.tsx): homepage composition
+- [`app/bookshelf/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/bookshelf/page.tsx): bookshelf page (Notion-backed)
 - [`app/about/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/about/page.tsx): hardcoded about/resume page
 - [`app/projects/[slug]/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/projects/[slug]/page.tsx): project detail routing + layout selection
 - [`app/notes/[slug]/page.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/app/notes/[slug]/page.tsx): note detail rendering + prev/next nav
+- [`lib/bookshelf.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/bookshelf.ts): Notion bookshelf loader + cover art resolver
 - [`lib/content.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/content.ts): content loading and sorting
 - [`lib/mdx.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/mdx.tsx): MDX compiler and component map
 - [`lib/site-config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/lib/site-config.ts): site metadata and social links
@@ -284,8 +304,8 @@ Configured in [`next.config.ts`](/Users/ridwansatria/Projects/ridwan-portfolio-v
 ## Current Caveats
 
 - [`components/custom/note-layouts/layout-article.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/note-layouts/layout-article.tsx) exists but is not currently used by the active note route.
-- `app/page.tsx` still contains an unused `photos` array.
 - `ImageGallery` uses a dynamic Tailwind class pattern that may need hardcoded variants if styling becomes inconsistent.
+- Bookshelf requires `NOTION_TOKEN` and `NOTION_BOOKSHELF_DB_ID` env vars. If missing, the bookshelf page and homepage reading section silently return empty lists.
 
 ---
 

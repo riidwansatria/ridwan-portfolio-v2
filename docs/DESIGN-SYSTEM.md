@@ -80,6 +80,8 @@ Restrained but not absent.
 | Nav menu items | Sliding highlight | `layoutId` spring with `bg-accent`, 200ms delayed close on route change |
 | Link arrows | Slide right | `group-hover:translate-x-0.5 transition-transform` |
 | Social/connect pills | Background fade | `bg-secondary hover:bg-secondary/70 transition-colors` (filled, no border) |
+| Book cards (bookshelf) | Sliding highlight | `AnimatedBackground` with `bg-accent/70`, rounded-xl |
+| Bookshelf tabs | Sliding pill | `AnimatedBackground` with `bg-foreground`, spring transition. Active tab text becomes `text-background`. |
 
 Hard rules:
 - No scroll hijacking or parallax
@@ -99,6 +101,8 @@ Hard rules:
 - **Border radius:** `rounded-2xl` on all cards (no `rounded-xl` for cards)
 - **Card base:** `border bg-card p-4 rounded-2xl`
 - **Header:** Fixed top bar, `backdrop-blur`, fullscreen menu overlay with `font-heading`. Menu close is delayed 200ms on navigation to prevent flash of old page content.
+- **Bookshelf grid:** `grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8`, responsive breakpoints for book cards
+- **Book card aspect:** `aspect-[2/3]` for cover images, `rounded-md`
 - **Footer:** Hidden on `/projects/[slug]` detail pages
 
 ## Article Typography (.article-content)

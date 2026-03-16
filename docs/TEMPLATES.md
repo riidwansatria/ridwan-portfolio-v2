@@ -85,6 +85,12 @@ Pick 2–3 per project. Do not mix more than 3.
 | Purple | `#727892` | Policy, governance, abstract   |
 | Red    | `#ef4434` | Risk, displacement, loss       |
 
+## Bookshelf
+
+No file template — books are added directly in the Notion database. See `docs/CONTENT-MODEL.md` for the Notion property schema and `docs/WORKFLOWS.md` for the step-by-step workflow.
+
+Required Notion properties for a new book: `Title`, `Author`, `Status` (select: Reading / Completed / Want to Read). Set `ISBN` for automatic cover art. Set `Progress` and `Pages` for reading-progress display.
+
 ## Note category reference
 
 | Value         | When to use                                        |

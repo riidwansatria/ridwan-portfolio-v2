@@ -6,13 +6,23 @@ All custom components for ridwansatria.com. Use shadcn/ui when available; custom
 
 | Component | Location | Description |
 |---|---|---|
-| `Header` | `components/app/Header.tsx` | Fixed top bar + fullscreen menu overlay + breadcrumbs. `backdrop-blur`. Nav: Home, About, Projects, Notes. |
+| `Header` | `components/app/Header.tsx` | Fixed top bar + fullscreen menu overlay + breadcrumbs. `backdrop-blur`. Nav: Home, About, Projects, Notes, Bookshelf. |
 | `Footer` | `components/app/Footer.tsx` | Live Tokyo clock + theme toggle + copyright. Hidden on `/projects/[slug]`. |
 | `ProjectCard` | `components/app/project-card.tsx` | `"use client"`. Thumbnail (16/10 aspect) + title + abstract (line-clamp-2) + date + 2 tag pills styled with `accentColors`. Includes `<Spotlight>` interaction. Used on homepage (3-col grid) and projects index featured grid. |
 | `ThemeToggle` | `components/app/ThemeToggle.tsx` | Dark/light mode toggle. |
 | `Date` | `components/app/Date.tsx` | Formatted date display. |
 
 Note: `Hero`, `SectionHeading`, and `TagPill` components do **not** exist. The homepage intro section is inline in `app/page.tsx`.
+
+## Bookshelf
+
+| Component | Location | Description |
+|---|---|---|
+| `BookCard` | `components/app/book-card.tsx` | Book cover (2:3 aspect) + title + author. Status badge with progress percentage or status label. Uses `BookCover` for the image. |
+| `BookCover` | `components/app/book-cover.tsx` | Wrapper around `next/image` for book covers. Handles `fill` and fixed-size modes. Renders a muted placeholder when `src` is null. |
+| `BookshelfContent` | `components/app/bookshelf-tabs.tsx` | `"use client"`. Tab-filtered grid view with `AnimatedBackground` on both the tab bar and the book grid. Filters: All, Reading, Completed, Want to Read. Shows count badges per tab. |
+| `ReadingSection` | `components/app/reading-section.tsx` | Server component. Fetches all books, filters to currently reading + completed in last 30 days, passes to `ReadingList`. Returns `null` if no books match. |
+| `ReadingList` | `components/app/reading-list.tsx` | `"use client"`. Horizontal list of books with cover thumbnail, title, author, progress bar. Uses `AnimatedBackground` for hover highlight. Completed books render at reduced opacity. |
 
 ## Layouts
 

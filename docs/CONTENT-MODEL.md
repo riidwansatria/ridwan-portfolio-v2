@@ -1,6 +1,6 @@
 # Content Model
 
-Two content types, two routes, one rule: projects have deliverables, notes have arguments.
+Three content types: projects have deliverables, notes have arguments, and the bookshelf tracks reading.
 
 ## The differentiation rule
 
@@ -8,6 +8,7 @@ Two content types, two routes, one rule: projects have deliverables, notes have 
   No traditional prose body — text exists only as short annotations, captions, scroll steps, or UI labels.
 - `/notes` → Has an **argument**. Text-first with optional inline interactive components.
   If you removed the component, the article should still make sense as text.
+- `/bookshelf` → **Reading log**. Data lives in a Notion database, not in local files.
 
 Every project can link to a companion note ("Read the write-up →") explaining methodology.
 
@@ -69,6 +70,73 @@ New layouts should be thin wrappers that arrange MDX-registered components, not 
 - **City reads** — short essays reading a transport system or policy. Core differentiator.
 - **Method notes** — technical how-I-did-it posts. Can use side-by-side layout (text + code/viz).
 - **Policy document reads** — summarize and comment on published government/multilateral reports.
+
+## Bookshelf data model
+
+The bookshelf is not file-driven. Data lives in a Notion database, fetched via `@notionhq/client` v5's `dataSources.query` API in `lib/bookshelf.ts`.
+
+### Notion database properties
+
+| Property | Notion type | Maps to |
+|---|---|---|
+| `Title` | title | `book.title` |
+| `Author` | rich_text | `book.author` |
+| `Status` | select | `book.status` — one of `Reading`, `Completed`, `Want to Read` |
+| `Rating` | select | `book.rating` |
+| `ISBN` | rich_text | `book.isbn` — used to resolve cover art |
+| `Genre` | multi_select | `book.genres` |
+| `Date Finished` | date | `book.dateFinished` |
+| `Note` | rich_text | `book.note` |
+| `Featured` | checkbox | `book.featured` |
+| `Progress` | number | `book.progress` — current page number |
+| `Pages` | number | `book.pages` — total pages |
+
+### Book type
+
+```ts
+type Book = {
+  id: string
+  title: string
+  author: string
+  status: string
+  rating: string | null
+  isbn: string | null
+  genres: string[]
+  dateFinished: string | null
+  note: string | null
+  featured: boolean
+  coverUrl: string | null
+  progress: number | null
+  pages: number | null
+}
+```
+
+### Cover art resolution
+
+Cover images are resolved at build/revalidation time using the ISBN:
+1. **OpenLibrary** — `covers.openlibrary.org/b/isbn/{isbn}-L.jpg` (HEAD check, 1h revalidate)
+2. **Google Books** fallback — uses `GOOGLE_BOOKS_KEY` env var if set, otherwise unauthenticated
+
+If both fail, `coverUrl` is `null` and `BookCover` renders a muted placeholder.
+
+### Sorting rules
+
+Books are sorted by status group order (Reading → Completed → Want to Read), then:
+- **Reading:** by progress percentage descending (furthest along first)
+- **Completed:** by `dateFinished` descending (most recent first)
+- **Want to Read:** no secondary sort
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `NOTION_TOKEN` | Yes | Notion integration token (shared with other Notion integrations) |
+| `NOTION_BOOKSHELF_DB_ID` | Yes | Notion database ID for the bookshelf |
+| `GOOGLE_BOOKS_KEY` | No | Google Books API key for cover fallback (works without, but rate-limited) |
+
+### ISR
+
+The bookshelf page uses `revalidate = 3600` (1 hour). Cover art fetches also cache for 1 hour.
 
 ## Content guidelines
 
