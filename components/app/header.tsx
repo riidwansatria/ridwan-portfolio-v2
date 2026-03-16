@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { ArrowRight } from 'lucide-react'
+
 import Link from 'next/link'
-import { motion } from 'motion/react'
+import { ArrowRight } from 'lucide-react'
+import { AnimatedBackground } from '@/components/app/motion/animated-background'
 
 // Navigation items
 const navigation = [
@@ -86,7 +87,6 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Header() {
   const [open, setOpen] = useState(false)
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const pathname = usePathname()
 
   const breadcrumbs = getBreadcrumbs(pathname)
@@ -172,52 +172,44 @@ export default function Header() {
         }}
       >
         <div className="flex flex-col justify-center items-start h-full px-8 sm:px-16">
-          <nav
-            className="flex flex-col gap-2 w-full max-w-md"
-            onMouseLeave={() => setHoveredItem(null)}
-          >
-            {navigation.map((item, i) => {
-              const isActive = pathname === item.href ||
-                (item.href !== '/' && pathname.startsWith(item.href))
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`
-                    group relative flex items-center justify-between rounded-xl px-4 py-4
-                    text-2xl
-                    ${isActive
-                      ? 'text-foreground font-medium'
-                      : hoveredItem === item.name
-                        ? 'text-foreground'
-                        : 'text-muted-foreground'
-                    }
-                  `}
-                  style={{
-                    opacity: open ? 1 : 0,
-                    transform: open ? 'translateY(0)' : 'translateY(12px)',
-                    transition: open
-                      ? `opacity 0.3s ${0.15 + i * 0.05}s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) ${0.15 + i * 0.05}s`
-                      : 'opacity 0.15s, transform 0.15s',
-                  }}
-                  onMouseEnter={() => setHoveredItem(item.name)}
-                  onClick={() => setOpen(false)}
-                >
-                  {hoveredItem === item.name && (
-                    <motion.div
-                      layoutId="nav-highlight"
-                      className="absolute inset-0 rounded-xl bg-accent"
-                      transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
-                    />
-                  )}
-                  <span className="relative z-10">{item.name}</span>
-                  <ArrowRight className={`
-                    relative z-10 h-5 w-5 transition-opacity
-                    ${hoveredItem === item.name ? 'opacity-50' : 'opacity-0'}
-                  `} />
-                </Link>
-              )
-            })}
+          <nav className="w-full max-w-md isolate">
+            <AnimatedBackground
+              enableHover
+              className="rounded-xl bg-accent z-0"
+              transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+            >
+              {navigation.map((item, i) => {
+                const isActive = pathname === item.href ||
+                  (item.href !== '/' && pathname.startsWith(item.href))
+                return (
+                  <Link
+                    key={item.name}
+                    data-id={item.name}
+                    href={item.href}
+                    className={`
+                      group block w-full px-4 py-4 text-2xl
+                      ${isActive ? 'text-foreground font-medium' : 'text-muted-foreground'}
+                    `}
+                    style={{
+                      opacity: open ? 1 : 0,
+                      transition: open
+                        ? `opacity 0.4s ${0.1 + i * 0.05}s`
+                        : 'opacity 0.15s',
+                    }}
+                    onClick={() => setOpen(false)}
+                  >
+                    <span className="flex items-center w-full">
+                      {item.name}
+                      <ArrowRight
+                        size={20}
+                        className="ml-auto opacity-0 group-data-[checked=true]:opacity-100 transition-opacity duration-300"
+                        aria-hidden
+                      />
+                    </span>
+                  </Link>
+                )
+              })}
+            </AnimatedBackground>
           </nav>
         </div>
       </div>
