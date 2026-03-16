@@ -1,15 +1,22 @@
-import { getBooks } from '@/lib/bookshelf'
-import { BookshelfContent } from '@/components/app/bookshelf-tabs'
-
 export const revalidate = 3600
 
-export default async function BookshelfPage() {
-  const books = await getBooks()
+import { Suspense } from 'react'
+import { getBooks } from '@/lib/bookshelf'
+import { BookshelfContent } from '@/components/app/bookshelf-tabs'
+import BookshelfLoading from './loading'
 
+async function BookshelfData() {
+  const books = await getBooks()
+  return <BookshelfContent books={books} />
+}
+
+export default function BookshelfPage() {
   return (
     <div className="pb-20">
       <div className="space-y-8">
-        <BookshelfContent books={books} />
+        <Suspense fallback={<BookshelfLoading />}>
+          <BookshelfData />
+        </Suspense>
       </div>
     </div>
   )

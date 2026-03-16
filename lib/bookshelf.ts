@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import { Client, isFullPage } from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
@@ -142,42 +143,50 @@ function getClient(): Client | null {
   return new Client({ auth: process.env.NOTION_TOKEN })
 }
 
-export async function getBooks(status?: BookStatus): Promise<Book[]> {
-  const notion = getClient()
-  if (!notion) return []
+export const getBooks = unstable_cache(
+  async (status?: BookStatus): Promise<Book[]> => {
+    const notion = getClient()
+    if (!notion) return []
 
-  try {
-    const filter = status
-      ? { property: 'Status', select: { equals: status } }
-      : undefined
+    try {
+      const filter = status
+        ? { property: 'Status', select: { equals: status } }
+        : undefined
 
-    const res = await notion.dataSources.query({
-      data_source_id: DB_ID,
-      ...(filter ? { filter } : {}),
-    })
+      const res = await notion.dataSources.query({
+        data_source_id: DB_ID,
+        ...(filter ? { filter } : {}),
+      })
 
-    const pages = res.results.filter(isFullPage)
-    const books = await Promise.all(pages.map(pageToBook))
-    return sortBooks(books)
-  } catch {
-    return []
-  }
-}
+      const pages = res.results.filter(isFullPage)
+      const books = await Promise.all(pages.map(pageToBook))
+      return sortBooks(books)
+    } catch {
+      return []
+    }
+  },
+  ['getBooks'],
+  { revalidate: 3600 }
+)
 
-export async function getFeaturedBooks(): Promise<Book[]> {
-  const notion = getClient()
-  if (!notion) return []
+export const getFeaturedBooks = unstable_cache(
+  async (): Promise<Book[]> => {
+    const notion = getClient()
+    if (!notion) return []
 
-  try {
-    const res = await notion.dataSources.query({
-      data_source_id: DB_ID,
-      filter: { property: 'Featured', checkbox: { equals: true } },
-      page_size: 3,
-    })
+    try {
+      const res = await notion.dataSources.query({
+        data_source_id: DB_ID,
+        filter: { property: 'Featured', checkbox: { equals: true } },
+        page_size: 3,
+      })
 
-    const pages = res.results.filter(isFullPage)
-    return Promise.all(pages.map(pageToBook))
-  } catch {
-    return []
-  }
-}
+      const pages = res.results.filter(isFullPage)
+      return Promise.all(pages.map(pageToBook))
+    } catch {
+      return []
+    }
+  },
+  ['getFeaturedBooks'],
+  { revalidate: 3600 }
+)

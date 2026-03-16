@@ -2,14 +2,36 @@ export const revalidate = 3600
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { getAllProjects, getAllNotes } from '@/lib/content'
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NotesList } from '@/components/app/notes-list'
 import { Spotlight } from '@/components/app/motion/spotlight'
 import { ReadingSection } from '@/components/app/reading-section'
+import { Skeleton } from '@/components/ui/skeleton'
+import { blurDataURL } from '@/lib/image-blur'
 
-export default async function Page() {
+function ReadingSkeleton() {
+  return (
+    <div>
+      {[0, 1].map((i) => (
+        <div key={i} className="-mx-3 px-3 py-3">
+          <div className="flex gap-4 items-center">
+            <Skeleton className="w-12 h-[72px] rounded-sm shrink-0" />
+            <div className="flex-1 min-w-0 space-y-1">
+              <Skeleton className="h-[0.875rem] w-3/4" />
+              <Skeleton className="h-3 w-1/3" />
+              <Skeleton className="mt-2.5 h-1 w-full rounded-full" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default function Page() {
   const allProjects = getAllProjects()
   const allNotes = getAllNotes()
   const visibleProjects = allProjects.filter(
@@ -90,7 +112,7 @@ export default async function Page() {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {projects.map((project) => (
+            {projects.map((project, i) => (
               <Link
                 key={project.id}
                 href={`/projects/${project.slug}`}
@@ -102,8 +124,11 @@ export default async function Page() {
                     src={project.heroImage}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-opacity duration-300"
                     sizes="(min-width: 640px) 33vw, 100vw"
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
+                    priority={i === 0}
                   />
                   <span className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-[11px] font-medium px-2 py-0.5 rounded-full">
                     {new Date(project.date).toLocaleDateString("en-US", { year: "numeric" })}
@@ -143,7 +168,9 @@ export default async function Page() {
               <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
-          <ReadingSection />
+          <Suspense fallback={<ReadingSkeleton />}>
+            <ReadingSection />
+          </Suspense>
         </section>
 
         {/* Connect */}

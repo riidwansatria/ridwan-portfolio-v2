@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Spotlight } from "@/components/app/motion/spotlight"
+import { blurDataURL } from "@/lib/image-blur"
 
 export type Project = {
     id: string
@@ -17,7 +18,7 @@ export type Project = {
     featured?: boolean
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, priority = false }: { project: Project; priority?: boolean }) {
     return (
         <Link
             href={`/projects/${project.slug}`}
@@ -30,7 +31,11 @@ export function ProjectCard({ project }: { project: Project }) {
                     src={project.heroImage}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-opacity duration-300"
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
+                    priority={priority}
                 />
             </div>
 

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { ProjectCard, type Project } from "@/components/app/project-card"
 import { Spotlight } from "@/components/app/motion/spotlight"
 import { getAllProjects } from "@/lib/content"
+import { blurDataURL } from "@/lib/image-blur"
 
 export default function ProjectsPage() {
   const allProjectData = getAllProjects()
@@ -45,9 +46,9 @@ export default function ProjectsPage() {
           Featured
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          {featuredProjects.map((project) => (
+          {featuredProjects.map((project, i) => (
             <div key={project.id}>
-              <ProjectCard project={project} />
+              <ProjectCard project={project} priority={i === 0} />
             </div>
           ))}
         </div>
@@ -72,7 +73,10 @@ export default function ProjectsPage() {
                     src={project.heroImage}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-opacity duration-300"
+                    sizes="224px"
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
                   />
                 </div>
 
