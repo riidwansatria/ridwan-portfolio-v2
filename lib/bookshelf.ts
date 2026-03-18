@@ -20,22 +20,13 @@ export type Book = {
   coverUrl: string | null
   progress: number | null
   pages: number | null
+  description: string | null
+  subjects: string[]
 }
 
-async function resolveCover(isbn: string): Promise<string | null> {
-  const cleanIsbn = isbn.replace(/-/g, '')
+type BookMeta = { coverUrl: string | null; description: string | null; subjects: string[] }
 
-  // OpenLibrary: -L is large (~600px wide)
-  const olUrl = `https://covers.openlibrary.org/b/isbn/${cleanIsbn}-L.jpg`
-  try {
-    const check = await fetch(`${olUrl}?default=false`, {
-      method: 'HEAD',
-      next: { revalidate: 3600 },
-    })
-    if (check.ok) return olUrl
-  } catch {}
-
-  // Google Books: zoom=0 is full size, strip edge=curl artifact
+async function fetchGoogleBooksData(cleanIsbn: string): Promise<BookMeta> {
   try {
     const key = process.env.GOOGLE_BOOKS_KEY
     const url = key
@@ -43,16 +34,40 @@ async function resolveCover(isbn: string): Promise<string | null> {
       : `https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}`
     const res = await fetch(url, { next: { revalidate: 3600 } })
     const data = await res.json()
-    const raw: string | undefined = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail
-    if (raw) {
-      return raw
-        .replace('http://', 'https://')
-        .replace('&edge=curl', '')
-        .replace('zoom=1', 'zoom=0')
-    }
-  } catch {}
+    const info = data.items?.[0]?.volumeInfo
+    if (!info) return { coverUrl: null, description: null, subjects: [] }
 
-  return null
+    const raw: string | undefined = info.imageLinks?.thumbnail
+    const coverUrl = raw
+      ? raw.replace('http://', 'https://').replace('&edge=curl', '').replace('zoom=1', 'zoom=0')
+      : null
+
+    return {
+      coverUrl,
+      description: info.description ?? null,
+      subjects: info.categories ?? [],
+    }
+  } catch {
+    return { coverUrl: null, description: null, subjects: [] }
+  }
+}
+
+async function resolveBookMetadata(isbn: string): Promise<BookMeta> {
+  const cleanIsbn = isbn.replace(/-/g, '')
+  const olUrl = `https://covers.openlibrary.org/b/isbn/${cleanIsbn}-L.jpg`
+
+  const [olCover, gbData] = await Promise.all([
+    fetch(`${olUrl}?default=false`, { method: 'HEAD', next: { revalidate: 3600 } })
+      .then((r) => (r.ok ? olUrl : null))
+      .catch(() => null),
+    fetchGoogleBooksData(cleanIsbn),
+  ])
+
+  return {
+    coverUrl: olCover ?? gbData.coverUrl,
+    description: gbData.description,
+    subjects: gbData.subjects,
+  }
 }
 
 function richText(prop: PageObjectResponse['properties'][string]): string {
@@ -89,7 +104,7 @@ function number(prop: PageObjectResponse['properties'][string]): number | null {
 async function pageToBook(page: PageObjectResponse): Promise<Book> {
   const p = page.properties
   const isbn = (p.ISBN ? richText(p.ISBN) : '') || null
-  const coverUrl = isbn ? await resolveCover(isbn) : null
+  const meta = isbn ? await resolveBookMetadata(isbn) : { coverUrl: null, description: null, subjects: [] }
 
   return {
     id: page.id,
@@ -102,9 +117,11 @@ async function pageToBook(page: PageObjectResponse): Promise<Book> {
     dateFinished: p['Date Finished'] ? dateStart(p['Date Finished']) : null,
     note: p.Note ? richText(p.Note) || null : null,
     featured: p.Featured ? checkbox(p.Featured) : false,
-    coverUrl,
+    coverUrl: meta.coverUrl,
     progress: p.Progress ? number(p.Progress) : null,
     pages: p.Pages ? number(p.Pages) : null,
+    description: meta.description,
+    subjects: meta.subjects,
   }
 }
 
