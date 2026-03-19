@@ -47,7 +47,13 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                 className="relative flex flex-col md:flex-row w-[min(94vw,960px)] h-[min(90vh,820px)] md:h-[min(75vh,700px)] rounded-2xl border border-border bg-background shadow-xl overflow-hidden outline-none"
                 initial={{ opacity: 0, scale: 0.4, x: origin.x, y: origin.y }}
                 animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.4,
+                  x: origin.x,
+                  y: origin.y,
+                  transition: { type: 'spring', bounce: 0.12, duration: 0.45 },
+                }}
                 transition={{ type: 'spring', bounce: 0.12, duration: 0.45 }}
               >
                 <VisuallyHidden>
