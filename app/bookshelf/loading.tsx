@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 function BookCardSkeleton() {
   return (
     <div className="flex flex-col w-full">
-      <Skeleton className="w-full aspect-[2/3] rounded-md" />
+      <Skeleton className="w-full aspect-2/3 rounded-md" />
       <div className="mt-2.5 px-0.5 space-y-1.5">
         <Skeleton className="h-3.5 w-4/5" />
         <Skeleton className="h-2.5 w-3/5" />

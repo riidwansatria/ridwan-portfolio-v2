@@ -259,6 +259,18 @@ Important implementation notes:
 - custom `.article-content` typography rules
 - MapLibre popup overrides
 
+### Tailwind Class Style
+
+Always use canonical Tailwind CSS v4 classes instead of arbitrary value brackets when an equivalent exists. For example:
+- `min-h-80` not `min-h-[320px]`
+- `w-100` not `w-[400px]`
+- `h-18` not `h-[72px]`
+- `aspect-2/3` not `aspect-[2/3]`
+- `z-60` not `z-[60]`
+- `bg-size-[14px_24px]` not `bg-[size:14px_24px]`
+
+Only use arbitrary values (`[...]`) when there is no canonical class available.
+
 ---
 
 ## Motion And Transitions

@@ -28,6 +28,7 @@ export interface NoteFrontmatter {
   tags: string[]
   category: 'city-read' | 'method-note' | 'policy-read'
   abstract: string
+  featured?: boolean
 }
 
 // ---------------------------------------------------------------------------
@@ -102,9 +103,16 @@ export function getAllNotes(): NoteFrontmatter[] {
 
 export function getNoteBySlug(slug: string) {
   const dir = getContentDir('notes')
-  const filePath = path.join(dir, `${slug}.mdx`)
-  if (!fs.existsSync(filePath)) return null
-  const data = readMdxFile<NoteFrontmatter>(filePath)
+  if (!fs.existsSync(dir)) return null
+
+  // Support both "slug.mdx" and "YYYY-MM-DD-slug.mdx" filenames
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.mdx'))
+  const match = files.find(
+    (f) => f === `${slug}.mdx` || f.replace(/^\d{4}-\d{2}-\d{2}-/, '') === `${slug}.mdx`
+  )
+  if (!match) return null
+
+  const data = readMdxFile<NoteFrontmatter>(path.join(dir, match))
   return isVisible(data.frontmatter.status) ? data : null
 }
 

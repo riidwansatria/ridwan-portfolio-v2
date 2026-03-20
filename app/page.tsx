@@ -18,9 +18,9 @@ function ReadingSkeleton() {
       {[0, 1].map((i) => (
         <div key={i} className="-mx-3 px-3 py-3">
           <div className="flex gap-4 items-center">
-            <Skeleton className="w-12 h-[72px] rounded-sm shrink-0" />
+            <Skeleton className="w-12 h-18 rounded-sm shrink-0" />
             <div className="flex-1 min-w-0 space-y-1">
-              <Skeleton className="h-[0.875rem] w-3/4" />
+              <Skeleton className="h-3.5 w-3/4" />
               <Skeleton className="h-3 w-1/3" />
               <Skeleton className="mt-2.5 h-1 w-full rounded-full" />
             </div>
@@ -119,7 +119,7 @@ export default function Page() {
                 className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
               >
                 <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
-                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                <div className="relative aspect-16/10 overflow-hidden bg-muted">
                   <Image
                     src={project.heroImage}
                     alt={project.title}

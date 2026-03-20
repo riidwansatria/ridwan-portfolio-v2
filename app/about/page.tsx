@@ -114,13 +114,13 @@ development challenges in emerging markets.`,
 
   return (
     <main className="bg-background">
-      <div className="max-w-[100rem] mx-auto flex flex-col md:flex-row md:h-[calc(100vh-120px)] border-t">
+      <div className="max-w-400 mx-auto flex flex-col md:flex-row md:h-[calc(100vh-120px)] border-t">
         {/* Left section */}
         <div
-          className="w-full md:w-[400px] md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
+          className="w-full md:w-100 md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
           bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)]
           dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
-          bg-[size:14px_24px]"
+          bg-size-[14px_24px]"
         >
           <div className="flex flex-col">
             <h1 className="text-4xl font-semibold text-foreground">{title}</h1>

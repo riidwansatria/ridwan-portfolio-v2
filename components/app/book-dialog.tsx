@@ -64,7 +64,7 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                 </VisuallyHidden>
 
                 {/* Left: cover panel for desktop */}
-                <div className="hidden md:block relative h-full w-auto aspect-[2/3] shrink-0 bg-muted overflow-hidden border-r border-border/50">
+                <div className="hidden md:block relative h-full w-auto aspect-2/3 shrink-0 bg-muted overflow-hidden border-r border-border/50">
                   {book.coverUrl ? (
                     <Image
                       src={book.coverUrl}
@@ -89,7 +89,7 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                     <div className="p-4 md:p-6 flex flex-col gap-3">
                       {/* Mobile: cover + key metadata in one row */}
                       <div className="md:hidden flex items-center gap-3 pr-8">
-                        <div className="relative w-20 aspect-[2/3] shrink-0 rounded-md overflow-hidden bg-muted border border-border/40">
+                        <div className="relative w-20 aspect-2/3 shrink-0 rounded-md overflow-hidden bg-muted border border-border/40">
                           {book.coverUrl ? (
                             <Image
                               src={book.coverUrl}
@@ -131,7 +131,7 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                           </div>
 
                           {progress != null && (
-                            <div className="flex flex-col gap-1 w-full max-w-[220px]">
+                            <div className="flex flex-col gap-1 w-full max-w-55">
                               <div className="flex justify-start items-center gap-1.5">
                                 <span className="text-[10px] text-muted-foreground">Progress</span>
                                 <span className="text-[10px] text-muted-foreground tabular-nums">

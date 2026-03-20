@@ -118,7 +118,7 @@ export default function Header() {
 
             {/* Animated menu toggle */}
             <button
-              className="h-8 w-8 shrink-0 rounded-full z-[60] flex items-center justify-center
+              className="h-8 w-8 shrink-0 rounded-full z-60 flex items-center justify-center
                          hover:bg-accent transition-colors"
               aria-label="Toggle menu"
               onClick={() => setOpen(!open)}

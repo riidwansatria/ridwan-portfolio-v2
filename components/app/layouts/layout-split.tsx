@@ -27,7 +27,7 @@ export function SplitLayout({ project }: { project: ProjectLayoutData }) {
             </div>
           </div>
 
-          <div className="relative min-h-[320px] overflow-hidden rounded-2xl border border-border bg-muted">
+          <div className="relative min-h-80 overflow-hidden rounded-2xl border border-border bg-muted">
             {/* TODO: wire up content */}
             <Image src={project.heroImage} alt={project.title} fill className="object-cover" priority />
           </div>

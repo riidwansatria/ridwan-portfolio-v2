@@ -68,7 +68,7 @@ export default function ProjectsPage() {
               >
                 <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
                 {/* Thumbnail */}
-                <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-[3/2] rounded-lg overflow-hidden shrink-0">
+                <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-3/2 rounded-lg overflow-hidden shrink-0">
                   <Image
                     src={project.heroImage}
                     alt={project.title}
