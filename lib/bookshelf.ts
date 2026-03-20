@@ -54,20 +54,7 @@ async function fetchGoogleBooksData(cleanIsbn: string): Promise<BookMeta> {
 
 async function resolveBookMetadata(isbn: string): Promise<BookMeta> {
   const cleanIsbn = isbn.replace(/-/g, '')
-  const olUrl = `https://covers.openlibrary.org/b/isbn/${cleanIsbn}-L.jpg`
-
-  const [olCover, gbData] = await Promise.all([
-    fetch(`${olUrl}?default=false`, { method: 'HEAD', next: { revalidate: 3600 } })
-      .then((r) => (r.ok ? olUrl : null))
-      .catch(() => null),
-    fetchGoogleBooksData(cleanIsbn),
-  ])
-
-  return {
-    coverUrl: olCover ?? gbData.coverUrl,
-    description: gbData.description,
-    subjects: gbData.subjects,
-  }
+  return fetchGoogleBooksData(cleanIsbn)
 }
 
 function richText(prop: PageObjectResponse['properties'][string]): string {

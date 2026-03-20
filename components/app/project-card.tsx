@@ -22,7 +22,7 @@ export function ProjectCard({ project, priority = false }: { project: Project; p
     return (
         <Link
             href={`/projects/${project.slug}`}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
+            className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all h-full"
         >
             <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
             {/* Image */}
