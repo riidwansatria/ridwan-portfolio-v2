@@ -38,9 +38,10 @@ async function fetchGoogleBooksData(cleanIsbn: string): Promise<BookMeta> {
     try {
       const res = await fetch(url, { cache: 'no-store' })
       if (!res.ok) {
+        console.warn(`[bookshelf] Google Books API ${res.status} for ISBN ${cleanIsbn} (attempt ${attempt + 1})`)
         lastError = new Error(`Google Books API returned ${res.status}`)
         if (attempt < 1) {
-          await new Promise((r) => setTimeout(r, 1000))
+          await new Promise((r) => setTimeout(r, 1500))
           continue
         }
         throw lastError
@@ -64,9 +65,10 @@ async function fetchGoogleBooksData(cleanIsbn: string): Promise<BookMeta> {
         subjects: info.categories ?? [],
       }
     } catch (err) {
+      console.warn(`[bookshelf] Google Books fetch error for ISBN ${cleanIsbn} (attempt ${attempt + 1}):`, err)
       lastError = err
       if (attempt < 1) {
-        await new Promise((r) => setTimeout(r, 1000))
+        await new Promise((r) => setTimeout(r, 1500))
         continue
       }
     }
@@ -123,10 +125,8 @@ async function pageToBook(page: PageObjectResponse): Promise<Book> {
   if (isbn) {
     try {
       meta = await getBookMetadata(isbn)
-    } catch {
-      // API failed after retry — this book renders without cover/description
-      // but the per-ISBN cache is NOT updated with nulls, so the next
-      // revalidation will try the API again instead of serving cached nulls.
+    } catch (err) {
+      console.warn(`[bookshelf] Metadata fetch failed for "${p.Title ? richText(p.Title) : '?'}" (ISBN ${isbn}):`, err)
     }
   }
 
@@ -200,7 +200,10 @@ export const getBooks = unstable_cache(
       })
 
       const pages = res.results.filter(isFullPage)
-      const books = await Promise.all(pages.map(pageToBook))
+      const books: Book[] = []
+      for (const page of pages) {
+        books.push(await pageToBook(page))
+      }
       return sortBooks(books)
     } catch {
       return []
@@ -223,7 +226,11 @@ export const getFeaturedBooks = unstable_cache(
       })
 
       const pages = res.results.filter(isFullPage)
-      return Promise.all(pages.map(pageToBook))
+      const books: Book[] = []
+      for (const page of pages) {
+        books.push(await pageToBook(page))
+      }
+      return books
     } catch {
       return []
     }
