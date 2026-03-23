@@ -27,35 +27,62 @@ export type Book = {
 type BookMeta = { coverUrl: string | null; description: string | null; subjects: string[] }
 
 async function fetchGoogleBooksData(cleanIsbn: string): Promise<BookMeta> {
-  try {
-    const key = process.env.GOOGLE_BOOKS_KEY
-    const url = key
-      ? `https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}&key=${key}`
-      : `https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}`
-    const res = await fetch(url, { next: { revalidate: 3600 } })
-    const data = await res.json()
-    const info = data.items?.[0]?.volumeInfo
-    if (!info) return { coverUrl: null, description: null, subjects: [] }
+  const key = process.env.GOOGLE_BOOKS_KEY
+  const url = key
+    ? `https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}&key=${key}`
+    : `https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}`
 
-    const raw: string | undefined = info.imageLinks?.thumbnail
-    const coverUrl = raw
-      ? raw.replace('http://', 'https://').replace('&edge=curl', '').replace('zoom=1', 'zoom=0')
-      : null
+  let lastError: unknown = null
 
-    return {
-      coverUrl,
-      description: info.description ?? null,
-      subjects: info.categories ?? [],
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' })
+      if (!res.ok) {
+        lastError = new Error(`Google Books API returned ${res.status}`)
+        if (attempt < 1) {
+          await new Promise((r) => setTimeout(r, 1000))
+          continue
+        }
+        throw lastError
+      }
+
+      const data = await res.json()
+      const info = data.items?.[0]?.volumeInfo
+      if (!info) return { coverUrl: null, description: null, subjects: [] }
+
+      const raw: string | undefined = info.imageLinks?.thumbnail
+      const coverUrl = raw
+        ? raw
+            .replace('http://', 'https://')
+            .replace('&edge=curl', '')
+            .replace('zoom=1', 'zoom=0')
+        : null
+
+      return {
+        coverUrl,
+        description: info.description ?? null,
+        subjects: info.categories ?? [],
+      }
+    } catch (err) {
+      lastError = err
+      if (attempt < 1) {
+        await new Promise((r) => setTimeout(r, 1000))
+        continue
+      }
     }
-  } catch {
-    return { coverUrl: null, description: null, subjects: [] }
   }
+
+  throw lastError ?? new Error('Google Books fetch failed')
 }
 
-async function resolveBookMetadata(isbn: string): Promise<BookMeta> {
-  const cleanIsbn = isbn.replace(/-/g, '')
-  return fetchGoogleBooksData(cleanIsbn)
-}
+/** Per-ISBN cache — book metadata rarely changes, so use a 7-day TTL */
+const getBookMetadata = unstable_cache(
+  async (isbn: string): Promise<BookMeta> => {
+    return fetchGoogleBooksData(isbn.replace(/-/g, ''))
+  },
+  ['book-metadata'],
+  { revalidate: 604800 }
+)
 
 function richText(prop: PageObjectResponse['properties'][string]): string {
   if (prop.type === 'rich_text') return prop.rich_text[0]?.plain_text ?? ''
@@ -91,7 +118,17 @@ function number(prop: PageObjectResponse['properties'][string]): number | null {
 async function pageToBook(page: PageObjectResponse): Promise<Book> {
   const p = page.properties
   const isbn = (p.ISBN ? richText(p.ISBN) : '') || null
-  const meta = isbn ? await resolveBookMetadata(isbn) : { coverUrl: null, description: null, subjects: [] }
+
+  let meta: BookMeta = { coverUrl: null, description: null, subjects: [] }
+  if (isbn) {
+    try {
+      meta = await getBookMetadata(isbn)
+    } catch {
+      // API failed after retry — this book renders without cover/description
+      // but the per-ISBN cache is NOT updated with nulls, so the next
+      // revalidation will try the API again instead of serving cached nulls.
+    }
+  }
 
   return {
     id: page.id,
