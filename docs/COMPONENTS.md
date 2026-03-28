@@ -8,7 +8,7 @@ All custom components for ridwansatria.com. Use shadcn/ui when available; custom
 |---|---|---|
 | `Header` | `components/app/Header.tsx` | Fixed top bar + fullscreen menu overlay + breadcrumbs. `backdrop-blur`. Nav: Home, About, Projects, Notes, Bookshelf. |
 | `Footer` | `components/app/Footer.tsx` | Live Tokyo clock + theme toggle + copyright. Hidden on `/projects/[slug]`. |
-| `ProjectCard` | `components/app/project-card.tsx` | `"use client"`. Thumbnail (16/10 aspect) + title + abstract (line-clamp-2) + date + 2 tag pills styled with `accentColors`. Includes `<Spotlight>` interaction. Used on homepage (3-col grid) and projects index featured grid. |
+| `ProjectCard` | `components/app/project-card.tsx` | `"use client"`. Thumbnail (16/10 aspect) + title + abstract (line-clamp-2) + date + 2 tag pills styled with `accentColors`. Includes `<Spotlight>` interaction. Used on homepage (3-col grid) and projects index featured grid. Expanded dialog shows GitHub button (if `github` set) and Live Demo button (if `demo` set); no fallback button when both are absent. |
 | `ThemeToggle` | `components/app/ThemeToggle.tsx` | Dark/light mode toggle. |
 | `Date` | `components/app/Date.tsx` | Formatted date display. |
 

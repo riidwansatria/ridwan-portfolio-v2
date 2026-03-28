@@ -1,17 +1,17 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight } from "lucide-react"
-import { ProjectCard, type Project } from "@/components/app/project-card"
-import { Spotlight } from "@/components/app/motion/spotlight"
-import { getAllProjects } from "@/lib/content"
-import { blurDataURL } from "@/lib/image-blur"
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight } from "lucide-react";
+import { ProjectCard, type Project } from "@/components/app/project-card";
+import { Spotlight } from "@/components/app/motion/spotlight";
+import { getAllProjects } from "@/lib/content";
+import { blurDataURL } from "@/lib/image-blur";
 
 export default function ProjectsPage() {
-  const allProjectData = getAllProjects()
+  const allProjectData = getAllProjects();
   const projectsForIndex = allProjectData.filter(
-    (p) => process.env.NODE_ENV === 'development' || p.status !== 'draft'
-  )
+    (p) => process.env.NODE_ENV === "development" || p.status !== "draft",
+  );
 
   const projects: Project[] = projectsForIndex.map((p, i) => ({
     id: String(i + 1),
@@ -20,13 +20,16 @@ export default function ProjectsPage() {
     abstract: p.abstract,
     heroImage: p.heroImage,
     date: p.date,
-    tags: p.tags,
     accentColors: p.accentColors,
+    tags: p.tags ?? [],
+    github: p.github,
+    demo: p.demo,
     featured: p.featured,
-  }))
+  }));
 
-  const featuredProjects = projects.filter((p) => p.featured)
-  const otherProjects = projects.filter((p) => !p.featured)
+  const featuredProjects = projects.filter((p) => p.featured);
+  const otherProjects = projects.filter((p) => !p.featured);
+  const showOtherProjects = false;
 
   return (
     <div className="max-w-4xl mx-auto px-6 pt-20 pb-16">
@@ -36,7 +39,8 @@ export default function ProjectsPage() {
           Projects
         </h1>
         <p className="mt-4 text-xl leading-relaxed text-muted-foreground">
-          Selected work in geospatial analytics, transportation planning, and urban policy research.
+          Selected work in geospatial analytics, transportation planning, and
+          urban policy research.
         </p>
       </div>
 
@@ -46,78 +50,87 @@ export default function ProjectsPage() {
           Featured
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          {featuredProjects.map((project, i) => (
+          {featuredProjects.map((project) => (
             <div key={project.id}>
-              <ProjectCard project={project} priority={i === 0} />
+              <ProjectCard project={project} />
             </div>
           ))}
         </div>
       </section>
 
       {/* Other Projects */}
-      <section>
-        <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">
-          More
-        </h2>
-        <div className="grid gap-4">
-          {otherProjects.map((project) => (
-            <div key={project.id}>
-              <Link
-                href={`/projects/${project.slug}`}
-                className="group relative flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all overflow-hidden"
-              >
-                <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
-                {/* Thumbnail */}
-                <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-3/2 rounded-lg overflow-hidden shrink-0">
-                  <Image
-                    src={project.heroImage}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-opacity duration-300"
-                    sizes="224px"
-                    placeholder="blur"
-                    blurDataURL={blurDataURL}
+      {showOtherProjects && (
+        <section>
+          <h2 className="text-xs text-muted-foreground uppercase tracking-widest mb-6">
+            More
+          </h2>
+          <div className="grid gap-4">
+            {otherProjects.map((project) => (
+              <div key={project.id}>
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="group relative flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-2 rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all overflow-hidden"
+                >
+                  <Spotlight
+                    className="z-10 bg-foreground/5 blur-3xl"
+                    size={240}
+                    springOptions={{ bounce: 0.3, duration: 0.1 }}
                   />
-                </div>
+                  {/* Thumbnail */}
+                  <div className="hidden md:block relative w-full md:w-54 aspect-video md:aspect-3/2 rounded-lg overflow-hidden shrink-0">
+                    <Image
+                      src={project.heroImage}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-opacity duration-300"
+                      sizes="224px"
+                      placeholder="blur"
+                      blurDataURL={blurDataURL}
+                    />
+                  </div>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-1.5">
-                    {project.title}
-                  </h3>
-                  <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 mb-3">
-                    {project.abstract}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {new Date(project.date).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tags.slice(0, 2).map((tag, index) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="text-xs font-medium px-2 py-0"
-                          style={{
-                            backgroundColor: `${project.accentColors[index] ?? "#64748b"}15`,
-                            border: `1px solid ${project.accentColors[index] ?? "#64748b"}40`,
-                            color: project.accentColors[index] ?? "#64748b",
-                          }}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-1.5">
+                      {project.title}
+                    </h3>
+                    <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 mb-3">
+                      {project.abstract}
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {new Date(project.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(project.tags ?? []).slice(0, 2).map((tag, index) => (
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="text-xs font-medium px-2 py-0"
+                            style={{
+                              backgroundColor: `${project.accentColors[index] ?? "#64748b"}15`,
+                              border: `1px solid ${project.accentColors[index] ?? "#64748b"}40`,
+                              color: project.accentColors[index] ?? "#64748b",
+                            }}
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Arrow */}
-                <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
+                  {/* Arrow */}
+                  <ArrowRight className="hidden md:block h-5 w-5 text-muted-foreground shrink-0 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
-  )
+  );
 }

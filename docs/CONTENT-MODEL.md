@@ -26,6 +26,8 @@ heroImage: string        # URL or /public path (16:9 aspect expected)
 abstract: string         # State the finding, not the topic
 layout: showcase | case-study  # default: showcase
 featured: boolean
+github: string           # Optional — shows GitHub button in ProjectCard dialog
+demo: string             # Optional — shows Live Demo button in ProjectCard dialog
 ```
 
 ## Note frontmatter

@@ -35,7 +35,7 @@ export function ExplorerLayout({ project }: { project: ProjectLayoutData }) {
                 </Badge>
               ))}
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{project.tools.join(" • ")}</p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{project.tags.join(" • ")}</p>
           </div>
 
           <div className="article-content rounded-2xl border border-border bg-background p-5">

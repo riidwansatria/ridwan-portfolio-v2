@@ -23,6 +23,8 @@ heroImage: "/images/projects/SLUG.png"
 abstract: ""
 layout: showcase
 featured: false
+# github: ""             # Optional — shows GitHub button in card dialog
+# demo: ""               # Optional — shows Live Demo button in card dialog
 ---
 
 Project content here.
@@ -47,6 +49,8 @@ heroImage: "/images/projects/SLUG.png"
 abstract: ""
 layout: case-study
 featured: false
+# github: ""             # Optional — shows GitHub button in card dialog
+# demo: ""               # Optional — shows Live Demo button in card dialog
 ---
 
 ## Opening claim — state the finding, not the topic.

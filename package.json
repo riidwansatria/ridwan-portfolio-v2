@@ -17,6 +17,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^13.11.1",
     "@notionhq/client": "^5.13.0",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",

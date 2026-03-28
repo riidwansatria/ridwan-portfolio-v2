@@ -7,10 +7,9 @@ import { getAllProjects, getAllNotes } from '@/lib/content'
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NotesList } from '@/components/app/notes-list'
-import { Spotlight } from '@/components/app/motion/spotlight'
+import { ProjectCard } from '@/components/app/project-card'
 import { ReadingSection } from '@/components/app/reading-section'
 import { Skeleton } from '@/components/ui/skeleton'
-import { blurDataURL } from '@/lib/image-blur'
 
 function ReadingSkeleton() {
   return (
@@ -41,15 +40,17 @@ export default function Page() {
     (n) => process.env.NODE_ENV === 'development' || n.status !== 'draft'
   )
 
-  const projects = visibleProjects.slice(0, 3).map((p, i) => ({
+  const projects = visibleProjects.filter((p) => p.featured).slice(0, 2).map((p, i) => ({
     id: String(i + 1),
     slug: p.slug,
     heroImage: p.heroImage,
     title: p.title,
     abstract: p.abstract,
     date: p.date,
-    tags: p.tags.slice(0, 2),
     accentColors: p.accentColors,
+    tags: p.tags ?? [],
+    github: p.github,
+    demo: p.demo,
   }))
 
   const posts = visibleNotes.slice(0, 3).map((n) => ({
@@ -111,38 +112,9 @@ export default function Page() {
               <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {projects.map((project, i) => (
-              <Link
-                key={project.id}
-                href={`/projects/${project.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border bg-card hover:bg-accent/70 hover:border-foreground/20 transition-all"
-              >
-                <Spotlight className="z-10 bg-foreground/5 blur-3xl" size={240} springOptions={{ bounce: 0.3, duration: 0.1 }} />
-                <div className="relative aspect-16/10 overflow-hidden bg-muted">
-                  <Image
-                    src={project.heroImage}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-opacity duration-300"
-                    sizes="(min-width: 640px) 33vw, 100vw"
-                    placeholder="blur"
-                    blurDataURL={blurDataURL}
-                    priority={i === 0}
-                  />
-                  <span className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-[11px] font-medium px-2 py-0.5 rounded-full">
-                    {new Date(project.date).toLocaleDateString("en-US", { year: "numeric" })}
-                  </span>
-                </div>
-                <div className="flex flex-col flex-1 p-4">
-                  <h3 className="text-sm font-semibold text-foreground leading-snug mb-1.5">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {project.abstract}
-                  </p>
-                </div>
-              </Link>
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         </section>

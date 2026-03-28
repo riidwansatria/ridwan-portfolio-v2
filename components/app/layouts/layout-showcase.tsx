@@ -128,14 +128,6 @@ export function ShowcaseLayout({ project }: { project: ProjectLayoutData }) {
                   </div>
                 </div>
 
-                <div>
-                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
-                    Tools
-                  </span>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {project.tools.join(" • ")}
-                  </p>
-                </div>
               </div>
             </div>
           </FadeIn>

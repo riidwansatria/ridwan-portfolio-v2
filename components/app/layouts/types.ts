@@ -7,7 +7,6 @@ export interface ProjectLayoutData {
   title: string
   date: string
   tags: string[]
-  tools: string[]
   accentColors: string[]
   heroImage: string
   abstract: string

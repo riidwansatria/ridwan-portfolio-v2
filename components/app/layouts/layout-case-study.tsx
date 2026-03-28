@@ -43,7 +43,7 @@ export function CaseStudyLayout({ project }: { project: ProjectLayoutData }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-2 text-sm text-muted-foreground">
-            <span>{project.tools.join(" • ")}</span>
+            <span>{project.tags.join(" • ")}</span>
           </div>
         </div>
       </header>

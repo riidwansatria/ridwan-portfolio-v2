@@ -12,12 +12,13 @@ export interface ProjectFrontmatter {
   date: string
   status: 'draft' | 'published'
   tags: string[]
-  tools: string[]
   accentColors: string[]
   heroImage: string
   abstract: string
   layout?: 'showcase' | 'case-study' | 'explorer' | 'split' | 'compare'
   featured: boolean
+  github?: string
+  demo?: string
 }
 
 export interface NoteFrontmatter {

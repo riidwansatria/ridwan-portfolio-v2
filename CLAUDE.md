@@ -162,6 +162,7 @@ type ProjectFrontmatter = {
 Important:
 - `tags` is an array of objects, not strings.
 - `nextProject` is an object with `slug` and `title`, not a bare slug string.
+- `github` and `demo` are optional. They only appear as buttons in the `ProjectCard` expanded dialog — there is no fallback "View Project" button when both are absent.
 
 ### Note Frontmatter
 

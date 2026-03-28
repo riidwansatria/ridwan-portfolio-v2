@@ -84,7 +84,7 @@ function CardLayout({
 
   return (
     <div className="flex flex-col group w-full">
-      <div className="relative w-full aspect-[2/3] rounded-md bg-muted overflow-hidden border border-border/40 group-hover:border-foreground/20 transition-all">
+      <div className="relative w-full aspect-2/3 rounded-md bg-muted overflow-hidden border border-border/40 group-hover:border-foreground/20 transition-all">
         <Cover src={book.coverUrl} title={book.title} />
         <div
           className={`absolute top-0 right-0 ${config.bg} text-white text-[10px] font-medium px-1.5 py-0.5 rounded-bl-md z-10 tabular-nums`}
@@ -112,7 +112,7 @@ function ListLayout({ book, progress }: { book: Book; progress: number | null })
       <div
         className={`flex gap-4 items-center transition-opacity ${isFinished ? 'opacity-50 hover:opacity-70' : ''}`}
       >
-        <div className="relative shrink-0 w-12 h-[72px] rounded-sm overflow-hidden bg-muted border border-border/40">
+        <div className="relative shrink-0 w-12 h-18 rounded-sm overflow-hidden bg-muted border border-border/40">
           <Cover src={book.coverUrl} title={book.title} />
         </div>
 
