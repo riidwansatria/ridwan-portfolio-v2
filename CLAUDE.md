@@ -239,6 +239,7 @@ Important implementation notes:
 [`components/custom/Header.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/Header.tsx):
 
 - is a fixed top bar with a fullscreen menu overlay
+- explicit `h-16` (4rem / 64px) — layout main uses `pt-16` to offset
 - uses breadcrumbs on non-home routes
 - current nav items are `Home`, `About`, `Projects`, `Notes`, `Bookshelf`
 
@@ -246,9 +247,15 @@ Important implementation notes:
 
 [`components/custom/Footer.tsx`](/Users/ridwansatria/Projects/ridwan-portfolio-v2/components/custom/Footer.tsx):
 
+- explicit `h-10` (2.5rem / 40px)
 - shows a live Tokyo clock
 - includes the theme toggle
 - is hidden on individual project detail pages (`/projects/[slug]`)
+
+### Page Height Calculation
+
+Header (`h-16` = 4rem) + Footer (`h-10` = 2.5rem) = **6.5rem** total offset.
+Pages that need viewport-fitted layouts (e.g. about page) use `calc(100dvh - 6.5rem)`.
 
 ### Theme Tokens
 

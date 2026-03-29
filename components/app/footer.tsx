@@ -42,13 +42,11 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative border-t py-1">
-      <div className="px-4 sm:px-6 flex items-center">
-        <div className="flex-1  pb-1.5">
-          <LiveClock />
-        </div>
-        <ThemeToggle className="text-muted-foreground shadow-none" />
+    <footer className="relative border-t h-10 px-4 sm:px-6 flex items-center">
+      <div className="flex-1">
+        <LiveClock />
       </div>
+      <ThemeToggle className="text-muted-foreground shadow-none" />
     </footer>
   )
 }

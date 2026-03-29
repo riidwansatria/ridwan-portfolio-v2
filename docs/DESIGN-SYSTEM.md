@@ -100,10 +100,11 @@ Hard rules:
 - **Notes list:** `border-t first:border-t-0 border-border/60`, hover on `-mx-2 px-2` wrapper
 - **Border radius:** `rounded-2xl` on all cards (no `rounded-xl` for cards)
 - **Card base:** `border bg-card p-4 rounded-2xl`
-- **Header:** Fixed top bar, `backdrop-blur`, fullscreen menu overlay with `font-heading`. Menu close is delayed 200ms on navigation to prevent flash of old page content.
+- **Header:** Fixed top bar, `h-16` (4rem), `backdrop-blur`, fullscreen menu overlay with `font-heading`. Layout main uses `pt-16` to offset. Menu close is delayed 200ms on navigation to prevent flash of old page content.
+- **Footer:** `h-10` (2.5rem). Hidden on `/projects/[slug]` detail pages.
+- **Page height calc:** Header + Footer = 6.5rem. Viewport-fitted pages use `calc(100dvh - 6.5rem)`.
 - **Bookshelf grid:** `grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8`, responsive breakpoints for book cards
 - **Book card aspect:** `aspect-[2/3]` for cover images, `rounded-md`
-- **Footer:** Hidden on `/projects/[slug]` detail pages
 
 ## Article Typography (.article-content)
 

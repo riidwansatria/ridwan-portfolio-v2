@@ -113,8 +113,8 @@ development challenges in emerging markets.`,
   const { title, subtitle, bio, highlights } = aboutData
 
   return (
-    <main className="bg-background">
-      <div className="max-w-400 mx-auto flex flex-col md:flex-row md:h-[calc(100vh-120px)] border-t">
+    <main className="bg-background 2xl:py-6 2xl:px-8">
+      <div className="max-w-400 mx-auto flex flex-col md:flex-row md:h-[calc(100dvh-6.5rem)] border-t 2xl:border 2xl:rounded-2xl 2xl:overflow-hidden 2xl:h-[calc(100dvh-9.5rem)]">
         {/* Left section */}
         <div
           className="w-full md:w-100 md:h-full md:sticky md:top-0 px-4 sm:px-12 py-12 md:py-20 bg-background 
