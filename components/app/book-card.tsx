@@ -80,7 +80,12 @@ function CardLayout({
   config: { label: string; bg: string }
   progress: number | null
 }) {
-  const badgeLabel = progress != null && progress > 0 ? `${progress}%` : config.label
+  const badgeLabel =
+    book.status === 'Completed'
+      ? config.label
+      : progress != null && progress > 0
+        ? `${progress}%`
+        : config.label
 
   return (
     <div className="flex flex-col group w-full">

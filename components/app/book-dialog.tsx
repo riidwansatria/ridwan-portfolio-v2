@@ -130,7 +130,7 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                             )}
                           </div>
 
-                          {progress != null && (
+                          {progress != null && book.status !== 'Completed' && (
                             <div className="flex flex-col gap-1 w-full max-w-55">
                               <div className="flex justify-start items-center gap-1.5">
                                 <span className="text-[10px] text-muted-foreground">Progress</span>
@@ -177,7 +177,7 @@ export function BookDetailDialog({ book, open, origin }: BookDetailDialogProps) 
                       </div>
 
                       {/* Progress bar */}
-                      {progress != null && (
+                      {progress != null && book.status !== 'Completed' && (
                         <div className="hidden md:flex flex-col gap-1">
                           <div className="flex justify-between items-center">
                             <span className="text-[10px] text-muted-foreground">Progress</span>
